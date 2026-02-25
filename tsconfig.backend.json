@@ -1,0 +1,13 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "./backend/dist",
+    "rootDir": "./backend"
+  },
+  "include": [ "backend/**/*" ],
+  "exclude": [
+    "node_modules",
+    "backend/dist",
+    "backend/db/migrate.ts"
+  ]
+}
