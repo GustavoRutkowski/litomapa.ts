@@ -1,7 +1,10 @@
 {
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
-    "rootDir": "./frontend"
+    "noEmit": true,
+    "moduleResolution": "bundler",
+    "rootDir": "./frontend",
+    "types": ["vite/client"]
   },
   "include": [ "frontend/**/*" ],
   "exclude": [ "node_modules" ]
