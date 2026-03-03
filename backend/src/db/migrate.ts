@@ -1,12 +1,12 @@
 import { readFileSync } from 'fs';
 import { resolve } from 'path';
-import connection from './connection';
+import db from './db';
 
 const SCHEMA_PATH: string = resolve('backend/db/schema.sql');
 
 try {
     const schema: string = readFileSync(SCHEMA_PATH, 'utf-8');
-    connection.exec(schema);
+    db.createSchema(schema);
 
     console.log('Banco inicializado com sucesso!');
 } catch (e: any) {

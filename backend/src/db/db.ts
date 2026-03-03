@@ -1,0 +1,67 @@
+import SQLiteDatabase, { Database as TConnection } from 'better-sqlite3';
+import { config } from 'dotenv';
+config();
+
+type TParam = string | number | boolean | null;
+
+interface ISelectResult<T = unknown> {
+    rows: T[] | null;
+    affectedRows: number;
+}
+
+interface IExecuteResult<T = unknown> {
+    changes: number;
+    lastInsertRowid: number | null;
+    affectedRows: number;
+}
+
+class Database {
+    private static instance: Database;
+    private connection: TConnection;
+
+    private constructor() {
+        const dbname: string = process.env.DB_NAME || 'database';
+        const verbose = process.env.NODE_ENV === 'dev'
+            ? console.log : undefined;
+
+        this.connection = new SQLiteDatabase(`${dbname}.sqlite`, { verbose });
+        this.connection.pragma('foreign_keys = ON');
+    }
+
+    public static getInstance(): Database {
+        if (!Database.instance) {
+            Database.instance = new Database();
+        }
+        return Database.instance;
+    }
+
+    public createSchema(sql: string) {
+        try {
+            this.connection.exec(sql);
+        } catch (e) {
+            console.error("Erro ao executar schema:", e);
+            throw e;
+        }
+    }
+
+    public select<T = unknown>(sql: string, params?: TParam[]): ISelectResult<T> {
+        const stmt = this.connection.prepare(sql);
+        const rows = params ? stmt.all(...params) : stmt.all();
+        const affectedRows = Array.isArray(rows) ? rows.length : (rows ? 1 : 0);
+        return { rows, affectedRows } as ISelectResult<T>;
+    }
+
+    public execute(sql:string, params?: TParam[]): IExecuteResult {
+        const stmt = this.connection.prepare(sql);
+        const {
+            changes = 0,
+            lastInsertRowid = null
+        } = params ? stmt.run(...params) : stmt.run();
+        return { changes, affectedRows: changes, lastInsertRowid } as IExecuteResult;
+    }
+
+    public close() { this.connection.close(); }
+}
+
+const db = Database.getInstance(); // Singleton Pattern
+export default db;
