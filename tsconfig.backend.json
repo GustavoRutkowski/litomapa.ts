@@ -2,12 +2,14 @@
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
     "outDir": "./backend/dist",
-    "rootDir": "./backend"
+    "rootDir": "./backend/src",
+    "module": "nodenext",
+    "moduleResolution": "nodenext"
   },
-  "include": [ "backend/**/*" ],
+  "include": [ "backend/src/**/*" ],
   "exclude": [
     "node_modules",
     "backend/dist",
-    "backend/db/migrate.ts"
+    "backend/src/db/migrate.ts"
   ]
 }

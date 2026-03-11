@@ -1,5 +1,5 @@
-import TMiddleware from '../../types/TMiddleware';
-import Token from '../../utils/Token';
+import TMiddleware from '../../types/TMiddleware.js';
+import Token from '../../utils/Token.js';
 
 const isLogged: TMiddleware = (req, res, next) => {
     const { token } = req.headers;

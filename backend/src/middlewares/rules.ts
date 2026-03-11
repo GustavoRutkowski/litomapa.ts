@@ -1,4 +1,4 @@
-import TRuleCallback from '../types/TRuleCallback';
+import TRuleCallback from '../types/TRuleCallback.js';
 
 export const REQUIRED_FIELD_RULE: TRuleCallback = (field, _, dataset) => {
     if (field && dataset && field in dataset) return true;

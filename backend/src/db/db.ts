@@ -1,6 +1,6 @@
 import SQLiteDatabase, { Database as TConnection } from 'better-sqlite3';
 import { config } from 'dotenv';
-import TColumnValue from '../types/TColumnValue';
+import TColumnValue from '../types/TColumnValue.js';
 config();
 
 export interface ISelectResult<T = unknown> {

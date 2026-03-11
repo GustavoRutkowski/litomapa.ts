@@ -17,7 +17,7 @@
     "api:dev": "concurrently \"npm run api-build:dev\" \"nodemon ./backend/dist/app.js\"",
     "api:prod": "npm run api-build:prod && node ./backend/dist/app.js",
 
-    "migrate": "npx tsx ./backend/db/migrate.ts",
+    "migrate": "npx tsx ./backend/src/db/migrate.ts",
 
     "api-build:dev": "tsc -p tsconfig.backend.json --watch",
     "api-build:prod": "tsc -p tsconfig.backend.json",

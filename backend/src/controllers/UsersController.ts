@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
-import User from '../models/User';
-import ApiError from '../utils/ApiError';
-import Controller from './Controller';
-import IBase64File from '../interfaces/IBase64File';
+import User from '../models/User.js';
+import ApiError from '../utils/ApiError.js';
+import Controller from './Controller.js';
+import IBase64File from '../interfaces/IBase64File.js';
 
 interface ICreateUserBody {
     username: string;
@@ -18,7 +18,7 @@ interface IUserCredentialsBody {
 class UsersController extends Controller {
     public static async createUser({ body }: Request, res: Response) {
         const { username, email, password } = body as ICreateUserBody;
-        if (!this.required(['username', 'email', 'password'], body, res)) return;
+        if (!super.required(['username', 'email', 'password'], body, res)) return;
         
         try {
             const insertId = await User.create(username, email, password);
@@ -30,7 +30,7 @@ class UsersController extends Controller {
     }
 
     public static async login({ body }: Request, res: Response) {
-        if (!this.required(['email', 'password'], body, res)) return;
+        if (!super.required(['email', 'password'], body, res)) return;
         const { email, password } = body as IUserCredentialsBody;
 
         try {
@@ -43,7 +43,7 @@ class UsersController extends Controller {
     }
 
     public static getUser({ headers }: Request, res: Response) {
-        if (!this.required(['token'], headers, res)) return;
+        if (!super.required(['token'], headers, res)) return;
 
         try {
             const user = User.get(headers.token as string);
@@ -55,8 +55,8 @@ class UsersController extends Controller {
     }
 
     public static changeUsername(req: Request, res: Response) {
-        if (!this.required(['token'], req.headers, res)) return;
-        if (!this.required(['username'], req.body, res)) return;
+        if (!super.required(['token'], req.headers, res)) return;
+        if (!super.required(['username'], req.body, res)) return;
 
         const token = req.headers.token as string;
         const { username } = req.body as { username: string };
@@ -71,8 +71,8 @@ class UsersController extends Controller {
     }
 
     public static async changePassword(req: Request, res: Response) {
-        if (!this.required(['token'], req.headers, res)) return;
-        if (!this.required(['password'], req.body, res)) return;
+        if (!super.required(['token'], req.headers, res)) return;
+        if (!super.required(['password'], req.body, res)) return;
         
         const token = req.headers.token as string;
         const { password } = req.body as { password: string };
@@ -87,8 +87,8 @@ class UsersController extends Controller {
     }
 
     public static async changePhoto(req: Request, res: Response) {
-        if (!this.required(['token'], req.headers, res)) return;
-        if (!this.required(['base64', 'filename'], req.body, res)) return;
+        if (!super.required(['token'], req.headers, res)) return;
+        if (!super.required(['base64', 'filename'], req.body, res)) return;
 
         const token = req.headers.token as string;
         const file = req.body as IBase64File;
@@ -103,7 +103,7 @@ class UsersController extends Controller {
     }
 
     public static async removePhoto({ headers }: Request, res: Response) {
-        if (!this.required(['token'], headers, res)) return;
+        if (!super.required(['token'], headers, res)) return;
         const token = headers.token as string;
 
         try {
@@ -116,7 +116,7 @@ class UsersController extends Controller {
     }
 
     public static async deleteUser({ headers }: Request, res: Response) {
-        if (!this.required(['token'], headers, res)) return;
+        if (!super.required(['token'], headers, res)) return;
         const token = headers.token as string;
 
         try {

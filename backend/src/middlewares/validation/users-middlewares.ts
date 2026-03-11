@@ -1,6 +1,6 @@
-import ICreateStringValidatorOptions from '../../interfaces/ICreateStringValidatorOptions';
-import { REQUIRE_LETTERS_RULE, REQUIRE_NUMBERS_RULE, REQUIRED_FIELD_RULE } from '../rules';
-import { createImageValidator, createStringValidator } from '../validators';
+import ICreateStringValidatorOptions from '../../interfaces/ICreateStringValidatorOptions.js';
+import { REQUIRE_LETTERS_RULE, REQUIRE_NUMBERS_RULE, REQUIRED_FIELD_RULE } from '../rules.js';
+import { createImageValidator, createStringValidator } from '../validators.js';
 
 const validateUsername = createStringValidator('username', 'body', {
     minSize: 3, maxSize: 60

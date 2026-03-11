@@ -1,11 +1,11 @@
-import db from '../db/db';
-import ApiError from '../utils/ApiError';
-import Token from '../utils/Token';
-import FileUploader from '../utils/FileUploader';
+import db from '../db/db.js';
+import ApiError from '../utils/ApiError.js';
+import Token from '../utils/Token.js';
+import FileUploader from '../utils/FileUploader.js';
 import { compare, hash } from 'bcrypt'
-import IBase64File from '../interfaces/IBase64File';
-import Model from './Model';
-import IUserDTO from '../interfaces/IUserDTO';
+import IBase64File from '../interfaces/IBase64File.js';
+import Model from './Model.js';
+import IUserDTO from '../interfaces/IUserDTO.js';
 
 const HASH_SALTS = 10;
 

@@ -1,5 +1,5 @@
 import jwt, { JwtPayload, Secret } from 'jsonwebtoken';
-import ApiError from './ApiError';
+import ApiError from './ApiError.js';
 
 class Token {
     private static SECRET = process.env.JWT_SECRET || 'default_secret_key';

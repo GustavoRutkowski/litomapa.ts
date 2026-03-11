@@ -1,4 +1,4 @@
-import TRuleCallback from '../types/TRuleCallback';
+import TRuleCallback from '../types/TRuleCallback.js';
 
 interface ICreateStringValidatorOptions {
     required: boolean;

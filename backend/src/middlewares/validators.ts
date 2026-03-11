@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
-import newRule, { REQUIRED_FIELD_RULE, OPTIONAL_FIELD_RULE, INT_FIELD_RULE, FLOAT_FIELD_RULE, POSITIVE_RULE } from './rules';
-import TMiddleware from '../types/TMiddleware';
-import TRuleCallback from '../types/TRuleCallback';
-import ICreateStringValidatorOptions from '../interfaces/ICreateStringValidatorOptions';
+import newRule, { REQUIRED_FIELD_RULE, OPTIONAL_FIELD_RULE, INT_FIELD_RULE, FLOAT_FIELD_RULE } from './rules.js';
+import TMiddleware from '../types/TMiddleware.js';
+import TRuleCallback from '../types/TRuleCallback.js';
+import ICreateStringValidatorOptions from '../interfaces/ICreateStringValidatorOptions.js';
 
 type TRequestEntry = 'body' | 'query' | 'params';
 type TValidatorOptions = ICreateStringValidatorOptions | TRuleCallback[];

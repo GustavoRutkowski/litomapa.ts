@@ -1,7 +1,7 @@
-import db from '../db/db';
-import TColumnValue from '../types/TColumnValue';
-import ApiError from '../utils/ApiError';
-import Token from '../utils/Token';
+import db from '../db/db.js';
+import TColumnValue from '../types/TColumnValue.js';
+import ApiError from '../utils/ApiError.js';
+import Token from '../utils/Token.js';
 
 interface ISelectOptions {
     filters?: string[]; // raw SQL fragments, e.g. "status = 'active'" or "age > 18"

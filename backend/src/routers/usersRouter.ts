@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import UC from '../controllers/UsersController';
-import isLogged from '../middlewares/auth/isLogged';
-import validateUser, { validateEmail, validatePassword, validatePhoto, validateUsername } from '../middlewares/validation/users-middlewares';
+import UC from '../controllers/UsersController.js';
+import isLogged from '../middlewares/auth/isLogged.js';
+import validateUser, { validateEmail, validatePassword, validatePhoto, validateUsername } from '../middlewares/validation/users-middlewares.js';
 
 const usersRouter = Router();
 

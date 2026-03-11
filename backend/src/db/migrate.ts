@@ -1,8 +1,8 @@
 import { readFileSync } from 'fs';
 import { resolve } from 'path';
-import db from './db';
+import db from './db.js';
 
-const SCHEMA_PATH: string = resolve('backend/db/schema.sql');
+const SCHEMA_PATH: string = resolve('backend/src/db/schema.sql');
 
 try {
     const schema: string = readFileSync(SCHEMA_PATH, 'utf-8');
