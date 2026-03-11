@@ -1,17 +1,20 @@
 import { Router } from 'express';
-import UsersController from '../controllers/UsersController';
+import UC from '../controllers/UsersController';
+import isLogged from '../middlewares/auth/isLogged';
+import validateUser, { validateEmail, validatePassword, validatePhoto, validateUsername } from '../middlewares/validation/users-middlewares';
 
 const usersRouter = Router();
 
-usersRouter.post('/', UsersController.createUser);
-usersRouter.post('login', UsersController.login);
-usersRouter.get('/', UsersController.getUser);
+usersRouter.post('/', validateUser, UC.createUser);
+usersRouter.post('login', [validateEmail, validatePassword], UC.login);
 
-usersRouter.patch('/username', UsersController.changeUsername);
-usersRouter.patch('/password', UsersController.changePassword);
-usersRouter.patch('/photo', UsersController.changePhoto);
+usersRouter.get('/', isLogged, UC.getUser);
 
-usersRouter.delete('/photo', UsersController.removePhoto);
-usersRouter.delete('/', UsersController.deleteUser);
+usersRouter.patch('/username', isLogged, validateUsername, UC.changeUsername);
+usersRouter.patch('/password', isLogged, validatePassword, UC.changePassword);
+usersRouter.patch('/photo', isLogged, validatePhoto, UC.changePhoto);
+
+usersRouter.delete('/photo', isLogged, UC.removePhoto);
+usersRouter.delete('/', isLogged, UC.deleteUser);
 
 export default usersRouter;
