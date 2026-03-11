@@ -1,15 +1,14 @@
 import SQLiteDatabase, { Database as TConnection } from 'better-sqlite3';
 import { config } from 'dotenv';
+import TColumnValue from '../types/TColumnValue';
 config();
 
-type TParam = string | number | boolean | null;
-
-interface ISelectResult<T = unknown> {
+export interface ISelectResult<T = unknown> {
     rows: T[] | null;
     affectedRows: number;
 }
 
-interface IExecuteResult<T = unknown> {
+export interface IExecuteResult {
     changes: number;
     lastInsertRowid: number | null;
     affectedRows: number;
@@ -44,14 +43,14 @@ class Database {
         }
     }
 
-    public select<T = unknown>(sql: string, params?: TParam[]): ISelectResult<T> {
+    public select<T = unknown>(sql: string, params?: TColumnValue[]): ISelectResult<T> {
         const stmt = this.connection.prepare(sql);
         const rows = params ? stmt.all(...params) : stmt.all();
         const affectedRows = Array.isArray(rows) ? rows.length : (rows ? 1 : 0);
         return { rows, affectedRows } as ISelectResult<T>;
     }
 
-    public execute(sql:string, params?: TParam[]): IExecuteResult {
+    public execute(sql:string, params?: TColumnValue[]): IExecuteResult {
         const stmt = this.connection.prepare(sql);
         const {
             changes = 0,

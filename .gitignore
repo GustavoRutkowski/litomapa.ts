@@ -3,4 +3,5 @@ node_modules
 *.sqlite
 package-lock.json
 /backend/dist
+/backend/src/uploads
 /frontend/dist

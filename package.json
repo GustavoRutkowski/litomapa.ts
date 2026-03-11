@@ -11,6 +11,9 @@
   ],
   "type": "module",
   "scripts": {
+    "dev": "concurrently \"npm run api:dev\" \"npm run web:dev\"",
+    "prod": "concurrently \"npm run api:prod\" \"npm run web:prod\"",
+
     "api:dev": "concurrently \"npm run api-build:dev\" \"nodemon ./backend/dist/app.js\"",
     "api:prod": "npm run api-build:prod && node ./backend/dist/app.js",
 
@@ -26,6 +29,7 @@
     "web-build:prod": "vite build --config ./frontend/vite.config.ts"
   },
   "dependencies": {
+    "bcrypt": "^6.0.0",
     "better-sqlite3": "^12.6.2",
     "cors": "^2.8.6",
     "dotenv": "^17.3.1",
@@ -36,11 +40,15 @@
     "styled-components": "^6.3.11"
   },
   "devDependencies": {
+    "@types/bcrypt": "^6.0.0",
     "@types/better-sqlite3": "^7.6.13",
+    "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^25.3.0",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "@types/styled-components": "^5.1.36",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
     "@vitejs/plugin-react": "^5.1.4",
     "concurrently": "^9.2.1",
     "nodemon": "^3.1.14",
