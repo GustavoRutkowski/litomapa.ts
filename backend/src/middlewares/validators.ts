@@ -2,10 +2,10 @@ import { Request, Response, NextFunction } from 'express';
 import newRule, { REQUIRED_FIELD_RULE, OPTIONAL_FIELD_RULE, INT_FIELD_RULE, FLOAT_FIELD_RULE } from './rules.js';
 import TMiddleware from '../types/TMiddleware.js';
 import TRuleCallback from '../types/TRuleCallback.js';
-import ICreateStringValidatorOptions from '../interfaces/ICreateStringValidatorOptions.js';
+import IStringValidatorOptions from '../types/IStringValidatorOptions.js';
 
 type TRequestEntry = 'body' | 'query' | 'params';
-type TValidatorOptions = ICreateStringValidatorOptions | TRuleCallback[];
+type TValidatorOptions = IStringValidatorOptions | TRuleCallback[];
 type TValidator = (field: string, input: TRequestEntry, options: TValidatorOptions) => TMiddleware;
 
 // Validators:
@@ -40,7 +40,7 @@ export const createStringValidator: TValidator = (field, input, options) => {
     const {
         required = true, minSize = 0, maxSize = Infinity,
         pattern, extraRules = []
-    } = options as ICreateStringValidatorOptions;
+    } = options as IStringValidatorOptions;
 
     const FIRST_RULE = required ? REQUIRED_FIELD_RULE : OPTIONAL_FIELD_RULE;
 

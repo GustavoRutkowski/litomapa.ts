@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
-import User from '../models/User.js';
+import User from '../models/users.model.js';
 import ApiError from '../utils/ApiError.js';
 import Controller from './Controller.js';
-import IBase64File from '../interfaces/IBase64File.js';
+import IBase64File from '../types/IBase64File.js';
 
 interface ICreateUserBody {
     username: string;

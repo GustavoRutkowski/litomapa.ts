@@ -2,7 +2,7 @@ import { mkdir, unlink, writeFile } from 'fs/promises';
 import { join, extname } from 'path';
 import { randomBytes } from 'crypto';
 import ApiError from './ApiError.js';
-import IBase64File from '../interfaces/IBase64File.js';
+import IBase64File from '../types/IBase64File.js';
 
 interface IFileUploaderConstructor {
     path: string;

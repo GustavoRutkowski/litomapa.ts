@@ -3,9 +3,9 @@ import ApiError from '../utils/ApiError.js';
 import Token from '../utils/Token.js';
 import FileUploader from '../utils/FileUploader.js';
 import { compare, hash } from 'bcrypt'
-import IBase64File from '../interfaces/IBase64File.js';
+import IBase64File from '../types/IBase64File.js';
 import Model from './Model.js';
-import IUserDTO from '../interfaces/IUserDTO.js';
+import IUserDTO from '../types/users.types.js';
 
 const HASH_SALTS = 10;
 
