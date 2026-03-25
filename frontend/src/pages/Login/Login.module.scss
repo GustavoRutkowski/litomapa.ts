@@ -1,0 +1,8 @@
+@use '../../styles/variables.scss' as *;
+@use '../../styles/mixins.scss' as *;
+
+.container {
+    padding: $pad-lg;
+    height: 100%;
+    @include flex-column(start, center, $pad-lg);
+}

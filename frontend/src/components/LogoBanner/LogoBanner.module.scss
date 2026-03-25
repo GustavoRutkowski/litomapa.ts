@@ -1,0 +1,16 @@
+@use '../../styles/variables.scss' as *;
+@use '../../styles/mixins.scss' as *;
+
+.container {
+    // padding: $pad-md;
+    font-size: $font-md;
+    @include flex-row(center, center, $pad-sm);
+
+    img {
+        display: block;
+        width: 6rem;
+        aspect-ratio: 1;
+    }
+
+    h1 { font-weight: 500; }
+}

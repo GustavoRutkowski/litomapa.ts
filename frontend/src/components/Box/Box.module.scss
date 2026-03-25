@@ -1,0 +1,18 @@
+@use '../../styles/variables.scss' as *;
+
+.container {
+    padding: $pad-md $pad-lg;
+    border-radius: $radius-md;
+    width: fit-content;
+    background-color: $primary-color;
+    box-shadow: $shadow-md;
+
+    h2 {
+        color: $secundary-color;
+        text-align: center;
+    }
+    
+    form {
+        min-width: 330px;
+    }
+}

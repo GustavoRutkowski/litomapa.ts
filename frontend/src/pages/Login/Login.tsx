@@ -1,10 +1,12 @@
-import './Login.scss';
+import LoginForm from '../../components/LoginForm/LoginForm';
+import LogoBanner from '../../components/LogoBanner/LogoBanner';
+import styles from './Login.module.scss';
 
 export default function Login() {
     return (
-        <div className='login'>
-            <header>LitoMapa</header>
-            <p>Está é a página de login!</p>
+        <div className={styles.container}>
+            <LogoBanner />
+            <LoginForm />
         </div>
     );
 }
