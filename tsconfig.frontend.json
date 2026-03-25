@@ -4,7 +4,8 @@
     "noEmit": true,
     "moduleResolution": "bundler",
     "rootDir": "./frontend",
-    "types": ["vite/client"]
+    "types": ["vite/client"],
+    "jsx": "react-jsx"
   },
   "include": [ "frontend/**/*" ],
   "exclude": [ "node_modules" ]
