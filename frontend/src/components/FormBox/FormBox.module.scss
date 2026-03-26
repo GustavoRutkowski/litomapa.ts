@@ -24,5 +24,11 @@
         &:hover { filter: brightness(.8); }
     }
 
-    p { color: $label-color; }
+    p {
+        color: $label-color;
+        &.error-msg {
+            font-size: $font-xs;
+            color: $negative-color;
+        }
+    }
 }

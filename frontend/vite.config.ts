@@ -5,8 +5,8 @@ import { resolve } from 'node:path';
 export default defineConfig(({ mode }) => {
     const env = loadEnv(mode, process.cwd(), '')
 
-    const API_HOST = Number(env.API_HOST);
-    const API_PORT = Number(env.API_PORT);
+    const API_HOST = env.API_HOST ?? 'localhost';
+    const API_PORT = Number(env.API_PORT) || 4444;
     const API_URL = `http://${API_HOST}:${API_PORT}`;
 
     return {
@@ -24,7 +24,8 @@ export default defineConfig(({ mode }) => {
             proxy: {
                 '/api': {
                     target: API_URL,
-                    secure: false
+                    secure: false,
+                    rewrite: (path) => path.replace(/^\/api/, '')
                 }
             }
         },
