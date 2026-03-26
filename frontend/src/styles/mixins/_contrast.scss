@@ -1,0 +1,10 @@
+@use 'sass:color' as *;
+
+@mixin bg-contrast($color, $lightness-threshold: 50%) {
+    background-color: $color;
+    @if channel($color, 'lightness', $space: hsl) > $lightness-threshold {
+        color: black;
+    } @else {
+        color: white;
+    }
+}

@@ -40,6 +40,14 @@ export default defineConfig(({ mode }) => {
             minify: 'esbuild', // esbuild | terser | false
             target: 'es2022',
             sourcemap: true
+        },
+
+        css: {
+            preprocessorOptions: {
+                scss: {
+                    additionalData: `@use "@/styles/setup/imports" as *;`
+                }
+            }
         }
     };
 });

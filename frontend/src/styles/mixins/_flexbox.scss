@@ -1,0 +1,20 @@
+@mixin flex($direction: row, $justify: start, $align: stretch, $gap: 0, $wrap: nowrap) {
+    display: flex;
+    flex-direction: $direction;
+    justify-content: $justify;
+    align-items: $align;
+    gap: $gap;
+    flex-wrap: $wrap;
+}
+
+@mixin flex-row($justify: start, $align: stretch, $gap: 0, $wrap: nowrap) {
+    @include flex(row, $justify, $align, $gap, $wrap);
+}
+
+@mixin flex-column($justify: start, $align: stretch, $gap: 0, $wrap: nowrap) {
+    @include flex(column, $justify, $align, $gap, $wrap);
+}
+
+@mixin flex-center($direction: row, $gap: 0, $wrap: nowrap) {
+    @include flex($direction, center, center, $gap, $wrap);
+}
