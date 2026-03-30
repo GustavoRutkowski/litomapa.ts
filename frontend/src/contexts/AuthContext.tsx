@@ -15,10 +15,10 @@ export const AuthContext = createContext<IAuthContext | null>(null);
 interface IProps { children: ReactNode }
 export function AuthProvider({ children }: IProps) {
 	const [token, setToken] = useState<string | null>(null);
+	const users = useUsers();
 
 	const login = useCallback(async (body: IUserDTO) => {
-		const { login } = useUsers();
-		const { token } = await login(body);
+		const { token } = await users.login(body);
 
 		LocalData.set('token', token);
 		setToken(token);
