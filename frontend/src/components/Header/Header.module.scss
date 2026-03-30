@@ -1,0 +1,25 @@
+.container {
+    padding: $pad-xxs $pad-sm;
+    width: 100%;
+    background-color: $primary-color;
+    box-shadow: $shadow-sm;
+    @include flex-row(space-between, center);
+
+    &__logo {
+        @include flex-row($gap: $pad-sm);
+
+        img {
+            width: 3rem;
+            aspect-ratio: 1;
+        }
+
+        h1 {
+            font-weight: lighter;
+            color: $tertiary-color;
+        }
+    }
+
+    &__options {
+        @include flex-row($align: center, $gap: $pad-sm);
+    }
+}

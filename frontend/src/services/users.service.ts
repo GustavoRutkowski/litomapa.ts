@@ -8,6 +8,7 @@ export interface IUserDTO {
     username?: string;
     email?: TEmail;
     password?: string;
+    photo?: string | null;
 }
 
 const api = new Api('/api/users');

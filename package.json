@@ -24,11 +24,15 @@
 
     "web:dev": "concurrently \"npm run web-build:dev\" \"vite --config ./frontend/vite.config.ts\"",
     "web:prod": "npm run web-build:prod && vite preview --config ./frontend/vite.config.ts",
-    
+
     "web-build:dev": "vite build --watch --config ./frontend/vite.config.ts",
     "web-build:prod": "vite build --config ./frontend/vite.config.ts"
   },
   "dependencies": {
+    "@fortawesome/react-fontawesome": "^3.3.0",
+    "@fortawesome/fontawesome-svg-core": "^7.2.0",
+    "@fortawesome/free-solid-svg-icons": "^7.2.0",
+    "@fortawesome/free-regular-svg-icons": "^7.2.0",
     "bcrypt": "^6.0.0",
     "better-sqlite3": "^12.6.2",
     "cors": "^2.8.6",

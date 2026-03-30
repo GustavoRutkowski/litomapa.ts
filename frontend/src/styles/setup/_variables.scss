@@ -2,23 +2,26 @@
 $primary-color  : #f0f0f0;
 $backdrop-color : #dbdbdb;
 $secundary-color: #4b78f0;
+$tertiary-color : #064763;
 $negative-color : #ff0000;
 $label-color    : #555555;
 $input-color    : $backdrop-color;
 
 // Font-Sizes:
-$font-xs: 0.8rem;
-$font-sm: 1rem;
-$font-md: 1.5rem;
-$font-lg: 2.2rem;
-$font-xl: 3rem;
+$font-xxs: 0.5rem;
+$font-xs : 0.8rem;
+$font-sm : 1rem;
+$font-md : 1.5rem;
+$font-lg : 2.2rem;
+$font-xl : 3rem;
 
 // Paddings:
-$pad-xs: 0.8rem;
-$pad-sm: 1rem;
-$pad-md: 2rem;
-$pad-lg: 3rem;
-$pad-xl: 4rem;
+$pad-xxs: 0.5rem;
+$pad-xs : 0.8rem;
+$pad-sm : 1rem;
+$pad-md : 2rem;
+$pad-lg : 3rem;
+$pad-xl : 4rem;
 
 // Border Radius:
 $radius-none: 0;
@@ -30,4 +33,5 @@ $radius-xl  : 24px;
 $radius-full: 50%;
 
 // Shadows:
+$shadow-sm: 0 1px 3px rgba(0,0,0,0.2);
 $shadow-md: 0 2px 5px rgba(0,0,0,0.3);
