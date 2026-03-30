@@ -6,7 +6,7 @@ import validateUser, { validateEmail, validatePassword, validatePhoto, validateU
 const usersRouter = Router();
 
 usersRouter.post('/', validateUser, UC.createUser);
-usersRouter.post('login', [validateEmail, validatePassword], UC.login);
+usersRouter.post('/login', [validateEmail, validatePassword], UC.login);
 
 usersRouter.get('/', isLogged, UC.getUser);
 
