@@ -1,4 +1,12 @@
 .container {
-    background-color: black;
-    color: white;
+    @include flex-column;
+
+    main {
+        height: 100%;
+        @include flex-center;
+        
+        p {
+            margin: auto;
+        }
+    }
 }
