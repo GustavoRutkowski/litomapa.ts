@@ -5,6 +5,7 @@ import useUsers from '../../hooks/useUsers';
 import TEmail from '../../types/TEmail';
 
 import styles from '../FormBox/FormBox.module.scss';
+import PasswordInput from '../PasswordInput/PasswordInput';
 
 export default function RegisterForm() {
     const usernameInputId = useId();
@@ -82,10 +83,9 @@ export default function RegisterForm() {
 
             <fieldset>
                 <label htmlFor={passwordInputId}>Password:</label>
-                <input
+                <PasswordInput
                     id={passwordInputId}
-                    type="password" required
-                    onChange={(e) => setPassword(e.target.value)}
+                    onChange={e => setPassword(e.target.value)}
                 />
             </fieldset>
 

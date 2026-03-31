@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import TEmail from '../../types/TEmail';
 import { AuthContext } from '../../contexts/AuthContext';
 import useAuth from '../../hooks/useAuth';
+import PasswordInput from '../PasswordInput/PasswordInput';
 
 import styles from '../FormBox/FormBox.module.scss';
 
@@ -72,9 +73,9 @@ export default function LoginForm() {
 
             <fieldset>
                 <label htmlFor={passwordInputId}>Password:</label>
-                <input
-                    id={passwordInputId} type="password"
-                    required onChange={e => setPassword(e.target.value)}
+                <PasswordInput
+                    id={passwordInputId}
+                    onChange={e => setPassword(e.target.value)}
                 />
             </fieldset>
 
