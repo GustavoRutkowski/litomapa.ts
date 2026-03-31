@@ -1,4 +1,5 @@
 .container {
-    background-color: blue;
-    color: white;
+    height: 100%;
+    background-color: $backdrop-color;
+    @include flex-column(center, center);
 }

@@ -1,8 +1,9 @@
 .container {
+    height: 100%;
     @include flex-column;
 
     main {
-        height: 100%;
+        flex-grow: 1;
         @include flex-center;
         
         p {
