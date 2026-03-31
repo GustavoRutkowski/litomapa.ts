@@ -20,7 +20,7 @@
         font-weight: bold;
         width: 100%;
         @include retangular-btn-shape;
-        @include bg-contrast($secundary-color, 70%);
+        @include bg-contrast($tertiary-color, 70%);
         &:hover { filter: brightness(.8); }
     }
 
