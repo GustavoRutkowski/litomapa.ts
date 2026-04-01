@@ -17,6 +17,9 @@ export function AuthProvider({ children }: IProps) {
 	const [token, setToken] = useState<string | null>(null);
 	const users = useUsers();
 
+	const storedToken = LocalData.get('token');
+	if (storedToken && !token) setToken(storedToken);
+
 	const login = useCallback(async (body: IUserDTO) => {
 		const { token } = await users.login(body);
 
