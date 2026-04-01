@@ -1,0 +1,35 @@
+.container {
+    position: relative;
+    
+    button {
+        padding: $pad-xxs;
+        border-radius: 4px;
+        max-width: 200px;
+        background-color: $input-color;
+        color: $tertiary-color;
+        overflow: hidden;
+        @include btn(.2s);
+        @include flex-row($align: center, $gap: $pad-xs);
+    
+        &:hover { opacity: .8; }
+    
+        .user {
+            font-weight: bold;
+            overflow: hidden;
+            @include flex-row($align: center, $gap: $pad-xxs);
+    
+            img {
+                width: 2rem;
+                aspect-ratio: 1;
+            }
+    
+            span {
+                flex: 1 0 0;
+                min-width: 0;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                overflow: hidden;
+            }
+        }
+    }
+}
