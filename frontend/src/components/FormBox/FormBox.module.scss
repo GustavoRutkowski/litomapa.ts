@@ -1,4 +1,5 @@
 .form {
+    padding: 0 $pad-lg $pad-md $pad-lg;
     @include flex-column($align: center, $gap: $pad-sm);
 
     fieldset {

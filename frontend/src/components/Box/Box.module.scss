@@ -1,11 +1,12 @@
 .container {
-    padding: $pad-md $pad-lg;
+    padding: $pad-xs $pad-xxs;
     border-radius: $radius-md;
     width: fit-content;
     background-color: $primary-color;
     box-shadow: $shadow-md;
 
     h2 {
+        margin-top: $pad-sm;
         color: $tertiary-color;
         text-align: center;
     }
