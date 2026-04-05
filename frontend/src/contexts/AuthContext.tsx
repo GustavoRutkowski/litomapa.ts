@@ -3,11 +3,10 @@ import useUsers from '../hooks/useUsers';
 import { IUserDTO } from '../services/users.service';
 import LocalData from '../utils/LocalData';
 
-type TAuthCallback = (body: IUserDTO) => Promise<void>;
 interface IAuthContext {
 	token: string | null;
-	login: TAuthCallback;
-	logout: TAuthCallback;
+	login: (body: IUserDTO) => Promise<void>;
+	logout: () => Promise<void>;
 }
 
 export const AuthContext = createContext<IAuthContext | null>(null);
