@@ -1,0 +1,36 @@
+.container {
+    margin: auto;
+    border: none;
+    border-radius: $radius-lg;
+    width: min(100%, 640px);
+    max-width: 100%;
+    overflow: visible;
+    background: transparent;
+    @include flex-center;
+    
+    .container::backdrop {
+        background: #00000059;
+        backdrop-filter: blur(8px);
+    }
+    
+    .container > * {
+        position: relative;
+    }
+}
+
+.close-button {
+    position: absolute;
+    top: $pad-xs;
+    right: $pad-xs;
+    aspect-ratio: 1;
+    background: transparent;
+    font-size: $font-sm;
+    color: $tertiary-color;
+    @include btn;
+    @include flex-center;
+
+    &:hover, &:focus {
+        color: $secundary-color;
+        opacity: 0.85;
+    }
+}
