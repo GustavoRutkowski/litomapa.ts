@@ -8,3 +8,23 @@ html, body {
 }
 
 a { color: $secundary-color; }
+
+form {
+    @include flex-column($align: center, $gap: $pad-sm);
+    fieldset {
+        width: 100%;
+        color: $label-color;
+        @include flex-column;
+
+        label { font-size: $font-sm; }
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
+            font-size: $font-sm;
+            padding: $pad-xs $pad-sm;
+            border-radius: $radius-sm;
+            color: black;
+            background-color: $input-color;
+        }
+    }
+}

@@ -1,21 +1,5 @@
 .form {
     padding: 0 $pad-lg $pad-md $pad-lg;
-    @include flex-column($align: center, $gap: $pad-sm);
-
-    fieldset {
-        width: 100%;
-        color: $label-color;
-        @include flex-column;
-
-        label { font-size: $font-sm; }
-        input {
-            font-size: $font-sm;
-            padding: $pad-xs $pad-sm;
-            border-radius: $radius-sm;
-            color: black;
-            background-color: $input-color;
-        }
-    }
 
     button {
         font-weight: bold;
