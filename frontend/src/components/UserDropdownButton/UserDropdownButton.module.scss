@@ -1,9 +1,9 @@
 .container {
     position: relative;
     
-    button {
+    .dropdown-button {
         padding: $pad-xxs;
-        border-radius: 4px;
+        border-radius: $radius-sm;
         max-width: 200px;
         background-color: $input-color;
         color: $tertiary-color;

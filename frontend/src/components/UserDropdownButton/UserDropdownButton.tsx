@@ -54,6 +54,7 @@ export default function UserDropdownButton() {
         <div ref={wrapperRef} className={styles.container}>
             <button
                 type="button"
+                className={styles['dropdown-button']}
                 onClick={() => setOpen(v => !v)}
                 aria-expanded={open}
                 aria-haspopup="menu"
@@ -65,7 +66,7 @@ export default function UserDropdownButton() {
                 <FontAwesomeIcon icon={faAngleDown} />
             </button>
 
-            <UserDropdown open={open} />
+            <UserDropdown open={open} onClose={() => setOpen(false)} />
         </div>
     );
 }
