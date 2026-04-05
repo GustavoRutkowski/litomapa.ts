@@ -9,8 +9,11 @@
         ul {
             @include flex-column($gap: $pad-xxs);
 
-            li {
-                padding: 2px;
+            li button {
+                width: 100%;
+                font-size: $font-sm;
+                font-weight: bold;
+                padding: $pad-xs;
                 border-radius: $radius-md;
                 background: $input-color;
                 color: $tertiary-color;
@@ -19,11 +22,6 @@
                 &:hover {
                     opacity: .7;
                     text-decoration: underline;
-                }
-
-                button {
-                    font-size: $font-sm;
-                    font-weight: bold;
                 }
             }
         }

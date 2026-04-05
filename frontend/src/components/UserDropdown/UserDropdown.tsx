@@ -1,24 +1,36 @@
-import Box from '../Box/Box';
+import useAuth from '../../hooks/useAuth';
+import ProfileModal from '../ProfileModal/ProfileModal';
+import IDropdownItem from '../../types/IDropdownItem';
+import DropdownMenu from '../DropdownMenu/DropdownMenu';
+import { useState } from 'react';
+
 import styles from './UserDropdown.module.scss';
-import DropdownItem from '../DropdownItem/DropdownItem';
 
 interface IProps {
-    open?: boolean;
+    open: boolean;
+    onClose: () => void;
 }
 
-export default function UserDropdown({ open }: IProps = {}) {
-    if (!open) return null;
+export default function UserDropdown({ open, onClose }: IProps) {
+    const { logout } = useAuth();
+    const [profileOpen, setProfileOpen] = useState(false);
+
+    const showProfileModal = () => {
+        setProfileOpen(true);
+        onClose();
+    };
+
+    const items: IDropdownItem[] = [
+        { title: 'Perfil', onClick: showProfileModal },
+        { title: 'Mudar Seha' },
+        { title: 'Notificações' },
+        { title: 'Sair', onClick: logout }
+    ];
 
     return (
         <div className={styles.container}>
-            <Box>
-                <ul>
-                    <DropdownItem title="Perfil" />
-                    <DropdownItem title="Mudar Senha" />
-                    <DropdownItem title="Notificações" />
-                    <DropdownItem title="Sair" />
-                </ul>
-            </Box>
+            { open && <DropdownMenu open={open} items={items} /> }
+            <ProfileModal open={profileOpen} onClose={() => setProfileOpen(false)} />
         </div>
     );
 }
