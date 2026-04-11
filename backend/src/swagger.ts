@@ -1,14 +1,9 @@
 import swaggerJsDoc from 'swagger-jsdoc';
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
-import { config } from 'dotenv';
-config();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-
-const API_HOST: string = process.env.API_HOST || 'localhost';
-const API_PORT: string = process.env.API_PORT || '4444';
 
 const options: swaggerJsDoc.Options = {
     definition: {
@@ -20,7 +15,7 @@ const options: swaggerJsDoc.Options = {
             version: '1.0.0'
         },
 
-        servers: [{ url: `http://${API_HOST}:${API_PORT}` }],
+        servers: [{ url: '/' }],
 
         tags: [{ name: 'Users', description: 'Operações com Usuários' }],
 
