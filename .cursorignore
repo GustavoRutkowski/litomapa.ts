@@ -1,0 +1,5 @@
+node_modules
+**/dist
+*.sqlite
+package-lock.json
+/backend/src/uploads
