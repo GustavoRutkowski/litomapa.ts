@@ -1,25 +1,29 @@
 interface IStoredData {
-    data: any;
+    data: unknown;
     expires_in?: number;
 }
 
+function isStoredData(value: unknown): value is IStoredData {
+    return typeof value === 'object' && value !== null && !Array.isArray(value) && 'data' in value;
+}
+
 class LocalData {
-    public static get<T = any>(key: string): T | null {
+    public static get<T>(key: string): T | null {
         const item = localStorage.getItem(key);
         if (!item) return null;
 
-        let parsed = null;
-        try { parsed = JSON.parse(item); }
-        catch (e) { parsed = item; }
-
-        if (parsed.expires_in && Date.now() > parsed.expires_in) {
+        try {
+            const raw: unknown = JSON.parse(item);
+            if (!isStoredData(raw)) return raw as T;
+            if (!raw.expires_in || Date.now() <= raw.expires_in) return raw.data as T;
             this.remove(key);
             return null;
+        } catch {
+            return item as T;
         }
-        return parsed.data as T;
     }
 
-    public static set(key: string, value: any, expiresIn: number = 0): void {
+    public static set(key: string, value: unknown, expiresIn: number = 0): void {
         const data: IStoredData = { data: value };
         if (expiresIn) data.expires_in = Date.now() + expiresIn;
         localStorage.setItem(key, JSON.stringify(data));

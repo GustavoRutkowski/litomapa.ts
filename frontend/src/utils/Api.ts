@@ -2,7 +2,7 @@ type TMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' | 'OPTIONS';
 type TParamValue = string | number | boolean;
 type TParam = [string, TParamValue];
 type TEndpoint = `/${string}`;
-type TLog = ((...args: any[]) => void) | null;
+type TLog = ((...args: string[]) => void) | null;
 
 interface IOptions {
     headers?: Headers;
@@ -29,7 +29,7 @@ class Api {
         return merged;
     }
 
-    public async request<T = any>(method: TMethod, endpoint: TEndpoint = '/', options: IOptions | null = null): Promise<T> {
+    public async request<T>(method: TMethod, endpoint: TEndpoint = '/', options: IOptions | null = null): Promise<T> {
         let url = `${this.url}${endpoint}`;
         
         // Query Params
@@ -49,16 +49,12 @@ class Api {
         const request: RequestInit = { method, headers };
         if (options?.body) request.body = JSON.stringify(options.body);
 
-        try {
-            const response = await fetch(url, request);
-            if (!response.ok && this.logger) {
-                const msg = `HTTP error! status: ${response.status}`
-                this.logger(msg); throw new Error(msg);
-            }
-            return await response.json() as Promise<T>;
-        } catch (e) {
-            throw e;
+        const response = await fetch(url, request);
+        if (!response.ok && this.logger) {
+            const msg = `HTTP error! status: ${response.status}`
+            this.logger(msg); throw new Error(msg);
         }
+        return await response.json() as Promise<T>;
     }
 
     public async get<T>(endpoint: TEndpoint, options: IOptions | null = null) {
@@ -78,7 +74,7 @@ class Api {
     }
 
     public async delete<T>(endpoint: TEndpoint, options: IOptions | null = null) {
-        return await this.request('DELETE', endpoint, options);
+        return await this.request<T>('DELETE', endpoint, options);
     }
 }
 
