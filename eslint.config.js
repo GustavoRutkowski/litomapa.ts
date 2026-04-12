@@ -16,7 +16,7 @@ export default [
             'no-undef'                         : 'off',
             '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
             'eqeqeq'                           : ['warn', 'always'],
-            'no-console'                       : ['warn', { allow: ['warn', 'error'] }],
+            'no-console'                       : ['warn', { allow: ['info', 'warn', 'error'] }],
             // Security
             'no-implicit-coercion'             : ['warn', {
                 boolean: false,
