@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
 import User from '../models/users.model.js';
-import ApiError from '../utils/ApiError.js';
 import Controller from './Controller.js';
 import IBase64File from '../types/IBase64File.js';
+import U from '../utils/UnknownError.js';
 
 interface ICreateUserBody {
     username: string;
@@ -25,9 +25,8 @@ class UsersController extends Controller {
         try {
             const insertId = await User.create(username, email, password);
             return res.status(201).json({ insertId });
-        } catch (e: any) {
-            const status = e instanceof ApiError && e.getStatus ? e.getStatus() : 500;
-            return res.status(status).json({ error: e.message });
+        } catch (e: unknown) {
+            return res.status(U.getHttpStatus(e)).json({ error: U.getMessage(e) });
         }
     }
 
@@ -38,9 +37,8 @@ class UsersController extends Controller {
         try {
             const token = await User.login(email, password);
             return res.json({ token });
-        } catch (e: any) {
-            const status = e instanceof ApiError ? e.getStatus() : 500;
-            return res.status(status).json({ error: e.message });
+        } catch (e: unknown) {
+            return res.status(U.getHttpStatus(e)).json({ error: U.getMessage(e) });
         }
     }
 
@@ -52,9 +50,8 @@ class UsersController extends Controller {
         try {
             const user = User.get(token.split(' ')[1]);
             return res.json(user);
-        } catch (e: any) {
-            const status = e instanceof ApiError ? e.getStatus() : 500;
-            return res.status(status).json({ error: e.message });
+        } catch (e: unknown) {
+            return res.status(U.getHttpStatus(e)).json({ error: U.getMessage(e) });
         }
     }
 
@@ -68,9 +65,8 @@ class UsersController extends Controller {
         try {
             User.changeUsername(token.split(' ')[1], username);
             return res.status(200).json({ success: true });
-        } catch (e: any) {
-            const status = e instanceof ApiError ? e.getStatus() : 500;
-            return res.status(status).json({ error: e.message });
+        } catch (e: unknown) {
+            return res.status(U.getHttpStatus(e)).json({ error: U.getMessage(e) });
         }
     }
 
@@ -84,9 +80,8 @@ class UsersController extends Controller {
         try {
             await User.changePassword(token.split(' ')[1], password);
             return res.json({ success: true });
-        } catch (e: any) {
-            const status = e instanceof ApiError ? e.getStatus() : 500;
-            return res.status(status).json({ error: e.message });
+        } catch (e: unknown) {
+            return res.status(U.getHttpStatus(e)).json({ error: U.getMessage(e) });
         }
     }
 
@@ -100,9 +95,8 @@ class UsersController extends Controller {
         try {
             await User.changePhoto(token.split(' ')[1], file);
             return res.json({ success: true });
-        } catch (e: any) {
-            const status = e instanceof ApiError ? e.getStatus() : 500;
-            return res.status(status).json({ error: e.message });
+        } catch (e: unknown) {
+            return res.status(U.getHttpStatus(e)).json({ error: U.getMessage(e) });
         }
     }
 
@@ -113,9 +107,8 @@ class UsersController extends Controller {
         try {
             await User.removePhoto(token.split(' ')[1]);
             return res.json({ success: true });
-        } catch (e: any) {
-            const status = e instanceof ApiError ? e.getStatus() : 500;
-            return res.status(status).json({ error: e.message });
+        } catch (e: unknown) {
+            return res.status(U.getHttpStatus(e)).json({ error: U.getMessage(e) });
         }
     }
 
@@ -126,9 +119,8 @@ class UsersController extends Controller {
         try {
             await User.delete(token.split(' ')[1]);
             return res.json({ success: true });
-        } catch (e: any) {
-            const status = e instanceof ApiError ? e.getStatus() : 500;
-            return res.status(status).json({ error: e.message });
+        } catch (e: unknown) {
+            return res.status(U.getHttpStatus(e)).json({ error: U.getMessage(e) });
         }
     }
 }

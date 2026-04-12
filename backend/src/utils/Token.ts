@@ -17,7 +17,7 @@ class Token {
         try {
             const decoded = jwt.verify(token, Token.SECRET) as T;
             return decoded;
-        } catch (e: any) {
+        } catch {
             throw new ApiError('Invalid or expired token', 401);
         }
     }

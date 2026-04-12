@@ -20,8 +20,7 @@ class Database {
 
     private constructor() {
         const dbname: string = process.env.DB_NAME || 'database';
-        const verbose = process.env.NODE_ENV === 'dev'
-            ? console.log : undefined;
+        const verbose = process.env.NODE_ENV === 'dev' ? console.info : undefined;
 
         this.connection = new SQLiteDatabase(`${dbname}.sqlite`, { verbose });
         this.connection.pragma('foreign_keys = ON');
@@ -37,8 +36,8 @@ class Database {
     public createSchema(sql: string) {
         try {
             this.connection.exec(sql);
-        } catch (e) {
-            console.error("Erro ao executar schema:", e);
+        } catch (e: unknown) {
+            console.error('Erro ao executar schema:', e);
             throw e;
         }
     }
@@ -46,20 +45,19 @@ class Database {
     public select<T = unknown>(sql: string, params?: TColumnValue[]): ISelectResult<T> {
         const stmt = this.connection.prepare(sql);
         const rows = params ? stmt.all(...params) : stmt.all();
-        const affectedRows = Array.isArray(rows) ? rows.length : (rows ? 1 : 0);
+        const affectedRows = Array.isArray(rows) ? rows.length : rows ? 1 : 0;
         return { rows, affectedRows } as ISelectResult<T>;
     }
 
-    public execute(sql:string, params?: TColumnValue[]): IExecuteResult {
+    public execute(sql: string, params?: TColumnValue[]): IExecuteResult {
         const stmt = this.connection.prepare(sql);
-        const {
-            changes = 0,
-            lastInsertRowid = null
-        } = params ? stmt.run(...params) : stmt.run();
+        const { changes = 0, lastInsertRowid = null } = params ? stmt.run(...params) : stmt.run();
         return { changes, affectedRows: changes, lastInsertRowid } as IExecuteResult;
     }
 
-    public close() { this.connection.close(); }
+    public close() {
+        this.connection.close();
+    }
 }
 
 const db = Database.getInstance(); // Singleton Pattern

@@ -1,5 +1,6 @@
 import TMiddleware from '../../types/TMiddleware.js';
 import Token from '../../utils/Token.js';
+import U from '../../utils/UnknownError.js';
 
 const isLogged: TMiddleware = (req, res, next) => {
     const token = req.headers['Authorization'];
@@ -21,12 +22,12 @@ const isLogged: TMiddleware = (req, res, next) => {
     try {
         Token.verify(token.split(' ')[1]);
         next();
-    } catch(e: any) {
+    } catch (e: unknown) {
         res.status(401).json({
             success: false,
-            message: e.message || 'Invalid or expired token'
+            message: U.get(e, 'message', 'Invalid or expired token')
         });
     }
-}
+};
 
 export default isLogged;

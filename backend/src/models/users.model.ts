@@ -2,7 +2,7 @@ import db from '../db/db.js';
 import ApiError from '../utils/ApiError.js';
 import Token from '../utils/Token.js';
 import FileUploader from '../utils/FileUploader.js';
-import { compare, hash } from 'bcrypt'
+import { compare, hash } from 'bcrypt';
 import IBase64File from '../types/IBase64File.js';
 import Model from './Model.js';
 import IUserDTO from '../types/users.types.js';
@@ -14,26 +14,25 @@ class User extends Model {
 
     private static uploader = new FileUploader({
         path: 'backend/src/uploads',
-        minsize: 0, maxsize: 5 * 1024 * 1024, // 5MB
+        minsize: 0,
+        maxsize: 5 * 1024 * 1024, // 5MB
         allowedTypes: ['image/png', 'image/jpeg', 'image/jpg', 'image/webp']
     });
 
     public static async login(email: string, password: string): Promise<string> {
         const query = 'SELECT * FROM users WHERE email = ?';
         const data = db.select<IUserDTO>(query, [email]);
-        if (!data.rows || data.rows.length === 0)
-            throw new ApiError('Invalid credentials', 401);
+        if (!data.rows || data.rows.length === 0) throw new ApiError('Invalid credentials', 401);
 
         const user = data.rows[0];
-        const ok = user.password && await compare(password, user.password);
+        const ok = user.password && (await compare(password, user.password));
         if (!ok) throw new ApiError('Invalid credentials', 401);
 
         return Token.encode({ id: user.id, username: user.username, email: user.email });
     }
 
     public static async create(username: string, email: string, password: string): Promise<number> {
-        if (this.userExists({ username, email }))
-            throw new ApiError('User already exists', 400);
+        if (this.userExists({ username, email })) throw new ApiError('User already exists', 400);
 
         const hashedPassword = await hash(password, HASH_SALTS);
         const cols = ['username', 'email', 'password'];
@@ -41,8 +40,8 @@ class User extends Model {
     }
 
     private static userExists({ id, username, email }: IUserDTO): boolean {
-        const cols = [];
-        const values = [];
+        const cols: string[] = [];
+        const values: (string | number)[] = [];
 
         if (id) {
             cols.push('id = ?');
@@ -57,7 +56,7 @@ class User extends Model {
             values.push(email);
         }
 
-        const query = 'SELECT username, email FROM users WHERE ' + cols.join(' OR ');
+        const query = `SELECT username, email FROM users WHERE ${cols.join(' OR ')}`;
         const data = db.select<IUserDTO>(query, values);
         return !!data.rows && data.rows.length > 0;
     }
@@ -66,8 +65,9 @@ class User extends Model {
         const id = this.authenticate(token);
         try {
             return this.selectById<IUserDTO>(id, ['id', 'username', 'email', 'photo']);
-        } catch (e: any) {
-            if (e instanceof ApiError && e.getStatus() === 404) throw new ApiError('User not found', 404);
+        } catch (e: unknown) {
+            if (e instanceof ApiError && e.getStatus() === 404)
+                throw new ApiError('User not found', 404);
             throw new ApiError('Failed to get user data', 500);
         }
     }
@@ -91,16 +91,17 @@ class User extends Model {
         try {
             const userData = this.selectById<IUserDTO>(id, ['photo']);
             if (!userData.photo) throw new ApiError('No photo to update', 400);
-            
+
             const prevPhoto = userData.photo;
             await this.uploader.remove(prevPhoto);
-            
+
             if (file) {
                 const newFilename = await this.uploader.upload(file);
                 this.updateById(id, ['photo'], [newFilename]);
             }
-        } catch (e: any) {
-            if (e instanceof ApiError && e.getStatus() === 404) throw new ApiError('User not found', 404);
+        } catch (e: unknown) {
+            if (e instanceof ApiError && e.getStatus() === 404)
+                throw new ApiError('User not found', 404);
             throw new ApiError('Failed to change user photo', 500);
         }
     }
@@ -108,7 +109,7 @@ class User extends Model {
     public static async removePhoto(token: string): Promise<void> {
         try {
             await this.changePhoto(token, null);
-        } catch(e: any) {
+        } catch (e: unknown) {
             if (e instanceof ApiError && e.getStatus() === 404) throw e;
             throw new ApiError('Failed to remove user photo', 500);
         }
@@ -119,8 +120,9 @@ class User extends Model {
         try {
             const userData = this.selectById<IUserDTO>(id, ['photo']);
             if (userData.photo) await this.uploader.remove(userData.photo);
-        } catch(e: any) {
-            if (e instanceof ApiError && e.getStatus() === 404) throw new ApiError('User not found', 404);
+        } catch (e: unknown) {
+            if (e instanceof ApiError && e.getStatus() === 404)
+                throw new ApiError('User not found', 404);
             throw new ApiError('Failed to delete user photo', 500);
         }
         this.deleteById(id);

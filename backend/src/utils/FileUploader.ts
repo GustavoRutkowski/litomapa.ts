@@ -2,6 +2,7 @@ import { mkdir, unlink, writeFile } from 'fs/promises';
 import { join, extname } from 'path';
 import { randomBytes } from 'crypto';
 import ApiError from './ApiError.js';
+import U from './UnknownError.js';
 import IBase64File from '../types/IBase64File.js';
 
 interface IFileUploaderConstructor {
@@ -32,7 +33,7 @@ class FileUploader {
         const filePath = join(this.uploadPath, filename);
 
         try { await unlink(filePath); }
-        catch (e: any) { if (e.code !== 'ENOENT') throw e; }
+        catch (e: unknown) { if (U.getCode<string>(e, '') !== 'ENOENT') throw e; }
     }
 
 
@@ -40,8 +41,8 @@ class FileUploader {
         // Extrai MIME se vier no formato data:<mime>;base64,...
         const match = base64.match(/^data:(.+);base64,(.*)$/);
 
-        let mimeType = (match && match[1]) || null;
-        let base64Data = (match && match[2]) || base64;
+        const mimeType = (match && match[1]) || null;
+        const base64Data = (match && match[2]) || base64;
 
         if (mimeType && !this.allowedTypes.includes(mimeType))
             throw new ApiError('Tipo de arquivo não permitido', 400);
