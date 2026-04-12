@@ -2,7 +2,7 @@ import TMiddleware from '../../types/TMiddleware.js';
 import Token from '../../utils/Token.js';
 
 const isLogged: TMiddleware = (req, res, next) => {
-    const { token } = req.headers;
+    const token = req.headers['Authorization'];
 
     if (!token) {
         res.status(401).json({
@@ -19,7 +19,7 @@ const isLogged: TMiddleware = (req, res, next) => {
     }
 
     try {
-        Token.verify(token);
+        Token.verify(token.split(' ')[1]);
         next();
     } catch(e: any) {
         res.status(401).json({
