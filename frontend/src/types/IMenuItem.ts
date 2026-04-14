@@ -1,4 +1,4 @@
-export default interface IDropdownItem {
+export default interface IMenuItem {
     title: string;
     onClick?: () => void;
 }

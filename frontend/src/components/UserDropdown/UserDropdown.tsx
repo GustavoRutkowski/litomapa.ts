@@ -1,7 +1,7 @@
 import useAuth from '../../hooks/useAuth';
 import ProfileModal from '../ProfileModal/ProfileModal';
-import IDropdownItem from '../../types/IDropdownItem';
-import DropdownMenu from '../DropdownMenu/DropdownMenu';
+import IMenuItem from '../../types/IMenuItem.ts';
+import Menu from '../Menu/Menu';
 import { useState } from 'react';
 
 import styles from './UserDropdown.module.scss';
@@ -20,7 +20,7 @@ export default function UserDropdown({ open, onClose }: IProps) {
         onClose();
     };
 
-    const items: IDropdownItem[] = [
+    const items: IMenuItem[] = [
         { key: 'profile', title: 'Perfil', onClick: showProfileModal },
         { key: 'change-password', title: 'Mudar Senha' },
         { key: 'notifications', title: 'Notificações' },
@@ -29,7 +29,7 @@ export default function UserDropdown({ open, onClose }: IProps) {
 
     return (
         <div className={styles.container}>
-            {open && <DropdownMenu open={open} items={items} />}
+            {open && <Menu open={open} items={items} />}
             <ProfileModal open={profileOpen} onClose={() => setProfileOpen(false)} />
         </div>
     );
