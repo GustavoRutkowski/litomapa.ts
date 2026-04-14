@@ -14,7 +14,7 @@ export default function DropdownMenu({ open, items = [] }: IProps) {
         <Box>
             <ul>
                 {items.map(({ title, onClick }) => (
-                    <DropdownItem title={title} onClick={onClick} />
+                    <DropdownItem key={crypto.randomUUID()} title={title} onClick={onClick} />
                 ))}
             </ul>
         </Box>

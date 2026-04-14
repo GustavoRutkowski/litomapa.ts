@@ -21,15 +21,15 @@ export default function UserDropdown({ open, onClose }: IProps) {
     };
 
     const items: IDropdownItem[] = [
-        { title: 'Perfil', onClick: showProfileModal },
-        { title: 'Mudar Seha' },
-        { title: 'Notificações' },
-        { title: 'Sair', onClick: logout }
+        { key: 'profile', title: 'Perfil', onClick: showProfileModal },
+        { key: 'change-password', title: 'Mudar Senha' },
+        { key: 'notifications', title: 'Notificações' },
+        { key: 'logout', title: 'Sair', onClick: logout }
     ];
 
     return (
         <div className={styles.container}>
-            { open && <DropdownMenu open={open} items={items} /> }
+            {open && <DropdownMenu open={open} items={items} />}
             <ProfileModal open={profileOpen} onClose={() => setProfileOpen(false)} />
         </div>
     );

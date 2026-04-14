@@ -5,7 +5,7 @@ interface IProps {
     onClick?: MouseEventHandler;
 }
 
-export default function DropdownItem({ title, onClick }: IProps = {}) {
+export default function DropdownItem({ title, onClick }: IProps) {
     return (
         <li>
             <button type="button" onClick={onClick}>

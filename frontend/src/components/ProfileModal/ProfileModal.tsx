@@ -41,7 +41,7 @@ export default function ProfileModal({ open, onClose }: IProps) {
             setPhoto(null);
             return;
         }
-        const url = URL.createObjectURL(file)
+        const url = URL.createObjectURL(file);
         setPhoto(url);
     };
 
