@@ -5,6 +5,7 @@ import LocalData from '../utils/LocalData';
 
 interface IAuthContext {
     token: string | null;
+    isLoading: boolean;
     login: (body: IUserDTO) => Promise<void>;
     logout: () => Promise<void>;
 }
@@ -16,11 +17,13 @@ interface IProps {
 }
 export function AuthProvider({ children }: IProps) {
     const [token, setToken] = useState<string | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
     const users = useUsers();
 
     useEffect(() => {
         const stored = LocalData.get<string>('token');
         if (stored) setToken(stored);
+        setIsLoading(false);
     }, []);
 
     const login = useCallback(
@@ -38,5 +41,9 @@ export function AuthProvider({ children }: IProps) {
         setToken(null);
     }, []);
 
-    return <AuthContext.Provider value={{ token, login, logout }}>{children}</AuthContext.Provider>;
+    return (
+        <AuthContext.Provider value={{ token, isLoading, login, logout }}>
+            {children}
+        </AuthContext.Provider>
+    );
 }
