@@ -3,7 +3,7 @@ import Token from '../../utils/Token.js';
 import U from '../../utils/UnknownError.js';
 
 const isLogged: TMiddleware = (req, res, next) => {
-    const token = req.headers['Authorization'];
+    const token = req.headers.authorization;
 
     if (!token) {
         res.status(401).json({

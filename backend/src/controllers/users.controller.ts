@@ -43,9 +43,9 @@ class UsersController extends Controller {
     }
 
     public static getUser({ headers }: Request, res: Response) {
-        if (!super.required(['Authorization'], headers, res)) return;
+        if (!super.required(['authorization'], headers, res)) return;
 
-        const token = headers['Authorization'] as TBearerToken;
+        const token = headers.authorization as TBearerToken;
 
         try {
             const user = User.get(token.split(' ')[1]);
@@ -56,10 +56,10 @@ class UsersController extends Controller {
     }
 
     public static changeUsername(req: Request, res: Response) {
-        if (!super.required(['Authorization'], req.headers, res)) return;
+        if (!super.required(['authorization'], req.headers, res)) return;
         if (!super.required(['username'], req.body, res)) return;
 
-        const token = req.headers['Authorization'] as TBearerToken;
+        const token = req.headers.authorization as TBearerToken;
         const { username } = req.body as { username: string };
 
         try {
@@ -71,10 +71,10 @@ class UsersController extends Controller {
     }
 
     public static async changePassword(req: Request, res: Response) {
-        if (!super.required(['Authorization'], req.headers, res)) return;
+        if (!super.required(['authorization'], req.headers, res)) return;
         if (!super.required(['password'], req.body, res)) return;
 
-        const token = req.headers['Authorization'] as TBearerToken;
+        const token = req.headers.authorization as TBearerToken;
         const { password } = req.body as { password: string };
 
         try {
@@ -86,10 +86,10 @@ class UsersController extends Controller {
     }
 
     public static async changePhoto(req: Request, res: Response) {
-        if (!super.required(['Authorization'], req.headers, res)) return;
+        if (!super.required(['authorization'], req.headers, res)) return;
         if (!super.required(['base64', 'filename'], req.body, res)) return;
 
-        const token = req.headers['Authorization'] as TBearerToken;
+        const token = req.headers.authorization as TBearerToken;
         const file = req.body as IBase64File;
 
         try {
@@ -101,8 +101,8 @@ class UsersController extends Controller {
     }
 
     public static async removePhoto({ headers }: Request, res: Response) {
-        if (!super.required(['Authorization'], headers, res)) return;
-        const token = headers['Authorization'] as TBearerToken;
+        if (!super.required(['authorization'], headers, res)) return;
+        const token = headers.authorization as TBearerToken;
 
         try {
             await User.removePhoto(token.split(' ')[1]);
@@ -113,8 +113,8 @@ class UsersController extends Controller {
     }
 
     public static async deleteUser({ headers }: Request, res: Response) {
-        if (!super.required(['Authorization'], headers, res)) return;
-        const token = headers['Authorization'] as TBearerToken;
+        if (!super.required(['authorization'], headers, res)) return;
+        const token = headers.authorization as TBearerToken;
 
         try {
             await User.delete(token.split(' ')[1]);

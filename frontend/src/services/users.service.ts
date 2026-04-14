@@ -31,7 +31,7 @@ export async function loginUser({ email, password }: IUserDTO): Promise<ILoginRe
 
 export async function getUser(token: string): Promise<IUserDTO> {
     return await api.get<IUserDTO>('/', {
-        headers: new Headers({ 'Authorization': `Bearer ${token}` })
+        headers: new Headers({ authorization: `Bearer ${token}` })
     });
 }
 
