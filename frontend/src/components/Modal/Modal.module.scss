@@ -1,20 +1,23 @@
 .container {
     margin: auto;
     border: none;
-    border-radius: $radius-lg;
     width: min(100%, 640px);
     max-width: 100%;
     overflow: visible;
     background: transparent;
     @include flex-center;
-    
+
     .container::backdrop {
         background: #00000059;
         backdrop-filter: blur(8px);
     }
-    
-    .container > * {
+
+    .container section {
         position: relative;
+        @include box;
+        &:has(.body) {
+            @include box(0);
+        }
     }
 }
 
@@ -29,8 +32,25 @@
     @include btn;
     @include flex-center;
 
-    &:hover, &:focus {
+    &:hover,
+    &:focus {
         color: $secundary-color;
         opacity: 0.85;
     }
+}
+
+.header {
+    padding: $pad-sm $pad-md;
+    width: 100%;
+    @include flex-row(space-between, center, $pad-md);
+}
+
+.title {
+    font-size: $font-lg;
+    color: $tertiary-color;
+}
+
+.body {
+    width: max-content;
+    height: max-content;
 }

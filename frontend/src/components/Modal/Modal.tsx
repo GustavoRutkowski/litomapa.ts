@@ -1,17 +1,17 @@
-import { useEffect, useRef } from 'react';
+import { ReactNode, useEffect, useRef, createContext, useContext } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
-import Box from '../Box/Box';
+import IModal from '../../types/IModal';
+
 import styles from './Modal.module.scss';
 
-interface IProps {
-    open: boolean;
-    title?: string;
-    children?: React.ReactNode;
+interface IModalContextType {
     onClose: () => void;
 }
 
-export default function Modal({ open, title, children, onClose }: IProps) {
+const ModalContext = createContext<IModalContextType | null>(null);
+
+function Modal({ open, onClose, children }: IModal) {
     const dialogRef = useRef<HTMLDialogElement | null>(null);
 
     useEffect(() => {
@@ -51,23 +51,40 @@ export default function Modal({ open, title, children, onClose }: IProps) {
     if (!open) return null;
 
     return (
-        <dialog
-            ref={dialogRef}
-            className={styles.container}
-            aria-modal="true"
-            aria-label={title ?? 'Modal'}
-        >
-            <Box title={title}>
-                <button
-                    type="button"
-                    className={styles['close-button']}
-                    aria-label="Fechar modal"
-                    onClick={onClose}
-                >
-                    <FontAwesomeIcon icon={faTimes} />
-                </button>
-                {children}
-            </Box>
-        </dialog>
+        <ModalContext.Provider value={{ onClose }}>
+            <dialog
+                ref={dialogRef}
+                className={styles.container}
+                aria-modal="true"
+                aria-label="Modal"
+            >
+                <section>{children}</section>
+            </dialog>
+        </ModalContext.Provider>
     );
 }
+
+Modal.CloseButton = () => {
+    const context = useContext(ModalContext);
+    if (!context) throw new Error('Modal.CloseButton deve ser usado dentro de um Modal');
+
+    return (
+        <button
+            type="button"
+            className={styles['close-button']}
+            aria-label="Fechar modal"
+            onClick={context.onClose}
+        >
+            <FontAwesomeIcon icon={faTimes} />
+        </button>
+    );
+};
+
+interface IChildren {
+    children: ReactNode;
+}
+Modal.Header = ({ children }: IChildren) => <header className={styles.header}>{children}</header>;
+Modal.Title = ({ children }: IChildren) => <h2 className={styles.title}>{children}</h2>;
+Modal.Body = ({ children }: IChildren) => <div className={styles.body}>{children}</div>;
+
+export default Modal;
