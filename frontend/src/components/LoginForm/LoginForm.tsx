@@ -1,18 +1,17 @@
 import { useContext, useEffect, useId, useState } from 'react';
-import FormBox from '../FormBox/FormBox';
 import { Link, useNavigate } from 'react-router-dom';
 import TEmail from '../../types/TEmail';
 import { AuthContext } from '../../contexts/AuthContext';
 import useAuth from '../../hooks/useAuth';
 import PasswordInput from '../PasswordInput/PasswordInput';
 
-import styles from '../FormBox/FormBox.module.scss';
+import styles from './LoginForm.module.scss';
 
 export default function LoginForm() {
     const emailInputId = useId();
     const passwordInputId = useId();
     const navigate = useNavigate();
-    
+
     const context = useContext(AuthContext);
     if (context === null) throw new Error('AuthProvider not found');
 
@@ -20,7 +19,7 @@ export default function LoginForm() {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [error, setError] = useState<string|null>(null);
+    const [error, setError] = useState<string | null>(null);
 
     const isValidEmail = (email: string): boolean => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -50,38 +49,46 @@ export default function LoginForm() {
             return;
         }
         if (error) return;
-        
+
         try {
             await login({ email: email as TEmail, password });
             cleanForms();
             navigate('/dashboard');
-        } catch (e) {
+        } catch {
             setError('Erro no login. Tente novamente.');
         }
     };
 
     return (
-        <FormBox title='Login' onSubmit={handleSubmit}>
-            <fieldset>
-                <label htmlFor={emailInputId}>E-mail:</label>
-                <input
-                    id={emailInputId} type="email"
-                    placeholder="example@foo.bar" required
-                    onChange={e => setEmail(e.target.value)}
-                />
-            </fieldset>
+        <section className={styles.container}>
+            <h2>Login</h2>
+            
+            <form onSubmit={handleSubmit}>
+                <fieldset>
+                    <label htmlFor={emailInputId}>E-mail:</label>
+                    <input
+                        id={emailInputId}
+                        type="email"
+                        placeholder="example@foo.bar"
+                        required
+                        onChange={e => setEmail(e.target.value)}
+                    />
+                </fieldset>
 
-            <fieldset>
-                <label htmlFor={passwordInputId}>Password:</label>
-                <PasswordInput
-                    id={passwordInputId}
-                    onChange={e => setPassword(e.target.value)}
-                />
-            </fieldset>
+                <fieldset>
+                    <label htmlFor={passwordInputId}>Password:</label>
+                    <PasswordInput
+                        id={passwordInputId}
+                        onChange={e => setPassword(e.target.value)}
+                    />
+                </fieldset>
 
-            <button type="submit">Sign-in</button>
-            <p>Don't have an account? <Link to="/register">Sign up</Link>.</p>
-            <p className={styles['error-msg']}>{error}</p>
-        </FormBox>
+                <button type="submit">Sign-in</button>
+                <p>
+                    Don't have an account? <Link to="/register">Sign up</Link>.
+                </p>
+                <p className={styles['error-msg']}>{error}</p>
+            </form>
+        </section>
     );
 }

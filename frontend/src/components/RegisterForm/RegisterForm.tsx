@@ -1,11 +1,10 @@
 import React, { useEffect, useId, useState } from 'react';
-import FormBox from '../FormBox/FormBox';
 import { Link, useNavigate } from 'react-router-dom';
 import useUsers from '../../hooks/useUsers';
 import TEmail from '../../types/TEmail';
-
-import styles from '../FormBox/FormBox.module.scss';
 import PasswordInput from '../PasswordInput/PasswordInput';
+
+import styles from './RegisterForm.module.scss';
 
 export default function RegisterForm() {
     const usernameInputId = useId();
@@ -18,7 +17,7 @@ export default function RegisterForm() {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [error, setError] = useState<string|null>(null);
+    const [error, setError] = useState<string | null>(null);
 
     const isValidEmail = (email: string): boolean => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -49,49 +48,57 @@ export default function RegisterForm() {
             return;
         }
         if (error) return;
-        
+
         try {
             await createUser({ username, email: email as TEmail, password });
             cleanForms();
             navigate('/login');
-        } catch (e) {
+        } catch {
             setError('Erro ao registrar. Tente novamente.');
         }
     };
-    
+
     return (
-        <FormBox title='Register' onSubmit={handleSubmit}>
-            <fieldset>
-                <label htmlFor={usernameInputId}>Username:</label>
-                <input
-                    id={usernameInputId}
-                    type="text"
-                    required maxLength={25}
-                    onChange={(e) => setUsername(e.target.value)}
-                />
-            </fieldset>
-            
-            <fieldset>
-                <label htmlFor={emailInputId}>E-mail:</label>
-                <input
-                    id={emailInputId}
-                    type="email"
-                    placeholder="example@foo.bar" required
-                    onChange={(e) => setEmail(e.target.value)}
-                />
-            </fieldset>
+        <section className={styles.container}>
+            <h2>Register</h2>
 
-            <fieldset>
-                <label htmlFor={passwordInputId}>Password:</label>
-                <PasswordInput
-                    id={passwordInputId}
-                    onChange={e => setPassword(e.target.value)}
-                />
-            </fieldset>
+            <form onSubmit={handleSubmit}>
+                <fieldset>
+                    <label htmlFor={usernameInputId}>Username:</label>
+                    <input
+                        id={usernameInputId}
+                        type="text"
+                        required
+                        maxLength={25}
+                        onChange={e => setUsername(e.target.value)}
+                    />
+                </fieldset>
 
-            <button type="submit">Sign-up</button>
-            <p>Already have an account? <Link to="/login">Log in</Link>.</p>
-            <p className={styles['error-msg']}>{error}</p>
-        </FormBox>
+                <fieldset>
+                    <label htmlFor={emailInputId}>E-mail:</label>
+                    <input
+                        id={emailInputId}
+                        type="email"
+                        placeholder="example@foo.bar"
+                        required
+                        onChange={e => setEmail(e.target.value)}
+                    />
+                </fieldset>
+
+                <fieldset>
+                    <label htmlFor={passwordInputId}>Password:</label>
+                    <PasswordInput
+                        id={passwordInputId}
+                        onChange={e => setPassword(e.target.value)}
+                    />
+                </fieldset>
+
+                <button type="submit">Sign-up</button>
+                <p>
+                    Already have an account? <Link to="/login">Log in</Link>.
+                </p>
+                <p className={styles['error-msg']}>{error}</p>
+            </form>
+        </section>
     );
 }
