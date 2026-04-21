@@ -1,22 +1,26 @@
-import IMenuItem from '../../types/IMenuItem';
-import Box from '../Box/Box';
-import MenuItem from '../MenuItem/MenuItem';
-
 interface IProps {
     open: boolean;
-    items: IMenuItem[];
+    children: React.ReactNode;
 }
 
-export default function Menu({ open, items = [] }: IProps) {
+function Menu({ open = true, children }: IProps) {
     if (!open) return null;
-
-    return (
-        <Box>
-            <ul>
-                {items.map(({ title, onClick }) => (
-                    <MenuItem key={crypto.randomUUID()} title={title} onClick={onClick} />
-                ))}
-            </ul>
-        </Box>
-    );
+    return <ul>{children}</ul>;
 }
+
+interface IMenuProps {
+    onClick?: () => void;
+    children: React.ReactNode;
+}
+
+Menu.Item = ({ onClick, children }: IMenuProps) => {
+    return (
+        <li key={crypto.randomUUID()}>
+            <button type="button" onClick={onClick}>
+                {children}
+            </button>
+        </li>
+    );
+};
+
+export default Menu;
