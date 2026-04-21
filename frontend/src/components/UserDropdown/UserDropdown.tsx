@@ -1,6 +1,5 @@
 import useAuth from '../../hooks/useAuth';
 import ProfileModal from '../ProfileModal/ProfileModal';
-import IMenuItem from '../../types/IMenuItem.ts';
 import Menu from '../Menu/Menu';
 import { useState } from 'react';
 
@@ -20,16 +19,18 @@ export default function UserDropdown({ open, onClose }: IProps) {
         onClose();
     };
 
-    const items: IMenuItem[] = [
-        { key: 'profile', title: 'Perfil', onClick: showProfileModal },
-        { key: 'change-password', title: 'Mudar Senha' },
-        { key: 'notifications', title: 'Notificações' },
-        { key: 'logout', title: 'Sair', onClick: logout }
-    ];
+    if (!open) return null;
 
     return (
         <div className={styles.container}>
-            {open && <Menu open={open} items={items} />}
+            <section className={styles.dropdown}>
+                <Menu open={open}>
+                    <Menu.Item onClick={showProfileModal}>Perfil</Menu.Item>
+                    <Menu.Item>Notificações</Menu.Item>
+                    <Menu.Item onClick={logout}>Sair</Menu.Item>
+                </Menu>
+            </section>
+
             <ProfileModal open={profileOpen} onClose={() => setProfileOpen(false)} />
         </div>
     );

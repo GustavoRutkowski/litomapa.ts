@@ -1,28 +1,28 @@
 .container {
+    margin-top: $pad-xs;
     position: absolute;
-    margin-top: $pad-sm;
     width: 100%;
-    
-    & > * {
-        width: 100%;
-    
-        ul {
-            @include flex-column($gap: $pad-xxs);
+}
 
-            li button {
-                width: 100%;
-                font-size: $font-sm;
-                font-weight: bold;
-                padding: $pad-xs;
-                border-radius: $radius-md;
-                background: $input-color;
-                color: $tertiary-color;
-                @include btn;
+.dropdown {
+    width: 100%;
 
-                &:hover {
-                    opacity: .7;
-                    text-decoration: underline;
-                }
+    ul {
+        @include flex-column($gap: $pad-xxs);
+
+        li button {
+            width: 100%;
+            font-size: $font-sm;
+            font-weight: bold;
+            padding: $pad-xs;
+            border-radius: $radius-md;
+            background: $input-color;
+            color: $tertiary-color;
+            @include btn;
+
+            &:hover {
+                opacity: 0.7;
+                text-decoration: underline;
             }
         }
     }

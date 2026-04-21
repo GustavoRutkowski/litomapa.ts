@@ -1,11 +1,12 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Modal from '../Modal/Modal';
 import { faFloppyDisk } from '@fortawesome/free-solid-svg-icons';
 import useAuth from '../../hooks/useAuth';
 import useUsers from '../../hooks/useUsers';
 import { useEffect, useId, useState, ChangeEvent } from 'react';
 import { IUserDTO } from '../../services/users.service';
 import defaultPictureUrl from '@/assets/default-picture.png';
+import HeaderModal from '../HeaderModal/HeaderModal';
+
 import styles from './ProfileModal.module.scss';
 
 interface IProps {
@@ -46,7 +47,7 @@ export default function ProfileModal({ open, onClose }: IProps) {
     };
 
     return (
-        <Modal title="Perfil" open={open} onClose={onClose}>
+        <HeaderModal title="Configurações de perfil" open={open} onClose={onClose}>
             <form className={styles.form}>
                 <div className={styles['profile-container']}>
                     <fieldset>
@@ -72,6 +73,6 @@ export default function ProfileModal({ open, onClose }: IProps) {
                     <span>Salvar Alterações</span>
                 </button>
             </form>
-        </Modal>
+        </HeaderModal>
     );
 }
