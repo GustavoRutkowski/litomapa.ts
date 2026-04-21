@@ -1,4 +1,4 @@
-import Header from '../../components/Header/Header';
+import Header from '../../components/common/Header/Header';
 import styles from './Dashboard.module.scss';
 
 export default function Dashboard() {

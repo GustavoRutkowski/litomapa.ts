@@ -1,4 +1,4 @@
-import IModal from '../../types/IModal';
+import IModal from '../../../types/IModal';
 import Modal from '../Modal/Modal';
 
 interface IProps extends IModal {

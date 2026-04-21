@@ -12,7 +12,7 @@
         backdrop-filter: blur(8px);
     }
 
-    .container section {
+    section {
         position: relative;
         @include box;
         &:has(.body) {
@@ -46,7 +46,7 @@
 }
 
 .title {
-    font-size: $font-lg;
+    font-size: $font-md;
     color: $tertiary-color;
 }
 

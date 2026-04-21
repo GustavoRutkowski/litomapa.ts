@@ -1,20 +1,22 @@
-import React, { useEffect, useId, useState } from 'react';
+import { useContext, useEffect, useId, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import useUsers from '../../hooks/useUsers';
-import TEmail from '../../types/TEmail';
-import PasswordInput from '../PasswordInput/PasswordInput';
+import TEmail from '../../../../types/TEmail';
+import { AuthContext } from '../../../../contexts/AuthContext';
+import useAuth from '../../../../hooks/useAuth';
+import PasswordInput from '../../../ui/PasswordInput/PasswordInput';
 
-import styles from './RegisterForm.module.scss';
+import styles from './LoginForm.module.scss';
 
-export default function RegisterForm() {
-    const usernameInputId = useId();
+export default function LoginForm() {
     const emailInputId = useId();
     const passwordInputId = useId();
     const navigate = useNavigate();
 
-    const { createUser } = useUsers();
+    const context = useContext(AuthContext);
+    if (context === null) throw new Error('AuthProvider not found');
 
-    const [username, setUsername] = useState('');
+    const { login } = useAuth();
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState<string | null>(null);
@@ -25,7 +27,6 @@ export default function RegisterForm() {
     };
 
     const cleanForms = () => {
-        setUsername('');
         setEmail('');
         setPassword('');
         setError(null);
@@ -43,37 +44,26 @@ export default function RegisterForm() {
     const handleSubmit = async (e: React.SubmitEvent) => {
         e.preventDefault();
 
-        if (!username || !email || !password) {
+        if (!email || !password) {
             setError('Todos os campos são obrigatórios.');
             return;
         }
         if (error) return;
 
         try {
-            await createUser({ username, email: email as TEmail, password });
+            await login({ email: email as TEmail, password });
             cleanForms();
-            navigate('/login');
+            navigate('/dashboard');
         } catch {
-            setError('Erro ao registrar. Tente novamente.');
+            setError('Erro no login. Tente novamente.');
         }
     };
 
     return (
         <section className={styles.container}>
-            <h2>Register</h2>
-
+            <h2>Login</h2>
+            
             <form onSubmit={handleSubmit}>
-                <fieldset>
-                    <label htmlFor={usernameInputId}>Username:</label>
-                    <input
-                        id={usernameInputId}
-                        type="text"
-                        required
-                        maxLength={25}
-                        onChange={e => setUsername(e.target.value)}
-                    />
-                </fieldset>
-
                 <fieldset>
                     <label htmlFor={emailInputId}>E-mail:</label>
                     <input
@@ -93,9 +83,9 @@ export default function RegisterForm() {
                     />
                 </fieldset>
 
-                <button type="submit">Sign-up</button>
+                <button type="submit">Sign-in</button>
                 <p>
-                    Already have an account? <Link to="/login">Log in</Link>.
+                    Don't have an account? <Link to="/register">Sign up</Link>.
                 </p>
                 <p className={styles['error-msg']}>{error}</p>
             </form>

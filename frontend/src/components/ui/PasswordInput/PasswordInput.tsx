@@ -19,12 +19,12 @@ export default function PasswordInput({ id, onChange }: IProps = {}) {
                 className={styles.input}
                 id={id}
                 type={showPassword ? 'text' : 'password'}
-                placeholder='Digite sua senha'
+                placeholder="Digite sua senha"
                 required
                 onChange={onChange}
             />
-            
-            <button type="button" onClick={toggleVisibility}>
+
+            <button type="button" className={styles.eye} onClick={toggleVisibility}>
                 <FontAwesomeIcon className={styles.icon} icon={showPassword ? faEyeSlash : faEye} />
             </button>
         </div>

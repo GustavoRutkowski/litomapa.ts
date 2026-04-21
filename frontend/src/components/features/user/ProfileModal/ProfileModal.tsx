@@ -1,11 +1,11 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFloppyDisk } from '@fortawesome/free-solid-svg-icons';
-import useAuth from '../../hooks/useAuth';
-import useUsers from '../../hooks/useUsers';
+import useAuth from '../../../../hooks/useAuth';
+import useUsers from '../../../../hooks/useUsers';
 import { useEffect, useId, useState, ChangeEvent } from 'react';
-import { IUserDTO } from '../../services/users.service';
+import { IUserDTO } from '../../../../services/users.service';
 import defaultPictureUrl from '@/assets/default-picture.png';
-import HeaderModal from '../HeaderModal/HeaderModal';
+import HeaderModal from '../../../ui/HeaderModal/HeaderModal';
 
 import styles from './ProfileModal.module.scss';
 

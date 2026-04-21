@@ -1,3 +1,7 @@
+@use '../setup/variables' as *;
+@use './contrast' as *;
+@use './buttons' as *;
+
 @mixin box($pad: $pad-xs $pad-xxs, $radius: $radius-md) {
     padding: $pad;
     border-radius: $radius;
@@ -18,22 +22,22 @@
     form {
         min-width: 330px;
 
-        button {
-            width: 100%;
-            font-weight: bold;
-            @include retangular-btn-shape;
-            @include bg-contrast($tertiary-color, 70%);
-            &:hover {
-                filter: brightness(0.8);
-            }
-        }
-
         p {
             color: $label-color;
             &.error-msg {
                 font-size: $font-xs;
                 color: $negative-color;
             }
+        }
+    }
+
+    button {
+        width: 100%;
+        font-weight: bold;
+        @include retangular-btn-shape;
+        @include bg-contrast($tertiary-color, 70%);
+        &:hover {
+            filter: brightness(0.8);
         }
     }
 }

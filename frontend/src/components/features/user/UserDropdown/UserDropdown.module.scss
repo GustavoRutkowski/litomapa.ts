@@ -5,6 +5,7 @@
 }
 
 .dropdown {
+    @include box;
     width: 100%;
 
     ul {

@@ -1,4 +1,4 @@
-import UserDropdownButton from '../UserDropdownButton/UserDropdownButton';
+import UserDropdownButton from '../../features/user/UserDropdownButton/UserDropdownButton';
 import NotificationsButton from '../NotificationsButton/NotificationsButton';
 import logoUrl from '@/assets/logo.png';
 

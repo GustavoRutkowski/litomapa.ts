@@ -1,9 +1,9 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
-import useAuth from '../../hooks/useAuth';
-import useUsers from '../../hooks/useUsers';
+import useAuth from '../../../../hooks/useAuth';
+import useUsers from '../../../../hooks/useUsers';
 import { useEffect, useRef, useState } from 'react';
-import { IUserDTO } from '../../services/users.service';
+import { IUserDTO } from '../../../../services/users.service';
 import UserDropdown from '../UserDropdown/UserDropdown';
 import defaultPictureUrl from '@/assets/default-picture.png';
 
@@ -12,7 +12,7 @@ import styles from './UserDropdownButton.module.scss';
 export default function UserDropdownButton() {
     const { token } = useAuth();
     if (!token) return null;
-    
+
     const { getUser } = useUsers();
     const [user, setUser] = useState<IUserDTO | null>(null);
     const [open, setOpen] = useState(false);

@@ -1,6 +1,6 @@
-import useAuth from '../../hooks/useAuth';
+import useAuth from '../../../../hooks/useAuth';
 import ProfileModal from '../ProfileModal/ProfileModal';
-import Menu from '../Menu/Menu';
+import Menu from '../../../ui/Menu/Menu';
 import { useState } from 'react';
 
 import styles from './UserDropdown.module.scss';
@@ -19,7 +19,9 @@ export default function UserDropdown({ open, onClose }: IProps) {
         onClose();
     };
 
-    if (!open) return null;
+    const modal = <ProfileModal open={profileOpen} onClose={() => setProfileOpen(false)} />;
+
+    if (!open) return <div className={styles.container}>{modal}</div>;
 
     return (
         <div className={styles.container}>
@@ -31,7 +33,7 @@ export default function UserDropdown({ open, onClose }: IProps) {
                 </Menu>
             </section>
 
-            <ProfileModal open={profileOpen} onClose={() => setProfileOpen(false)} />
+            {modal}
         </div>
     );
 }
