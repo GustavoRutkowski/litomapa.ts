@@ -2,12 +2,12 @@
 @use './contrast' as *;
 @use './buttons' as *;
 
-@mixin box($pad: $pad-xs $pad-xxs, $radius: $radius-md) {
+@mixin box($pad: $pad-xs $pad-xxs, $radius: $radius-md, $shadow: $shadow-md) {
     padding: $pad;
     border-radius: $radius;
     width: fit-content;
     background-color: $primary-color;
-    box-shadow: $shadow-md;
+    box-shadow: $shadow;
 }
 
 @mixin form-box() {
