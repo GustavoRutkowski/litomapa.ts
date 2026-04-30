@@ -1,22 +1,40 @@
+import { createContext, useContext } from 'react';
+
 interface IProps {
-    open: boolean;
+    open?: boolean;
+    activeClass?: string;
     children: React.ReactNode;
 }
 
-function Menu({ open = true, children }: IProps) {
+const ActiveClassContext = createContext<string | null>(null);
+
+function Menu({ open = true, activeClass, children }: IProps) {
     if (!open) return null;
-    return <ul>{children}</ul>;
+    return (
+        <ul>
+            <ActiveClassContext.Provider value={activeClass || null}>
+                {children}
+            </ActiveClassContext.Provider>
+        </ul>
+    );
 }
 
 interface IMenuProps {
+    active?: boolean;
     onClick?: () => void;
     children: React.ReactNode;
 }
 
-Menu.Item = ({ onClick, children }: IMenuProps) => {
+Menu.Item = ({ active = false, onClick, children }: IMenuProps) => {
+    const activeClass = useContext(ActiveClassContext);
+
     return (
         <li key={crypto.randomUUID()}>
-            <button type="button" onClick={onClick}>
+            <button
+                className={active && activeClass ? activeClass : ''}
+                type="button"
+                onClick={onClick}
+            >
                 {children}
             </button>
         </li>
