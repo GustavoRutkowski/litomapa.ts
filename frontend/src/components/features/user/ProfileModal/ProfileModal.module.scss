@@ -1,50 +1,63 @@
-.form {
+.container {
     padding: $pad-sm;
-    @include flex-column(start, flex-end, $pad-sm);
-
-    .profile-container {
-        @include flex-row(space-between, center, $pad-sm);
-
-        fieldset {
-            label img {
-                border-radius: $radius-full;
-                box-shadow: $shadow-sm;
-                width: 100%;
-                max-width: 5rem;
-                height: auto;
-                aspect-ratio: 1;
-                object-fit: cover;
-                @include btn;
-
-                &:hover {
-                    opacity: 0.9;
-                }
-            }
-
-            input[type='image'] {
-                display: none;
-            }
-
-            &:first-child {
-                display: grid;
-                place-items: center;
-            }
-        }
-    }
-
-    .save-changes-button {
-        width: fit-content;
-        @include retangular-btn-shape($pad-xs $pad-sm, $radius-md);
-        background-color: $secundary-color;
-        color: #ffffff;
-        border: none;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: $pad-xs;
-        &:hover,
-        &:focus {
-            opacity: 0.9;
-        }
-    }
+    min-width: 80dvw;
+    min-height: 80dvh;
+    background-color: $backdrop-color;
+    @include flex-row($gap: $pad-sm);
 }
+
+.screen {
+    flex-grow: 1;
+    @include box($shadow: none);
+}
+
+// .form {
+//     padding: $pad-sm;
+//     @include flex-column(start, flex-end, $pad-sm);
+
+//     .profile-container {
+//         @include flex-row(space-between, center, $pad-sm);
+
+//         fieldset {
+//             label img {
+//                 border-radius: $radius-full;
+//                 box-shadow: $shadow-sm;
+//                 width: 100%;
+//                 max-width: 5rem;
+//                 height: auto;
+//                 aspect-ratio: 1;
+//                 object-fit: cover;
+//                 @include btn;
+
+//                 &:hover {
+//                     opacity: 0.9;
+//                 }
+//             }
+
+//             input[type='image'] {
+//                 display: none;
+//             }
+
+//             &:first-child {
+//                 display: grid;
+//                 place-items: center;
+//             }
+//         }
+//     }
+
+//     .save-changes-button {
+//         width: fit-content;
+//         @include retangular-btn-shape($pad-xs $pad-sm, $radius-md);
+//         background-color: $secundary-color;
+//         color: #ffffff;
+//         border: none;
+//         display: inline-flex;
+//         align-items: center;
+//         justify-content: center;
+//         gap: $pad-xs;
+//         &:hover,
+//         &:focus {
+//             opacity: 0.9;
+//         }
+//     }
+// }
