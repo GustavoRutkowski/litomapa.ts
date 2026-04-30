@@ -1,7 +1,7 @@
 .container {
     margin: auto;
     border: none;
-    width: min(100%, 640px);
+    width: min(100%);
     max-width: 100%;
     overflow: visible;
     background: transparent;
@@ -12,10 +12,11 @@
         backdrop-filter: blur(8px);
     }
 
-    section {
+    & > section {
         position: relative;
         @include box;
         &:has(.body) {
+            overflow: hidden;
             @include box(0);
         }
     }
@@ -40,17 +41,24 @@
 }
 
 .header {
-    padding: $pad-sm $pad-md;
+    padding: $pad-sm;
     width: 100%;
     @include flex-row(space-between, center, $pad-md);
+
+    .close-button {
+        position: relative;
+        top: auto;
+        right: auto;
+    }
 }
 
 .title {
-    font-size: $font-md;
+    font-size: $font-sm;
     color: $tertiary-color;
 }
 
 .body {
-    width: max-content;
+    width: 100%;
     height: max-content;
+    overflow: hidden;
 }
