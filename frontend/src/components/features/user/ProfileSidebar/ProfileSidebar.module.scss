@@ -18,7 +18,7 @@
         @include flex-column($gap: $pad-xxs);
         li button {
             padding: $pad-xs $pad-sm;
-            border: 2px solid $backdrop-color;
+            border: 1px solid $backdrop-color;
             border-radius: $radius-md;
             width: 100%;
             text-align: left;
@@ -28,13 +28,13 @@
             @include btn;
 
             &:hover {
-                background-color: rgb($backdrop-color, 0.4);
+                background-color: rgb($backdrop-color, .4);
             }
 
             &.active {
                 border-color: $secundary-color;
                 color: $secundary-color;
-                background-color: rgb($secundary-color, 0.3);
+                background-color: rgb($secundary-color, .1);
             }
         }
     }
