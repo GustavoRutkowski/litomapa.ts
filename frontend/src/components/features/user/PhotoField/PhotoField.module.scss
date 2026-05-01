@@ -3,6 +3,7 @@
     @include flex-row($align: center, $gap: $pad-sm);
 
     img {
+        border: 2px solid $backdrop-color;
         border-radius: $radius-full;
         width: 5rem;
         aspect-ratio: 1;
@@ -20,7 +21,7 @@
         background-color: $tertiary-color;
         font-size: $font-sm;
         color: white;
-        flex: 0 0;
+        flex: 0 0 fit-content;
         @include retangular-btn-shape($pad-sm, $radius-lg);
 
         &:hover {
