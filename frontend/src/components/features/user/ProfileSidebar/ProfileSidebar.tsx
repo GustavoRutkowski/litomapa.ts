@@ -13,7 +13,7 @@ export default function ProfileSidebar() {
         <aside className={styles.container}>
             <div>
                 <img src={currPhoto || defaultPictureUrl} alt="" />
-                <span>{currUsername || 'Fulano'}</span>
+                <span>{currUsername}</span>
             </div>
 
             <Menu activeClass={styles.active}>

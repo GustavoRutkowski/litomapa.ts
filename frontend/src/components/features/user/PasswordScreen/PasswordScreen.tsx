@@ -2,16 +2,20 @@ import { useId } from 'react';
 import PasswordInput from '../../../ui/PasswordInput/PasswordInput';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleLeft, faFloppyDisk } from '@fortawesome/free-solid-svg-icons';
+import useProfile from '../../../../hooks/useProfile';
 
 export default function PasswordScreen() {
     const oldInputId = useId();
     const newInputId = useId();
     const confirmInputId = useId();
 
+    const { setScreen } = useProfile();
+    const gotoProfile = () => setScreen('profile');
+
     return (
         <>
             <header>
-                <button>
+                <button onClick={gotoProfile}>
                     <FontAwesomeIcon icon={faAngleLeft} />
                     <span>Voltar</span>
                 </button>

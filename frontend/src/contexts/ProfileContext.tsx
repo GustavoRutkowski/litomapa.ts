@@ -1,6 +1,5 @@
 import { createContext, Dispatch, ReactNode, SetStateAction, useEffect, useState } from 'react';
 import useUsers from '../hooks/useUsers';
-import { IUserDTO } from '../services/users.service';
 import useAuth from '../hooks/useAuth';
 
 type Screen = 'profile' | 'password';
@@ -29,22 +28,19 @@ export function ProfileProvider({ children }: IProps) {
     if (!token) return null;
 
     const { getUser } = useUsers();
-    const [user, setUser] = useState<IUserDTO | null>(null);
 
     const fetchUser = async () => {
         try {
             const data = await getUser(token as string);
-            setUser(data);
+            setPhoto(data?.photo || null);
+            setUsername(data?.username || '');
         } catch {
             throw new Error('Failed to fetch user');
         }
     };
 
     useEffect(() => {
-        fetchUser().then(() => {
-            setPhoto(user?.photo || null);
-            setUsername(user?.username || '');
-        });
+        fetchUser();
     }, []);
 
     return (
