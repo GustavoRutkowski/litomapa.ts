@@ -1,6 +1,8 @@
 .container {
     padding: $pad-sm;
-    min-width: 80dvw;
+    min-width: 68dvw;
+    width: 68dvw;
+    max-width: 80dvw;
     min-height: 80dvh;
     background-color: $backdrop-color;
     @include flex-row($gap: $pad-sm);
@@ -8,56 +10,44 @@
 
 .screen {
     flex-grow: 1;
-    @include box($shadow: none);
+    @include box($pad: $pad-md $pad-sm $pad-sm $pad-lg, $shadow: none);
+    @include flex-column($gap: $pad-md);
+
+    header {
+        @include flex-row($gap: $pad-sm);
+        &:has(h3 + button) {
+            justify-content: space-between;
+        }
+
+        button {
+            padding: $pad-xxs;
+            border: 1px solid;
+            border-radius: $radius-md;
+            color: $secundary-color;
+            font-weight: bold;
+            @include btn;
+
+            &:hover {
+                color: $tertiary-color;
+            }
+        }
+    }
+
+    form {
+        padding-right: $pad-md;
+    }
+
+    & > button {
+        margin: auto 0 0 auto;
+        background-color: $tertiary-color;
+        color: white;
+        flex-shrink: 0;
+        font-size: $font-sm;
+        @include retangular-btn-shape($pad-sm, $radius-lg);
+        @include flex-row($gap: $pad-xxs);
+
+        &:hover {
+            opacity: 0.7;
+        }
+    }
 }
-
-// .form {
-//     padding: $pad-sm;
-//     @include flex-column(start, flex-end, $pad-sm);
-
-//     .profile-container {
-//         @include flex-row(space-between, center, $pad-sm);
-
-//         fieldset {
-//             label img {
-//                 border-radius: $radius-full;
-//                 box-shadow: $shadow-sm;
-//                 width: 100%;
-//                 max-width: 5rem;
-//                 height: auto;
-//                 aspect-ratio: 1;
-//                 object-fit: cover;
-//                 @include btn;
-
-//                 &:hover {
-//                     opacity: 0.9;
-//                 }
-//             }
-
-//             input[type='image'] {
-//                 display: none;
-//             }
-
-//             &:first-child {
-//                 display: grid;
-//                 place-items: center;
-//             }
-//         }
-//     }
-
-//     .save-changes-button {
-//         width: fit-content;
-//         @include retangular-btn-shape($pad-xs $pad-sm, $radius-md);
-//         background-color: $secundary-color;
-//         color: #ffffff;
-//         border: none;
-//         display: inline-flex;
-//         align-items: center;
-//         justify-content: center;
-//         gap: $pad-xs;
-//         &:hover,
-//         &:focus {
-//             opacity: 0.9;
-//         }
-//     }
-// }

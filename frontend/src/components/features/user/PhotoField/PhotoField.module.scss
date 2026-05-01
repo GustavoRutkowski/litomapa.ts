@@ -1,0 +1,30 @@
+.container {
+    border-radius: $radius-lg;
+    @include flex-row($align: center, $gap: $pad-sm);
+
+    img {
+        border-radius: $radius-full;
+        width: 5rem;
+        aspect-ratio: 1;
+        object-fit: cover;
+    }
+
+    .info {
+        flex-grow: 1;
+        p {
+            font-size: $font-sm;
+        }
+    }
+
+    button {
+        background-color: $tertiary-color;
+        font-size: $font-sm;
+        color: white;
+        flex: 0 0;
+        @include retangular-btn-shape($pad-sm, $radius-lg);
+
+        &:hover {
+            opacity: 0.7;
+        }
+    }
+}
