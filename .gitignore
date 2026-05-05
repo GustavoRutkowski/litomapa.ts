@@ -1,7 +1,9 @@
 node_modules
 .env
 *.sqlite
+*.db
 package-lock.json
 /backend/dist
+/backend/src/lib/generated/prisma
 /backend/src/uploads
 /frontend/dist
