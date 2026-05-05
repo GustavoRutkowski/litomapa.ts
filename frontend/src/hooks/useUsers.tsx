@@ -1,10 +1,12 @@
 import { useCallback } from 'react';
 import {
-    IUserDTO, createUser as create,
-    loginUser, getUser as get
+    IUserDTO,
+    createUser as create,
+    loginUser,
+    getUser as get
 } from '../services/users.service';
 
-export default function useUsers() {   
+export default function useUsers() {
     const createUser = useCallback(async (body: IUserDTO) => await create(body), []);
     const login = useCallback(async (body: IUserDTO) => await loginUser(body), []);
 

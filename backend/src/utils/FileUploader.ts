@@ -18,7 +18,12 @@ class FileUploader {
     private maxsize: number;
     private allowedTypes: string[];
 
-    constructor({ path, minsize = 0, maxsize = Infinity, allowedTypes = [] }: IFileUploaderConstructor) {
+    constructor({
+        path,
+        minsize = 0,
+        maxsize = Infinity,
+        allowedTypes = []
+    }: IFileUploaderConstructor) {
         if (!path) throw new ApiError('path do destino é obrigatório');
 
         this.uploadPath = path;
@@ -32,10 +37,12 @@ class FileUploader {
     public async remove(filename: string): Promise<void> {
         const filePath = join(this.uploadPath, filename);
 
-        try { await unlink(filePath); }
-        catch (e: unknown) { if (U.getCode<string>(e, '') !== 'ENOENT') throw e; }
+        try {
+            await unlink(filePath);
+        } catch (e: unknown) {
+            if (U.getCode<string>(e, '') !== 'ENOENT') throw e;
+        }
     }
-
 
     public async upload({ base64, filename }: IBase64File): Promise<string> {
         // Extrai MIME se vier no formato data:<mime>;base64,...

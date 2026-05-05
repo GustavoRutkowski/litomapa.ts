@@ -1,1 +1,1 @@
-npx prettier --check . && npx lint-staged
+npx prettier --check . && npx lint-staged && npx tsc -p tsconfig.frontend.json --noEmit && npx tsc -p tsconfig.backend.json --noEmit

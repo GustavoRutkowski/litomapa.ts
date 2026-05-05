@@ -7,7 +7,7 @@ interface ISelectOptions {
     filters?: string[]; // raw SQL fragments, e.g. "status = 'active'" or "age > 18"
     limit?: number;
     offset?: number;
-    orderBy?: string;   
+    orderBy?: string;
 }
 
 abstract class Model {
@@ -24,7 +24,7 @@ abstract class Model {
     protected static insert(columns: string[], values: TColumnValue[]): number {
         if (!this.table) throw new ApiError('Model.table is not defined');
         if (!columns || columns.length === 0) throw new ApiError('No columns provided for insert');
-        
+
         const cols = columns.join(', ');
         const placeholders = columns.map(() => '?').join(', ');
 
@@ -33,7 +33,11 @@ abstract class Model {
         return (res.lastInsertRowid ?? 0) as number;
     }
 
-    protected static selectById<T extends object>(id: number, columns: '*' | string[], options?: ISelectOptions): T {
+    protected static selectById<T extends object>(
+        id: number,
+        columns: '*' | string[],
+        options?: ISelectOptions
+    ): T {
         if (!this.table) throw new ApiError('Model.table is not defined');
 
         const cols = columns === '*' ? '*' : columns.join(', ');
@@ -62,7 +66,10 @@ abstract class Model {
         return data.rows[0];
     }
 
-    protected static selectAll<T extends object>(columns: '*' | string[], options?: ISelectOptions): T[] {
+    protected static selectAll<T extends object>(
+        columns: '*' | string[],
+        options?: ISelectOptions
+    ): T[] {
         if (!this.table) throw new ApiError('Model.table is not defined');
 
         const cols = columns === '*' ? '*' : columns.join(', ');
@@ -76,14 +83,15 @@ abstract class Model {
         if (options && typeof options.offset === 'number') sql += ` OFFSET ${options.offset}`;
 
         const data = db.select<T>(sql);
-        return data.rows ? data.rows : [] as T[];
+        return data.rows ? data.rows : ([] as T[]);
     }
 
     protected static updateById(id: number, columns: string[], values: TColumnValue[]): void {
         if (!this.table) throw new ApiError('Model.table is not defined');
         if (!columns || columns.length === 0) throw new ApiError('No columns provided for update');
-        if (values.length !== columns.length) throw new ApiError('Values length must match columns length');
-        
+        if (values.length !== columns.length)
+            throw new ApiError('Values length must match columns length');
+
         const set = columns.map(col => `${col} = ?`).join(', ');
         const sql = `UPDATE ${this.table} SET ${set} WHERE id = ?`;
 

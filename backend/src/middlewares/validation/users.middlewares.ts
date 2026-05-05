@@ -3,7 +3,8 @@ import { REQUIRE_LETTERS_RULE, REQUIRE_NUMBERS_RULE, REQUIRED_FIELD_RULE } from 
 import { createImageValidator, createStringValidator } from '../validators.js';
 
 const validateUsername = createStringValidator('username', 'body', {
-    minSize: 3, maxSize: 60
+    minSize: 3,
+    maxSize: 60
 } as IStringValidatorOptions);
 
 const validateEmail = createStringValidator('email', 'body', {

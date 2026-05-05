@@ -4,7 +4,8 @@
     box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
     width: 100dvw;
     height: 100dvh;
     overflow: hidden;
@@ -16,6 +17,14 @@ html, body {
 }
 
 // Elements resets:
-input, button, fieldset { border: none; }
-img { display: block; }
-ul { list-style: none; }
+input,
+button,
+fieldset {
+    border: none;
+}
+img {
+    display: block;
+}
+ul {
+    list-style: none;
+}

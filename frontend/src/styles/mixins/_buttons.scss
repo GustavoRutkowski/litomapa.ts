@@ -1,11 +1,11 @@
 @use '../setup/variables.scss' as *;
 
-@mixin btn($transition: .4s) {
+@mixin btn($transition: 0.4s) {
     transition: all $transition;
     cursor: pointer;
 }
 
-@mixin retangular-btn-shape($pad: $pad-sm $pad-md, $radius: $radius-md, $transition: .4s) {
+@mixin retangular-btn-shape($pad: $pad-sm $pad-md, $radius: $radius-md, $transition: 0.4s) {
     @include btn($transition);
     padding: $pad;
     border-radius: $radius;

@@ -18,15 +18,15 @@ export default function App() {
         <BrowserRouter>
             <Routes>
                 {/* PUBLIC */}
-                <Route path="/" element={<Home />}/>
-                <Route path="/register" element={<Register />}/>
-                <Route path="/login" element={<Login />}/>
+                <Route path="/" element={<Home />} />
+                <Route path="/register" element={<Register />} />
+                <Route path="/login" element={<Login />} />
 
                 {/* PROTECTED */}
-                <Route element={<ProtectedRoute/>}>
-                    <Route path="/dashboard" element={<Dashboard />}/>
+                <Route element={<ProtectedRoute />}>
+                    <Route path="/dashboard" element={<Dashboard />} />
                 </Route>
             </Routes>
         </BrowserRouter>
     );
-};
+}

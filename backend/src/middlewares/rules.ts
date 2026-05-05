@@ -10,10 +10,11 @@ export const OPTIONAL_FIELD_RULE: TRuleCallback = (field, _, dataset, next) => {
     next?.();
 };
 
-export const INT_FIELD_RULE: TRuleCallback = (field, value) => {
+export const INT_FIELD_RULE: TRuleCallback<number> = (field, value) => {
+    if (!value) return `The '${field}' field must be a integer number`;
     if (value === null) return true;
     if (Number.isInteger(value)) return true;
-    if (Number.isInteger(parseInt(value))) return true;
+    if (Number.isInteger(parseInt(value.toString()))) return true;
     return `The '${field}' field must be a integer number`;
 };
 
@@ -23,34 +24,34 @@ export const FLOAT_FIELD_RULE: TRuleCallback = (field, value) => {
     return `The '${field}' field must be a float number`;
 };
 
-export const NEGATIVE_RULE: TRuleCallback = (field, value) => {
-    if (value < 0) return true;
+export const NEGATIVE_RULE: TRuleCallback<number> = (field, value) => {
+    if (value && value < 0) return true;
     return `The '${field}' field must be a negative number`;
 };
 
-export const POSITIVE_RULE: TRuleCallback = (field, value) => {
-    if (value > 0) return true;
+export const POSITIVE_RULE: TRuleCallback<number> = (field, value) => {
+    if (value && value > 0) return true;
     return `The '${field}' field must be a positive number`;
 };
 
-export const NOT_NEGATIVE_RULE: TRuleCallback = (field, value) => {
-    if (value >= 0) return true;
+export const NOT_NEGATIVE_RULE: TRuleCallback<number> = (field, value) => {
+    if (value && value >= 0) return true;
     return `The '${field}' field cannot be negative`;
 };
 
-export const NOT_POSITIVE_RULE: TRuleCallback = (field, value) => {
-    if (value <= 0) return true;
+export const NOT_POSITIVE_RULE: TRuleCallback<number> = (field, value) => {
+    if (value && value <= 0) return true;
     return `The '${field}' field cannot be positive`;
 };
 
-export const REQUIRE_LETTERS_RULE: TRuleCallback = (field, value) => {
-    const hasLetters = /[a-zA-Z]/.test(value);
+export const REQUIRE_LETTERS_RULE: TRuleCallback<string> = (field, value) => {
+    const hasLetters = /[a-zA-Z]/.test(value || '');
     if (hasLetters) return true;
     return `The '${field}' field must contain letters`;
 };
 
-export const REQUIRE_NUMBERS_RULE: TRuleCallback = (field, value) => {
-    const hasNumbers = /[0-9]/.test(value);
+export const REQUIRE_NUMBERS_RULE: TRuleCallback<string> = (field, value) => {
+    const hasNumbers = /[0-9]/.test(value || '');
     if (hasNumbers) return true;
     return `The '${field}' field must contain numbers`;
 };

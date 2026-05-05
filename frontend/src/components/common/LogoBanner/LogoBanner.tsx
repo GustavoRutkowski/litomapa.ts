@@ -1,5 +1,5 @@
-import styles from './LogoBanner.module.scss'
-import logoUrl from '@/assets/logo.png'
+import styles from './LogoBanner.module.scss';
+import logoUrl from '@/assets/logo.png';
 
 export default function LogoBanner() {
     return (

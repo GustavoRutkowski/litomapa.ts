@@ -9,7 +9,11 @@ interface IValidation {
 }
 
 abstract class Controller {
-    protected static validate(input: TRequestInput, validation: IValidation, res: Response): boolean {
+    protected static validate(
+        input: TRequestInput,
+        validation: IValidation,
+        res: Response
+    ): boolean {
         if (validation.required && !this.required(validation.required, input, res)) return false;
         if (validation.allowed && !this.allowed(validation.allowed, input, res)) return false;
         return true;

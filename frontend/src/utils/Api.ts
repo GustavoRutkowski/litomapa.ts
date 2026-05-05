@@ -13,7 +13,7 @@ interface IOptions {
 class Api {
     private url: string;
     private headers: Headers;
-    private logger: TLog
+    private logger: TLog;
 
     constructor(url: string, headers = new Headers(), log: TLog = console.error) {
         this.url = url;
@@ -29,9 +29,13 @@ class Api {
         return merged;
     }
 
-    public async request<T>(method: TMethod, endpoint: TEndpoint = '/', options: IOptions | null = null): Promise<T> {
+    public async request<T>(
+        method: TMethod,
+        endpoint: TEndpoint = '/',
+        options: IOptions | null = null
+    ): Promise<T> {
         let url = `${this.url}${endpoint}`;
-        
+
         // Query Params
         if (options?.query) {
             const query = new URLSearchParams();
@@ -51,10 +55,11 @@ class Api {
 
         const response = await fetch(url, request);
         if (!response.ok && this.logger) {
-            const msg = `HTTP error! status: ${response.status}`
-            this.logger(msg); throw new Error(msg);
+            const msg = `HTTP error! status: ${response.status}`;
+            this.logger(msg);
+            throw new Error(msg);
         }
-        return await response.json() as Promise<T>;
+        return (await response.json()) as Promise<T>;
     }
 
     public async get<T>(endpoint: TEndpoint, options: IOptions | null = null) {

@@ -62,7 +62,7 @@ export default function LoginForm() {
     return (
         <section className={styles.container}>
             <h2>Login</h2>
-            
+
             <form onSubmit={handleSubmit}>
                 <fieldset>
                     <label htmlFor={emailInputId}>E-mail:</label>

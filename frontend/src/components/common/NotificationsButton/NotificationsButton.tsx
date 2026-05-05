@@ -11,8 +11,8 @@ interface IProps {
 export default function NotificationsButton({ unreadNotifications: counter }: IProps = {}) {
     return (
         <Link className={styles.container} to="/dashboard" title="Notificações">
-            { counter && counter > 0 ? <span>{counter}</span> : null }
+            {counter && counter > 0 ? <span>{counter}</span> : null}
             <FontAwesomeIcon icon={faBell} />
         </Link>
-    )
+    );
 }

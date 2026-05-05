@@ -29,8 +29,12 @@ class LocalData {
         localStorage.setItem(key, JSON.stringify(data));
     }
 
-    public static remove(key: string): void { localStorage.removeItem(key); }
-    public static clear(): void { localStorage.clear(); }
+    public static remove(key: string): void {
+        localStorage.removeItem(key);
+    }
+    public static clear(): void {
+        localStorage.clear();
+    }
 }
 
 export default LocalData;

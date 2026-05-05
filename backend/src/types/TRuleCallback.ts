@@ -1,6 +1,10 @@
-import { NextFunction } from "express";
+import { NextFunction } from 'express';
 
-type TRuleCallback = (field?: string, value?: any, dataset?: object, next?: NextFunction) =>
-    boolean | string | void;
+type TRuleCallback<T = unknown> = (
+    field?: string,
+    value?: T | undefined,
+    dataset?: object,
+    next?: NextFunction
+) => boolean | string | void;
 
 export default TRuleCallback;

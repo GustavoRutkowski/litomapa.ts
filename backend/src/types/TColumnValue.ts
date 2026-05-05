@@ -1,2 +1,2 @@
-type TColumnValue = string|number|boolean|null;
+type TColumnValue = string | number | boolean | null;
 export default TColumnValue;

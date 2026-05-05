@@ -3,7 +3,7 @@ import react from '@vitejs/plugin-react';
 import { resolve } from 'node:path';
 
 export default defineConfig(({ mode }) => {
-    const env = loadEnv(mode, process.cwd(), '')
+    const env = loadEnv(mode, process.cwd(), '');
 
     const API_HOST = env.API_HOST ?? 'localhost';
     const API_PORT = Number(env.API_PORT) || 4444;
@@ -12,7 +12,7 @@ export default defineConfig(({ mode }) => {
     return {
         root: resolve(__dirname),
         base: '/',
-        plugins: [ react() ],
+        plugins: [react()],
 
         server: {
             host: env.SITE_HOST || 'localhost',
@@ -25,7 +25,7 @@ export default defineConfig(({ mode }) => {
                 '/api': {
                     target: API_URL,
                     secure: false,
-                    rewrite: (path) => path.replace(/^\/api/, '')
+                    rewrite: path => path.replace(/^\/api/, '')
                 }
             }
         },
@@ -34,7 +34,7 @@ export default defineConfig(({ mode }) => {
             extensions: ['.js', '.ts', '.jsx', '.tsx', '.json'],
             alias: { '@': resolve(__dirname, 'src') }
         },
-        
+
         build: {
             outDir: resolve(__dirname, 'dist'),
             emptyOutDir: true,

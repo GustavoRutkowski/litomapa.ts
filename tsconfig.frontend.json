@@ -1,12 +1,12 @@
 {
-  "extends": "./tsconfig.base.json",
-  "compilerOptions": {
-    "noEmit": true,
-    "moduleResolution": "bundler",
-    "rootDir": "./frontend",
-    "types": ["vite/client"],
-    "jsx": "react-jsx"
-  },
-  "include": [ "frontend/**/*" ],
-  "exclude": [ "node_modules" ]
+    "extends": "./tsconfig.base.json",
+    "compilerOptions": {
+        "noEmit": true,
+        "moduleResolution": "bundler",
+        "rootDir": "./frontend",
+        "types": ["vite/client"],
+        "jsx": "react-jsx"
+    },
+    "include": ["frontend/**/*"],
+    "exclude": ["node_modules"]
 }

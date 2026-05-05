@@ -2,12 +2,15 @@
 @forward 'setup/resets';
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
-html, body {
+html,
+body {
     font-family: 'Poppins', sans-serif;
     background-color: $backdrop-color;
 }
 
-a { color: $secundary-color; }
+a {
+    color: $secundary-color;
+}
 
 form {
     @include flex-column($align: center, $gap: $pad-sm);
@@ -16,10 +19,12 @@ form {
         color: $label-color;
         @include flex-column;
 
-        label { font-size: $font-sm; }
-        input[type="text"],
-        input[type="email"],
-        input[type="password"] {
+        label {
+            font-size: $font-sm;
+        }
+        input[type='text'],
+        input[type='email'],
+        input[type='password'] {
             font-size: $font-sm;
             padding: $pad-xs $pad-sm;
             border-radius: $radius-sm;
