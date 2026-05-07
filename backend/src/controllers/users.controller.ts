@@ -1,128 +1,113 @@
 import { Request, Response } from 'express';
-import User from '../models/users.model.js';
-import Controller from './Controller.js';
-import IBase64File from '../types/IBase64File.js';
+import AuthRequest from '../types/AuthRequest.js';
+import UserService from '../services/users.service.js';
+import {
+    createUserSchema,
+    loginSchema,
+    updateUserInfosSchema,
+    updateUserPasswordSchema
+} from '../schemas/user.schemas.js';
+import { idSchema } from '../schemas/global.schemas.js';
 import U from '../utils/UnknownError.js';
 
-interface ICreateUserBody {
-    username: string;
-    email: string;
-    password: string;
-}
+export default class UserController {
+    static async create({ body }: Request, res: Response) {
+        const result = createUserSchema.safeParse(body);
 
-interface IUserCredentialsBody {
-    email: string;
-    password: string;
-}
-
-type TBearerToken = `Bearer ${string}`;
-
-class UsersController extends Controller {
-    public static async createUser({ body }: Request, res: Response) {
-        const { username, email, password } = body as ICreateUserBody;
-        if (!super.required(['username', 'email', 'password'], body, res)) return;
+        if (!result.success) {
+            const errors = result.error.format();
+            return res.status(400).json({ success: false, errors });
+        }
 
         try {
-            const insertId = await User.create(username, email, password);
-            return res.status(201).json({ insertId });
-        } catch (e: unknown) {
-            return res.status(U.getHttpStatus(e)).json({ error: U.getMessage(e) });
+            const insertId = await UserService.create(result.data);
+            res.status(201).json({ success: true, insertId });
+        } catch (e) {
+            const status = U.getHttpStatus(e);
+            const message = U.getMessage(e);
+            res.status(status).json({ success: false, message });
         }
     }
 
-    public static async login({ body }: Request, res: Response) {
-        if (!super.required(['email', 'password'], body, res)) return;
-        const { email, password } = body as IUserCredentialsBody;
+    static async login({ body }: Request, res: Response) {
+        const result = loginSchema.safeParse(body);
+
+        if (!result.success) {
+            const errors = result.error.format();
+            return res.status(400).json({ success: false, errors });
+        }
 
         try {
-            const token = await User.login(email, password);
-            return res.json({ token });
-        } catch (e: unknown) {
-            return res.status(U.getHttpStatus(e)).json({ error: U.getMessage(e) });
+            const token = await UserService.login(result.data);
+            res.status(201).json({ success: true, token });
+        } catch (e) {
+            const status = U.getHttpStatus(e);
+            const message = U.getMessage(e);
+            res.status(status).json({ success: false, message });
         }
     }
 
-    public static getUser({ headers }: Request, res: Response) {
-        if (!super.required(['authorization'], headers, res)) return;
+    static async get({ user_id }: AuthRequest, res: Response) {
+        const result = idSchema.safeParse(user_id);
 
-        const token = headers.authorization as TBearerToken;
+        if (!result.success) {
+            const errors = result.error.format();
+            return res.status(400).json({ success: false, errors });
+        }
 
         try {
-            const user = User.get(token.split(' ')[1]);
-            return res.json(user);
-        } catch (e: unknown) {
-            return res.status(U.getHttpStatus(e)).json({ error: U.getMessage(e) });
+            const data = await UserService.get(result.data);
+            res.status(201).json({ success: true, data });
+        } catch (e) {
+            const status = U.getHttpStatus(e);
+            const message = U.getMessage(e);
+            res.status(status).json({ success: false, message });
         }
     }
 
-    public static changeUsername(req: Request, res: Response) {
-        if (!super.required(['authorization'], req.headers, res)) return;
-        if (!super.required(['username'], req.body, res)) return;
+    static async changeInfos(req: AuthRequest, res: Response) {
+        const idResult = idSchema.safeParse(req.user_id);
+        if (!idResult.success) {
+            const errors = idResult.error.format();
+            return res.status(400).json({ success: false, errors });
+        }
 
-        const token = req.headers.authorization as TBearerToken;
-        const { username } = req.body as { username: string };
+        const bodyResult = updateUserInfosSchema.safeParse(req.body);
+        if (!bodyResult.success) {
+            const errors = bodyResult.error.format();
+            return res.status(400).json({ success: false, errors });
+        }
 
         try {
-            User.changeUsername(token.split(' ')[1], username);
-            return res.status(200).json({ success: true });
-        } catch (e: unknown) {
-            return res.status(U.getHttpStatus(e)).json({ error: U.getMessage(e) });
+            await UserService.changeInfos(idResult.data, bodyResult.data);
+            res.status(201).json({ success: true });
+        } catch (e) {
+            const status = U.getHttpStatus(e);
+            const message = U.getMessage(e);
+            res.status(status).json({ success: false, message });
         }
     }
 
-    public static async changePassword(req: Request, res: Response) {
-        if (!super.required(['authorization'], req.headers, res)) return;
-        if (!super.required(['password'], req.body, res)) return;
-
-        const token = req.headers.authorization as TBearerToken;
-        const { password } = req.body as { password: string };
-
-        try {
-            await User.changePassword(token.split(' ')[1], password);
-            return res.json({ success: true });
-        } catch (e: unknown) {
-            return res.status(U.getHttpStatus(e)).json({ error: U.getMessage(e) });
+    static async changePassword(req: AuthRequest, res: Response) {
+        const idResult = idSchema.safeParse(req.user_id);
+        if (!idResult.success) {
+            const errors = idResult.error.format();
+            return res.status(400).json({ success: false, errors });
         }
-    }
 
-    public static async changePhoto(req: Request, res: Response) {
-        if (!super.required(['authorization'], req.headers, res)) return;
-        if (!super.required(['base64', 'filename'], req.body, res)) return;
-
-        const token = req.headers.authorization as TBearerToken;
-        const file = req.body as IBase64File;
-
-        try {
-            await User.changePhoto(token.split(' ')[1], file);
-            return res.json({ success: true });
-        } catch (e: unknown) {
-            return res.status(U.getHttpStatus(e)).json({ error: U.getMessage(e) });
+        const bodyResult = updateUserPasswordSchema.safeParse(req.body);
+        if (!bodyResult.success) {
+            const errors = bodyResult.error.format();
+            return res.status(400).json({ success: false, errors });
         }
-    }
-
-    public static async removePhoto({ headers }: Request, res: Response) {
-        if (!super.required(['authorization'], headers, res)) return;
-        const token = headers.authorization as TBearerToken;
 
         try {
-            await User.removePhoto(token.split(' ')[1]);
-            return res.json({ success: true });
-        } catch (e: unknown) {
-            return res.status(U.getHttpStatus(e)).json({ error: U.getMessage(e) });
-        }
-    }
-
-    public static async deleteUser({ headers }: Request, res: Response) {
-        if (!super.required(['authorization'], headers, res)) return;
-        const token = headers.authorization as TBearerToken;
-
-        try {
-            await User.delete(token.split(' ')[1]);
-            return res.json({ success: true });
-        } catch (e: unknown) {
-            return res.status(U.getHttpStatus(e)).json({ error: U.getMessage(e) });
+            await UserService.changePassword(idResult.data, bodyResult.data);
+            res.status(201).json({ success: true });
+        } catch (e) {
+            const status = U.getHttpStatus(e);
+            const message = U.getMessage(e);
+            res.status(status).json({ success: false, message });
         }
     }
 }
-
-export default UsersController;

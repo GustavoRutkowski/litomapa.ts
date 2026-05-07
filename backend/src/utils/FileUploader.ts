@@ -1,9 +1,8 @@
 import { mkdir, unlink, writeFile } from 'fs/promises';
-import { join, extname } from 'path';
+import { join } from 'path';
 import { randomBytes } from 'crypto';
 import ApiError from './ApiError.js';
 import U from './UnknownError.js';
-import IBase64File from '../types/IBase64File.js';
 
 interface IFileUploaderConstructor {
     path: string;
@@ -11,6 +10,14 @@ interface IFileUploaderConstructor {
     maxsize: number;
     allowedTypes: string[];
 }
+
+const MIME_MAP: Record<string, string> = {
+    'image/jpeg': '.jpg',
+    'image/png': '.png',
+    'image/gif': '.gif',
+    'image/webp': '.webp',
+    'application/pdf': '.pdf'
+};
 
 class FileUploader {
     private uploadPath: string;
@@ -39,36 +46,43 @@ class FileUploader {
 
         try {
             await unlink(filePath);
-        } catch (e: unknown) {
+        } catch (e) {
             if (U.getCode<string>(e, '') !== 'ENOENT') throw e;
         }
     }
 
-    public async upload({ base64, filename }: IBase64File): Promise<string> {
-        // Extrai MIME se vier no formato data:<mime>;base64,...
+    public async upload(base64: string): Promise<string> {
+        // Extracts MIME and real data
         const match = base64.match(/^data:(.+);base64,(.*)$/);
-
         const mimeType = (match && match[1]) || null;
-        const base64Data = (match && match[2]) || base64;
+        const data = (match && match[2]) || base64;
 
-        if (mimeType && !this.allowedTypes.includes(mimeType))
-            throw new ApiError('Tipo de arquivo não permitido', 400);
+        // Initial Validations
+        if (!mimeType) throw new ApiError('Invalid Base64 format or no MIME type', 400);
 
-        const buffer = Buffer.from(base64Data, 'base64');
+        if (!this.allowedTypes.includes(mimeType))
+            throw new ApiError(`File type ${mimeType} not allowed`, 400);
+
+        const buffer = Buffer.from(data, 'base64');
         const size = buffer.length;
 
         if (size < this.minsize)
-            throw new ApiError('Arquivo menor que o tamanho mínimo permitido', 400);
+            throw new ApiError('File smaller than the minimum size allowed', 400);
 
         if (size > this.maxsize)
-            throw new ApiError('Arquivo maior que o tamanho máximo permitido', 400);
+            throw new ApiError('File larger than the minimum size allowed', 400);
 
-        const ext = extname(filename).toLowerCase();
-        const finalFilename = randomBytes(16).toString('hex') + ext;
-        const filePath = join(this.uploadPath, finalFilename);
+        // Extract the extension based on MIME
+        // Try to get it from the map, if it doesn't exist,
+        // try to extract the second part of the mime.
+        const ext = MIME_MAP[mimeType] || `.${mimeType.split('/')[1]}`;
 
-        await writeFile(filePath, buffer);
-        return finalFilename;
+        // Generate the filename and save
+        const filename = `${randomBytes(16).toString('hex')}${ext}`;
+        const path = join(this.uploadPath, filename);
+
+        await writeFile(path, buffer);
+        return filename;
     }
 }
 

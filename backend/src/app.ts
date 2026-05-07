@@ -1,6 +1,6 @@
 import express, { json } from 'express';
 import cors from 'cors';
-import usersRouter from './routers/users.routes.js';
+import usersRouter from './routers/users.router.js';
 import swaggerUi from 'swagger-ui-express';
 import { swaggerSpec } from './swagger.js';
 import { dirname, join } from 'path';
