@@ -17,8 +17,8 @@
         "api:dev": "concurrently \"npm run api-build:dev\" \"nodemon ./backend/dist/app.js\"",
         "api:prod": "npm run api-build:prod && node ./backend/dist/app.js",
         "migrate": "npx tsx ./backend/src/db/migrate.ts",
-        "prisma:generate": "npx prisma generate",
-        "db:create": "npx prisma db push",
+        "prisma:generate": "(cd backend/src && npx prisma generate)",
+        "db:create": "(cd backend/src && npx prisma db push)",
         "db:init": "npm run prisma:generate && npm run db:create",
         "api-build:dev": "tsc -p tsconfig.backend.json --watch",
         "api-build:prod": "tsc -p tsconfig.backend.json",
@@ -56,7 +56,8 @@
         "react-router-dom": "^7.13.1",
         "styled-components": "^6.3.11",
         "swagger-jsdoc": "^6.2.8",
-        "swagger-ui-express": "^5.0.1"
+        "swagger-ui-express": "^5.0.1",
+        "zod": "^4.4.3"
     },
     "devDependencies": {
         "@eslint/js": "^10.0.1",
