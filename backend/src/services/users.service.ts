@@ -24,6 +24,9 @@ export default class UserService {
     });
 
     static async create(data: Omit<User, 'id' | 'photo'>): Promise<number> {
+        const username = await UserRepository.findByName(data.username);
+        if (username) throw new ApiError('Username in use', 409);
+
         const user = await UserRepository.findByEmail(data.email);
         if (user) throw new ApiError('E-mail already exists', 409);
 

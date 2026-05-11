@@ -9,13 +9,14 @@ import {
 } from '../schemas/user.schemas.js';
 import { idSchema } from '../schemas/global.schemas.js';
 import U from '../utils/UnknownError.js';
+import { formatErrors } from '../utils/formatErrors.js';
 
 export default class UserController {
     static async create({ body }: Request, res: Response) {
         const result = createUserSchema.safeParse(body);
 
         if (!result.success) {
-            const errors = result.error.format();
+            const errors = formatErrors(result.error);
             return res.status(400).json({ success: false, errors });
         }
 
@@ -24,8 +25,8 @@ export default class UserController {
             res.status(201).json({ success: true, insertId });
         } catch (e) {
             const status = U.getHttpStatus(e);
-            const message = U.getMessage(e);
-            res.status(status).json({ success: false, message });
+            const errors = { global: U.getMessage(e) };
+            res.status(status).json({ success: false, errors });
         }
     }
 
@@ -33,7 +34,7 @@ export default class UserController {
         const result = loginSchema.safeParse(body);
 
         if (!result.success) {
-            const errors = result.error.format();
+            const errors = formatErrors(result.error);
             return res.status(400).json({ success: false, errors });
         }
 
@@ -42,8 +43,8 @@ export default class UserController {
             res.status(201).json({ success: true, token });
         } catch (e) {
             const status = U.getHttpStatus(e);
-            const message = U.getMessage(e);
-            res.status(status).json({ success: false, message });
+            const errors = { global: U.getMessage(e) };
+            res.status(status).json({ success: false, errors });
         }
     }
 
@@ -51,7 +52,7 @@ export default class UserController {
         const result = idSchema.safeParse(user_id);
 
         if (!result.success) {
-            const errors = result.error.format();
+            const errors = formatErrors(result.error);
             return res.status(400).json({ success: false, errors });
         }
 
@@ -60,21 +61,21 @@ export default class UserController {
             res.status(201).json({ success: true, data });
         } catch (e) {
             const status = U.getHttpStatus(e);
-            const message = U.getMessage(e);
-            res.status(status).json({ success: false, message });
+            const errors = { global: U.getMessage(e) };
+            res.status(status).json({ success: false, errors });
         }
     }
 
     static async changeInfos(req: AuthRequest, res: Response) {
         const idResult = idSchema.safeParse(req.user_id);
         if (!idResult.success) {
-            const errors = idResult.error.format();
+            const errors = formatErrors(idResult.error);
             return res.status(400).json({ success: false, errors });
         }
 
         const bodyResult = updateUserInfosSchema.safeParse(req.body);
         if (!bodyResult.success) {
-            const errors = bodyResult.error.format();
+            const errors = formatErrors(bodyResult.error);
             return res.status(400).json({ success: false, errors });
         }
 
@@ -83,21 +84,21 @@ export default class UserController {
             res.status(201).json({ success: true });
         } catch (e) {
             const status = U.getHttpStatus(e);
-            const message = U.getMessage(e);
-            res.status(status).json({ success: false, message });
+            const errors = { global: U.getMessage(e) };
+            res.status(status).json({ success: false, errors });
         }
     }
 
     static async changePassword(req: AuthRequest, res: Response) {
         const idResult = idSchema.safeParse(req.user_id);
         if (!idResult.success) {
-            const errors = idResult.error.format();
+            const errors = formatErrors(idResult.error);
             return res.status(400).json({ success: false, errors });
         }
 
         const bodyResult = updateUserPasswordSchema.safeParse(req.body);
         if (!bodyResult.success) {
-            const errors = bodyResult.error.format();
+            const errors = formatErrors(bodyResult.error);
             return res.status(400).json({ success: false, errors });
         }
 
@@ -106,8 +107,8 @@ export default class UserController {
             res.status(201).json({ success: true });
         } catch (e) {
             const status = U.getHttpStatus(e);
-            const message = U.getMessage(e);
-            res.status(status).json({ success: false, message });
+            const errors = { global: U.getMessage(e) };
+            res.status(status).json({ success: false, errors });
         }
     }
 }
