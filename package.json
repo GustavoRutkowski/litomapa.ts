@@ -16,7 +16,6 @@
         "prod": "concurrently \"npm run api:prod\" \"npm run web:prod\"",
         "api:dev": "concurrently \"npm run api-build:dev\" \"nodemon ./backend/dist/app.js\"",
         "api:prod": "npm run api-build:prod && node ./backend/dist/app.js",
-        "migrate": "npx tsx ./backend/src/db/migrate.ts",
         "prisma:generate": "(cd backend/src && npx prisma generate)",
         "db:create": "(cd backend/src && npx prisma db push)",
         "db:init": "npm run prisma:generate && npm run db:create",
