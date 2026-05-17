@@ -1,9 +1,35 @@
 import swaggerJsDoc from 'swagger-jsdoc';
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
+import { OpenApiGeneratorV3 } from '@asteasolutions/zod-to-openapi';
+import {
+    CreateUserSchema,
+    LoginSchema,
+    UpdateUserInfosSchema,
+    UpdateUserPasswordSchema,
+    UserResponseSchema,
+    CreateUserResponseSchema,
+    LoginResponseSchema,
+    UpdateUserInfosResponseSchema,
+    UpdateUserPasswordResponseSchema
+} from './schemas/user.schemas.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
+
+const generator = new OpenApiGeneratorV3([
+    CreateUserSchema,
+    LoginSchema,
+    UpdateUserInfosSchema,
+    UpdateUserPasswordSchema,
+    UserResponseSchema,
+    CreateUserResponseSchema,
+    LoginResponseSchema,
+    UpdateUserInfosResponseSchema,
+    UpdateUserPasswordResponseSchema
+]);
+
+const zodComponents = generator.generateComponents();
 
 const options: swaggerJsDoc.Options = {
     definition: {
@@ -20,145 +46,7 @@ const options: swaggerJsDoc.Options = {
         tags: [{ name: 'Users', description: 'Operações com Usuários' }],
 
         components: {
-            schemas: {
-                User: {
-                    type: 'object',
-                    properties: {
-                        id: { type: 'integer', example: 1 },
-                        username: {
-                            type: 'string',
-                            example: 'joao_silva',
-                            minLength: 3,
-                            maxLength: 50
-                        },
-                        email: { type: 'string', format: 'email', example: 'joao@example.com' },
-                        password: {
-                            type: 'string',
-                            format: 'password',
-                            description: 'Apenas para criação e será hasheado'
-                        },
-                        photo: {
-                            type: 'string',
-                            nullable: true,
-                            example: 'uploads/user_1_avatar.png',
-                            description: 'Caminho do arquivo de foto'
-                        }
-                    }
-                },
-                UserResponse: {
-                    type: 'object',
-                    properties: {
-                        id: { type: 'integer', example: 1 },
-                        username: { type: 'string', example: 'joao_silva' },
-                        email: { type: 'string', format: 'email', example: 'joao@example.com' },
-                        photo: {
-                            type: 'string',
-                            nullable: true,
-                            example: 'uploads/user_1_avatar.png'
-                        }
-                    }
-                },
-                UserCreateRequest: {
-                    type: 'object',
-                    required: ['username', 'email', 'password'],
-                    properties: {
-                        username: {
-                            type: 'string',
-                            minLength: 3,
-                            maxLength: 50,
-                            example: 'joao_silva'
-                        },
-                        email: { type: 'string', format: 'email', example: 'joao@example.com' },
-                        password: {
-                            type: 'string',
-                            format: 'password',
-                            minLength: 6,
-                            example: 'SenhaForte123!'
-                        }
-                    }
-                },
-                LoginRequest: {
-                    type: 'object',
-                    required: ['email', 'password'],
-                    properties: {
-                        email: { type: 'string', format: 'email', example: 'joao@example.com' },
-                        password: { type: 'string', format: 'password', example: 'SenhaForte123!' }
-                    }
-                },
-                LoginResponse: {
-                    type: 'object',
-                    properties: {
-                        token: {
-                            type: 'string',
-                            description: 'JWT token para autenticação',
-                            example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'
-                        }
-                    }
-                },
-                ChangeUsernameRequest: {
-                    type: 'object',
-                    required: ['username'],
-                    properties: {
-                        username: {
-                            type: 'string',
-                            minLength: 3,
-                            maxLength: 50,
-                            example: 'novo_usuario'
-                        }
-                    }
-                },
-                ChangePasswordRequest: {
-                    type: 'object',
-                    required: ['password'],
-                    properties: {
-                        password: {
-                            type: 'string',
-                            format: 'password',
-                            minLength: 6,
-                            example: 'NovaSenha123!'
-                        }
-                    }
-                },
-                ChangePhotoRequest: {
-                    type: 'object',
-                    required: ['base64', 'filename'],
-                    properties: {
-                        base64: {
-                            type: 'string',
-                            description: 'Arquivo de imagem em base64',
-                            example: 'data:image/png;base64,iVBORw0KGgo...'
-                        },
-                        filename: {
-                            type: 'string',
-                            example: 'avatar.png',
-                            description: 'Nome do arquivo (png, jpg, jpeg, webp)'
-                        }
-                    }
-                },
-                SuccessResponse: {
-                    type: 'object',
-                    properties: {
-                        success: { type: 'boolean', example: true }
-                    }
-                },
-                CreatedResponse: {
-                    type: 'object',
-                    properties: {
-                        insertId: {
-                            type: 'integer',
-                            example: 1,
-                            description: 'ID do usuário criado'
-                        }
-                    }
-                },
-                Error: {
-                    type: 'object',
-                    properties: {
-                        error: { type: 'string', example: 'Descrição do erro' },
-                        status: { type: 'integer', example: 400 }
-                    }
-                }
-            },
+            schemas: { ...zodComponents.components?.schemas },
             securitySchemes: {
                 bearerAuth: {
                     type: 'http',

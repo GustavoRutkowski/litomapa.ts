@@ -8,8 +8,7 @@ const usersRouter = Router();
  * @swagger
  * /users:
  *   post:
- *     summary: Criar novo usuário
- *     description: Registra um novo usuário no sistema com validações
+ *     summary: Create a new user
  *     tags:
  *       - Users
  *     requestBody:
@@ -17,26 +16,20 @@ const usersRouter = Router();
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/UserCreateRequest'
+ *             $ref: '#/components/schemas/CreateUser'
  *     responses:
  *       201:
- *         description: Usuário criado com sucesso
+ *         description: User created successfully
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/CreatedResponse'
+ *               $ref: '#/components/schemas/CreateUserResponse'
  *       400:
- *         description: Dados inválidos ou usuário já existe
+ *         description: Generic example of a possible error
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Error'
- *       500:
- *         description: Erro interno no servidor
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Error'
+ *               $ref: '#/components/schemas/ErrorResponseSchema'
  */
 usersRouter.post('/', UserController.create);
 
@@ -44,8 +37,8 @@ usersRouter.post('/', UserController.create);
  * @swagger
  * /users/login:
  *   post:
- *     summary: Fazer login
- *     description: Autentica o usuário e retorna um token JWT
+ *     summary: Log in
+ *     description: Authenticates the user and returns a JWT token
  *     tags:
  *       - Users
  *     requestBody:
@@ -53,26 +46,20 @@ usersRouter.post('/', UserController.create);
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/LoginRequest'
+ *             $ref: '#/components/schemas/Login'
  *     responses:
  *       200:
- *         description: Login realizado com sucesso
+ *         description: Login successful
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/LoginResponse'
  *       400:
- *         description: Email ou senha inválidos
+ *         description: Generic example of a possible error
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Error'
- *       401:
- *         description: Credenciais inválidas
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Error'
+ *               $ref: '#/components/schemas/ErrorResponseSchema'
  */
 usersRouter.post('/login', UserController.login);
 
@@ -80,32 +67,84 @@ usersRouter.post('/login', UserController.login);
  * @swagger
  * /users:
  *   get:
- *     summary: Obter dados do usuário autenticado
- *     description: Retorna os dados do usuário logado (sem password)
+ *     summary: Get data from authenticated user
  *     security:
  *       - bearerAuth: []
  *     tags:
  *       - Users
  *     responses:
  *       200:
- *         description: Dados do usuário obtidos com sucesso
+ *         description: User found successfully
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/UserResponse'
- *       401:
- *         description: Token não fornecido ou inválido
+ *       400:
+ *         description: Generic example of a possible error
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Error'
- *       404:
- *         description: Usuário não encontrado
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Error'
+ *               $ref: '#/components/schemas/ErrorResponseSchema'
  */
 usersRouter.get('/', isLogged, UserController.get);
+
+/**
+ * @swagger
+ * /users
+ *   patch
+ *     summary: Change user infos
+ *     description: Change the user's name and photo
+ *     tags:
+ *       - Users
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/UpdateUserInfos'
+ *     responses:
+ *       200:
+ *         description: User infos updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/UpdateUserInfosResponse'
+ *       400:
+ *         description: Generic example of a possible error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponseSchema'
+ */
+usersRouter.patch('/', isLogged, UserController.changeInfos);
+
+/**
+ * @swagger
+ * /users
+ *   patch
+ *     summary: Change user password
+ *     tags:
+ *       - Users
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/UpdateUserPassword'
+ *     responses:
+ *       200:
+ *         description: Password changed successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/UpdateUserPasswordResponse'
+ *       400:
+ *         description: Generic example of a possible error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponseSchema'
+ */
+usersRouter.patch('/password', isLogged, UserController.changePassword);
 
 export default usersRouter;
