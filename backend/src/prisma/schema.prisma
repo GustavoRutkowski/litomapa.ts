@@ -6,12 +6,120 @@ datasource db {
   provider = "sqlite"
 }
 
+model Role {
+  id    Int    @id @default(autoincrement())
+  name  String @unique
+
+  users User[]
+
+  @@map("roles")
+}
+
 model User {
   id       Int     @id @default(autoincrement())
-  username String  @unique
+  username String
   email    String  @unique
   password String
   photo    String?
 
+  roleId Int
+  role   Role @relation(fields: [roleId], references: [id])
+
+  threads  Thread[]
+  messages Message[]
+
   @@map("users")
+}
+
+model City {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+
+  @@map("cities")
+}
+
+model Thread {
+  id        Int      @id @default(autoincrement())
+  title     String
+  createdAt DateTime @default(now())
+
+  authorId Int
+  author   User @relation(fields: [authorId], references: [id])
+
+  messages      Message[]
+  threadTags    ThreadTag[]
+  threadSpecies ThreadSpecies[]
+
+  @@map("threads")
+}
+
+model Tag {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+
+  threadTags ThreadTag[]
+
+  @@map("tags")
+}
+
+model ThreadTag {
+  threadId Int
+  tagId    Int
+
+  thread Thread @relation(fields: [threadId], references: [id], onDelete: Cascade)
+  tag    Tag    @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([threadId, tagId])
+  @@map("threads_tags")
+}
+
+model Species {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+
+  threadSpecies ThreadSpecies[]
+
+  @@map("species")
+}
+
+model ThreadSpecies {
+  threadId Int
+  specieId Int
+
+  thread  Thread  @relation(fields: [threadId], references: [id], onDelete: Cascade)
+  species Species @relation(fields: [specieId], references: [id], onDelete: Cascade)
+
+  @@id([threadId, specieId])
+  @@map("threads_species")
+}
+
+model Message {
+  id        Int      @id @default(autoincrement())
+  content   String
+  createdAt DateTime @default(now())
+
+  threadId Int
+  authorId Int
+
+  replyingId Int?
+
+  thread Thread @relation(fields: [threadId], references: [id], onDelete: Cascade)
+  author User   @relation(fields: [authorId], references: [id])
+
+  replyingTo Message?  @relation("MessageReplies", fields: [replyingId], references: [id])
+  replies   Message[] @relation("MessageReplies")
+
+  attachments Attachment[]
+
+  @@map("messages")
+}
+
+model Attachment {
+  id   Int    @id @default(autoincrement())
+  path String
+
+  messageId Int
+  message   Message @relation(fields: [messageId], references: [id], onDelete: Cascade)
+
+  @@map("attachments")
 }
