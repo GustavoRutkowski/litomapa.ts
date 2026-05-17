@@ -90,8 +90,8 @@ usersRouter.get('/', isLogged, UserController.get);
 
 /**
  * @swagger
- * /users
- *   patch
+ * /users:
+ *   patch:
  *     summary: Change user infos
  *     description: Change the user's name and photo
  *     tags:
@@ -120,8 +120,8 @@ usersRouter.patch('/', isLogged, UserController.changeInfos);
 
 /**
  * @swagger
- * /users
- *   patch
+ * /users:
+ *   patch:
  *     summary: Change user password
  *     tags:
  *       - Users
