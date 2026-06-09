@@ -1,7 +1,8 @@
 import swaggerJsDoc from 'swagger-jsdoc';
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
-import { OpenApiGeneratorV3 } from '@asteasolutions/zod-to-openapi';
+import { OpenAPIRegistry, OpenApiGeneratorV3 } from '@asteasolutions/zod-to-openapi';
+import { ErrorResponseSchema } from './schemas/global.schemas.js';
 import {
     CreateUserSchema,
     LoginSchema,
@@ -17,17 +18,20 @@ import {
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const generator = new OpenApiGeneratorV3([
-    CreateUserSchema,
-    LoginSchema,
-    UpdateUserInfosSchema,
-    UpdateUserPasswordSchema,
-    UserResponseSchema,
-    CreateUserResponseSchema,
-    LoginResponseSchema,
-    UpdateUserInfosResponseSchema,
-    UpdateUserPasswordResponseSchema
-]);
+const registry = new OpenAPIRegistry();
+
+registry.register('CreateUser', CreateUserSchema);
+registry.register('Login', LoginSchema);
+registry.register('UpdateUserInfos', UpdateUserInfosSchema);
+registry.register('UpdateUserPassword', UpdateUserPasswordSchema);
+registry.register('UserResponse', UserResponseSchema);
+registry.register('CreateUserResponse', CreateUserResponseSchema);
+registry.register('LoginResponse', LoginResponseSchema);
+registry.register('UpdateUserInfosResponse', UpdateUserInfosResponseSchema);
+registry.register('UpdateUserPasswordResponse', UpdateUserPasswordResponseSchema);
+registry.register('ErrorResponse', ErrorResponseSchema);
+
+const generator = new OpenApiGeneratorV3(registry.definitions);
 
 const zodComponents = generator.generateComponents();
 

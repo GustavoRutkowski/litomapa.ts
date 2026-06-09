@@ -29,7 +29,7 @@ const usersRouter = Router();
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/ErrorResponseSchema'
+ *               $ref: '#/components/schemas/ErrorResponse'
  */
 usersRouter.post('/', UserController.create);
 
@@ -59,7 +59,7 @@ usersRouter.post('/', UserController.create);
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/ErrorResponseSchema'
+ *               $ref: '#/components/schemas/ErrorResponse'
  */
 usersRouter.post('/login', UserController.login);
 
@@ -84,7 +84,7 @@ usersRouter.post('/login', UserController.login);
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/ErrorResponseSchema'
+ *               $ref: '#/components/schemas/ErrorResponse'
  */
 usersRouter.get('/', isLogged, UserController.get);
 
@@ -114,7 +114,7 @@ usersRouter.get('/', isLogged, UserController.get);
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/ErrorResponseSchema'
+ *               $ref: '#/components/schemas/ErrorResponse'
  */
 usersRouter.patch('/', isLogged, UserController.changeInfos);
 
@@ -143,7 +143,7 @@ usersRouter.patch('/', isLogged, UserController.changeInfos);
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/ErrorResponseSchema'
+ *               $ref: '#/components/schemas/ErrorResponse'
  */
 usersRouter.patch('/password', isLogged, UserController.changePassword);
 
