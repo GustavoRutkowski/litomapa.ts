@@ -17,12 +17,12 @@ model Role {
 
 model User {
   id       Int     @id @default(autoincrement())
-  username String
+  username String  @unique
   email    String  @unique
   password String
   photo    String?
 
-  roleId Int
+  roleId Int  @default(1)
   role   Role @relation(fields: [roleId], references: [id])
 
   threads  Thread[]
