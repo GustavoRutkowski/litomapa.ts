@@ -120,7 +120,7 @@ usersRouter.patch('/', isLogged, UserController.changeInfos);
 
 /**
  * @swagger
- * /users:
+ * /users/password:
  *   patch:
  *     summary: Change user password
  *     tags:
