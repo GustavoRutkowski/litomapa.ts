@@ -1,5 +1,6 @@
 import type Thread from '../models/threads.model.js';
-import ThreadRepository, { ThreadFindAllParams } from '../repositories/threads.repository.js';
+import ThreadRepository, { ThreadFindAllQueryParams } from '../repositories/threads.repository.js';
+import ApiError from '../utils/ApiError.js';
 
 type FindAllResponse = {
     total: number;
@@ -8,7 +9,13 @@ type FindAllResponse = {
 };
 
 export default class ThreadService {
-    static async findAll(params: ThreadFindAllParams): Promise<FindAllResponse> {
+    static async findById(id: number): Promise<Thread> {
+        const thread = await ThreadRepository.findById(id);
+        if (!thread) throw new ApiError('Thread not found', 404);
+        return thread;
+    }
+
+    static async findAll(params: ThreadFindAllQueryParams): Promise<FindAllResponse> {
         const OFFSET = Math.max(params.offset ?? 0, 0);
         const LIMIT = Math.max(params.limit ?? 10, 1);
 

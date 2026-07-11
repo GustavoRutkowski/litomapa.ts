@@ -1,10 +1,28 @@
 import { Request, Response } from 'express';
 import ThreadService from '../services/threads.service.js';
-import { ThreadsQuerySchema } from '../schemas/threads.schemas.js';
+import { ThreadsQuerySchema, ThreadIdSchema } from '../schemas/threads.schemas.js';
 import U from '../utils/UnknownError.js';
 import { formatErrors } from '../utils/formatErrors.js';
 
 export default class ThreadController {
+    static async getById(req: Request, res: Response) {
+        const result = ThreadIdSchema.safeParse(req.params.id);
+
+        if (!result.success) {
+            const errors = formatErrors(result.error);
+            return res.status(400).json({ success: false, errors });
+        }
+
+        try {
+            const data = await ThreadService.findById(result.data);
+            res.status(200).json({ success: true, data });
+        } catch (e) {
+            const status = U.getHttpStatus(e);
+            const errors = { global: [U.getMessage(e)] };
+            res.status(status).json({ success: false, errors });
+        }
+    }
+
     static async getAll(req: Request, res: Response) {
         const result = ThreadsQuerySchema.safeParse(req.query);
 

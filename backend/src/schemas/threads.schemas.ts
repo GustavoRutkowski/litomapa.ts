@@ -36,6 +36,11 @@ export const ThreadListItemSchema = z
     })
     .openapi('ThreadListItem');
 
+export const ThreadIdSchema = z.coerce.number().int().positive().openapi({
+    description: 'Thread ID',
+    example: 12
+});
+
 export const ThreadsQuerySchema = z
     .object({
         offset: z.coerce.number().int().min(0).optional().default(0),
