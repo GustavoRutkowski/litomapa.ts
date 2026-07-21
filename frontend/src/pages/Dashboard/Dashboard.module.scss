@@ -3,11 +3,18 @@
     @include flex-column;
 
     main {
+        margin: auto;
         flex-grow: 1;
-        @include flex-center;
+        @include flex-column;
+        gap: $pad-md;
+        padding: $pad-md;
+        width: 60%;
+        box-sizing: border-box;
 
         p {
-            margin: auto;
+            margin: 0;
+            color: $tertiary-color;
+            font-size: $font-sm;
         }
     }
 }

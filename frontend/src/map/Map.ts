@@ -6,9 +6,12 @@ type Thread = {
     latitude: number;
 };
 
+type GeoJSONLike = Record<string, unknown> | null;
+
 export default class Map {
     private readonly map: L.Map;
     private readonly markerLayer: L.LayerGroup;
+    private readonly geoJsonLayer: L.LayerGroup;
 
     // Cria uma nova instância do mapa Leaflet dentro do elemento HTML passado.
     // Exemplo: const mapa = new Map(document.getElementById('mapa')!);
@@ -19,6 +22,7 @@ export default class Map {
         });
 
         this.markerLayer = L.layerGroup().addTo(this.map);
+        this.geoJsonLayer = L.layerGroup().addTo(this.map);
 
         this.configureBaseMap();
         this.configureBounds();
@@ -91,6 +95,42 @@ export default class Map {
         }
     }
 
+    public renderGeoJSON(
+        geojson: GeoJSONLike,
+        options?: {
+            fitBounds?: boolean;
+            style?: L.PathOptions;
+        }
+    ): void {
+        this.geoJsonLayer.clearLayers();
+
+        if (!geojson) return;
+
+        const layer = L.geoJSON(geojson as unknown as GeoJSON.GeoJsonObject, {
+            style: options?.style ?? {
+                color: '#1d4ed8',
+                weight: 1,
+                fillColor: '#93c5fd',
+                fillOpacity: 0.25
+            }
+        });
+
+        layer.addTo(this.geoJsonLayer);
+
+        if (options?.fitBounds ?? true) {
+            const bounds = layer.getBounds();
+            if (bounds.isValid()) {
+                this.map.fitBounds(bounds, {
+                    padding: [24, 24]
+                });
+            }
+        }
+    }
+
+    public clearGeoJSON(): void {
+        this.geoJsonLayer.clearLayers();
+    }
+
     // Remove todos os marcadores atualmente exibidos no mapa.
     public clear(): void {
         this.markerLayer.clearLayers();
@@ -99,6 +139,7 @@ export default class Map {
     // Libera o mapa e limpa os elementos associados quando ele não for mais necessário.
     public destroy(): void {
         this.markerLayer.clearLayers();
+        this.geoJsonLayer.clearLayers();
         this.map.remove();
     }
 }
