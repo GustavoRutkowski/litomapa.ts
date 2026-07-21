@@ -24,7 +24,7 @@
             padding: $pad-xxs $pad-xs;
             font-size: $font-xs;
             font-weight: 600;
-            color: $primary-color;
+            color: rgba($primary-color, 0.8);
             cursor: pointer;
             box-shadow: $shadow-sm;
             transition:
@@ -36,6 +36,15 @@
                 transform: translateY(-1px);
                 box-shadow: $shadow-md;
             }
+        }
+
+        .filterButtonActive {
+            transform: translateY(-1px);
+            box-shadow: $shadow-md;
+            opacity: 1;
+            color: $primary-color;
+            outline: 2px solid rgba($primary-color, 0.85);
+            outline-offset: 2px;
         }
 
         .filterButtonAll {

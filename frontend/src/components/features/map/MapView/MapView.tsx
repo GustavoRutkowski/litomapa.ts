@@ -10,6 +10,7 @@ interface MapViewProps {
     geojson?: GeoJSONLike;
     height?: string | number;
     className?: string;
+    tag?: string;
 }
 
 const DEFAULT_RS_GEOJSON: GeoJSONLike = {
@@ -37,20 +38,26 @@ const DEFAULT_RS_GEOJSON: GeoJSONLike = {
 export default function MapView({
     geojson = DEFAULT_RS_GEOJSON,
     height = '480px',
-    className
+    className,
+    tag
 }: MapViewProps) {
     const containerRef = useRef<HTMLDivElement | null>(null);
     const mapRef = useRef<Map | null>(null);
     const { getThreads } = useThreads();
     const [threads, setThreads] = useState<
-        Array<{ id: number; latitude: number; longitude: number }>
+        Array<{
+            id: number;
+            latitude: number;
+            longitude: number;
+            tags?: Array<{ name: string }>;
+        }>
     >([]);
 
     useEffect(() => {
         let isMounted = true;
 
         const loadThreads = async () => {
-            const response = await getThreads({ limit: 50 });
+            const response = await getThreads({ limit: 50, tag: tag?.trim() || undefined });
             if (!isMounted) return;
             setThreads(response.data);
         };
@@ -60,7 +67,7 @@ export default function MapView({
         return () => {
             isMounted = false;
         };
-    }, [getThreads]);
+    }, [getThreads, tag]);
 
     useEffect(() => {
         if (!containerRef.current || mapRef.current) return;
@@ -91,9 +98,10 @@ export default function MapView({
         if (!mapRef.current) return;
 
         mapRef.current.renderThreads(threads, {
-            fitBounds: threads.length > 0
+            fitBounds: threads.length > 0,
+            filterTag: tag
         });
-    }, [threads]);
+    }, [tag, threads]);
 
     return (
         <div

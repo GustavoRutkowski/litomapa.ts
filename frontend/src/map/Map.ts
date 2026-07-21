@@ -4,6 +4,7 @@ type Thread = {
     id: number;
     longitude: number;
     latitude: number;
+    tags?: Array<{ name: string }>;
 };
 
 type GeoJSONLike = Record<string, unknown> | null;
@@ -50,15 +51,55 @@ export default class Map {
         this.map.fitBounds(rsBounds);
     }
 
-    // Cria um marcador visual para uma thread, usando lat/long como coordenadas.
-    private createMarker(thread: Thread): L.CircleMarker {
-        const marker = L.circleMarker([thread.latitude, thread.longitude], {
+    private getMarkerStyle(thread: Thread, filterTag?: string): L.CircleMarkerOptions {
+        const normalizedFilter = filterTag?.trim().toUpperCase();
+        const tagNames = (thread.tags ?? []).map(tag => tag.name.toUpperCase());
+
+        if (normalizedFilter === 'MIGRATION' || tagNames.includes('MIGRATION')) {
+            return {
+                radius: 7,
+                color: '#9e2f79',
+                fillColor: '#d946ef',
+                fillOpacity: 0.9,
+                weight: 2
+            };
+        }
+
+        if (normalizedFilter === 'INVASIVE_SPECIES' || tagNames.includes('INVASIVE_SPECIES')) {
+            return {
+                radius: 7,
+                color: '#f57600',
+                fillColor: '#fb923c',
+                fillOpacity: 0.9,
+                weight: 2
+            };
+        }
+
+        if (normalizedFilter === 'REPORT' || tagNames.includes('REPORT')) {
+            return {
+                radius: 7,
+                color: '#d9480f',
+                fillColor: '#f97316',
+                fillOpacity: 0.9,
+                weight: 2
+            };
+        }
+
+        return {
             radius: 7,
             color: '#2563eb',
             fillColor: '#60a5fa',
             fillOpacity: 0.85,
             weight: 2
-        });
+        };
+    }
+
+    // Cria um marcador visual para uma thread, usando lat/long como coordenadas.
+    private createMarker(thread: Thread, filterTag?: string): L.CircleMarker {
+        const marker = L.circleMarker(
+            [thread.latitude, thread.longitude],
+            this.getMarkerStyle(thread, filterTag)
+        );
 
         marker.bindTooltip(`Thread #${thread.id}`);
         return marker;
@@ -70,6 +111,7 @@ export default class Map {
         threads: Thread[],
         options?: {
             fitBounds?: boolean;
+            filterTag?: string;
         }
     ): void {
         this.clear();
@@ -85,7 +127,7 @@ export default class Map {
         );
 
         for (const thread of points) {
-            this.createMarker(thread).addTo(this.markerLayer);
+            this.createMarker(thread, options?.filterTag).addTo(this.markerLayer);
         }
 
         if (options?.fitBounds ?? true) {
