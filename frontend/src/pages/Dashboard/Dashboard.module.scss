@@ -6,15 +6,52 @@
         margin: auto;
         flex-grow: 1;
         @include flex-column;
-        gap: $pad-md;
+        gap: $pad-xs;
         padding: $pad-md;
         width: 60%;
         box-sizing: border-box;
 
-        p {
-            margin: 0;
-            color: $tertiary-color;
-            font-size: $font-sm;
+        .filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: $pad-xs;
+            align-items: center;
+        }
+
+        .filterButton {
+            border: none;
+            border-radius: $radius-md;
+            padding: $pad-xxs $pad-xs;
+            font-size: $font-xs;
+            font-weight: 600;
+            color: $primary-color;
+            cursor: pointer;
+            box-shadow: $shadow-sm;
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease,
+                opacity 0.2s ease;
+
+            &:hover {
+                transform: translateY(-1px);
+                box-shadow: $shadow-md;
+            }
+        }
+
+        .filterButtonAll {
+            background-color: $filter-all-color;
+        }
+
+        .filterButtonMigrations {
+            background-color: $filter-migrations-color;
+        }
+
+        .filterButtonInvasives {
+            background-color: $filter-invasives-color;
+        }
+
+        .filterButtonCrimes {
+            background-color: $filter-crimes-color;
         }
     }
 }
