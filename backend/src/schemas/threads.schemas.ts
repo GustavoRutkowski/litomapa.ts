@@ -30,6 +30,8 @@ export const ThreadListItemSchema = z
     .object({
         id: z.number().int().positive().openapi({ example: 12 }),
         title: z.string().openapi({ example: 'Sea turtle spotted near mangrove' }),
+        latitude: z.number().min(-90).max(90).openapi({ example: -15.7801 }),
+        longitude: z.number().min(-180).max(180).openapi({ example: -47.9292 }),
         tags: z.array(ThreadTagSchema).openapi({ example: [{ id: 1, name: 'Sighting' }] }),
         author: ThreadAuthorSchema,
         specie: ThreadSpecieSchema

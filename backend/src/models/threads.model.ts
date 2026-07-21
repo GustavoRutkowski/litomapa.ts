@@ -7,6 +7,8 @@ type ThreadAuthor = Pick<User, 'id' | 'username' | 'photo'>;
 type Thread = {
     id: number;
     title: string;
+    latitude: number;
+    longitude: number;
     author: ThreadAuthor;
     specie: Specie;
     tags: Tag[];

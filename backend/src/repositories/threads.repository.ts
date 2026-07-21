@@ -12,6 +12,8 @@ type FindAllQueryParams = {
 const SELECT_STATEMENT = {
     id: true,
     title: true,
+    latitude: true,
+    longitude: true,
     author: {
         select: {
             id: true,
@@ -88,6 +90,8 @@ export default class ThreadRepository {
         const formatted = threads.map(thread => ({
             id: thread.id,
             title: thread.title,
+            latitude: thread.latitude,
+            longitude: thread.longitude,
             author: {
                 id: thread.author.id,
                 username: thread.author.username,
@@ -117,6 +121,8 @@ export default class ThreadRepository {
         return {
             id: thread.id,
             title: thread.title,
+            latitude: thread.latitude,
+            longitude: thread.longitude,
             author: {
                 id: thread.author.id,
                 username: thread.author.username,
