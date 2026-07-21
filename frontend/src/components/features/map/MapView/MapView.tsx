@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import 'leaflet/dist/leaflet.css';
+import { useNavigate } from 'react-router-dom';
 import useThreads from '../../../../hooks/useThreads';
 import Map from '../../../../map/Map';
 import styles from './MapView.module.scss';
@@ -43,13 +44,19 @@ export default function MapView({
 }: MapViewProps) {
     const containerRef = useRef<HTMLDivElement | null>(null);
     const mapRef = useRef<Map | null>(null);
+    const navigate = useNavigate();
     const { getThreads } = useThreads();
     const [threads, setThreads] = useState<
         Array<{
             id: number;
+            title: string;
             latitude: number;
             longitude: number;
             tags?: Array<{ name: string }>;
+            author?: {
+                username: string;
+                photo?: string | null;
+            };
         }>
     >([]);
 
@@ -72,13 +79,13 @@ export default function MapView({
     useEffect(() => {
         if (!containerRef.current || mapRef.current) return;
 
-        mapRef.current = new Map(containerRef.current);
+        mapRef.current = new Map(containerRef.current, threadId => navigate(`/thread/${threadId}`));
 
         return () => {
             mapRef.current?.destroy();
             mapRef.current = null;
         };
-    }, []);
+    }, [navigate]);
 
     useEffect(() => {
         if (!mapRef.current) return;

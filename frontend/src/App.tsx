@@ -5,6 +5,7 @@ import Home from './pages/Home/Home';
 import Register from './pages/Register/Register';
 import Login from './pages/Login/Login';
 import Dashboard from './pages/Dashboard/Dashboard';
+import Thread from './pages/Thread/Thread';
 
 function ProtectedRoute() {
     const { token, isLoading } = useAuth();
@@ -25,6 +26,7 @@ export default function App() {
                 {/* PROTECTED */}
                 <Route element={<ProtectedRoute />}>
                     <Route path="/dashboard" element={<Dashboard />} />
+                    <Route path="/thread/:id" element={<Thread />} />
                 </Route>
             </Routes>
         </BrowserRouter>

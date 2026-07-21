@@ -18,4 +18,61 @@
         border-radius: inherit;
         overflow: hidden;
     }
+
+    :global(.leaflet-popup-card) {
+        display: flex;
+        flex-direction: column;
+        gap: $pad-xxs;
+        min-width: 180px;
+        padding: 0.2rem;
+    }
+
+    :global(.leaflet-popup-card h3) {
+        margin: 0;
+        font-size: $font-sm;
+        color: $tertiary-color;
+    }
+
+    :global(.leaflet-popup-tags) {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.3rem;
+    }
+
+    :global(.leaflet-popup-tag) {
+        display: inline-flex;
+        align-items: center;
+        border-radius: $radius-sm;
+        background: rgba($secundary-color, 0.14);
+        color: $tertiary-color;
+        padding: 0.2rem 0.5rem;
+        font-size: $font-xxs;
+        font-weight: 600;
+    }
+
+    :global(.leaflet-popup-author) {
+        display: flex;
+        align-items: center;
+        gap: $pad-xxs;
+        margin-top: 0.2rem;
+        color: $label-color;
+        font-size: $font-xs;
+    }
+
+    :global(.leaflet-popup-avatar) {
+        width: 24px;
+        height: 24px;
+        border-radius: $radius-full;
+        object-fit: cover;
+    }
+
+    :global(.leaflet-popup-avatar.fallback) {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: $secundary-color;
+        color: $primary-color;
+        font-size: $font-xs;
+        font-weight: 700;
+    }
 }

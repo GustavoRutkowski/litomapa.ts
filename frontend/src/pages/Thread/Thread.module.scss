@@ -1,0 +1,119 @@
+@use '../../styles/setup/variables' as *;
+
+.page {
+    min-height: 100vh;
+    background: linear-gradient(180deg, rgba($secundary-color, 0.06), transparent 45%);
+}
+
+.main {
+    display: flex;
+    justify-content: center;
+    padding: $pad-lg $pad-md;
+}
+
+.card {
+    width: min(760px, 100%);
+    background: $primary-color;
+    border-radius: $radius-lg;
+    box-shadow: $shadow-md;
+    border: 1px solid rgba($secundary-color, 0.18);
+    padding: $pad-lg;
+}
+
+.headerRow {
+    display: flex;
+    justify-content: space-between;
+    gap: $pad-md;
+    align-items: flex-start;
+}
+
+.eyebrow {
+    margin: 0 0 $pad-xxs;
+    text-transform: uppercase;
+    font-size: $font-xxs;
+    letter-spacing: 0.12em;
+    color: $tertiary-color;
+    font-weight: 700;
+}
+
+.title {
+    margin: 0;
+    font-size: $font-lg;
+    color: $tertiary-color;
+}
+
+.authorBox {
+    display: flex;
+    align-items: center;
+    gap: $pad-xxs;
+    min-width: 0;
+}
+
+.avatar,
+.avatarFallback {
+    width: 42px;
+    height: 42px;
+    border-radius: $radius-full;
+    object-fit: cover;
+}
+
+.avatarFallback {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: $secundary-color;
+    color: $primary-color;
+    font-weight: 700;
+}
+
+.authorName {
+    color: $label-color;
+    font-weight: 600;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: $pad-sm;
+    margin-top: $pad-md;
+}
+
+.infoBlock {
+    background: rgba($backdrop-color, 0.45);
+    border-radius: $radius-md;
+    padding: $pad-sm;
+    display: flex;
+    flex-direction: column;
+    gap: $pad-xxs;
+}
+
+.label {
+    font-size: $font-xxs;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: $label-color;
+}
+
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $pad-xxs;
+}
+
+.tag {
+    background: rgba($secundary-color, 0.14);
+    color: $tertiary-color;
+    padding: 0.3rem 0.6rem;
+    border-radius: $radius-md;
+    font-size: $font-xs;
+}
+
+.helper {
+    margin-top: $pad-md;
+    color: $label-color;
+}
+
+.status {
+    margin: 0;
+    color: $label-color;
+}

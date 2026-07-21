@@ -1,10 +1,16 @@
 import L from 'leaflet';
+import defaultUserPicture from '../assets/default-picture.png';
 
 type Thread = {
     id: number;
+    title: string;
     longitude: number;
     latitude: number;
     tags?: Array<{ name: string }>;
+    author?: {
+        username: string;
+        photo?: string | null;
+    };
 };
 
 type GeoJSONLike = Record<string, unknown> | null;
@@ -13,10 +19,12 @@ export default class Map {
     private readonly map: L.Map;
     private readonly markerLayer: L.LayerGroup;
     private readonly geoJsonLayer: L.LayerGroup;
+    private readonly onMarkerClick?: (threadId: number) => void;
 
     // Cria uma nova instância do mapa Leaflet dentro do elemento HTML passado.
     // Exemplo: const mapa = new Map(document.getElementById('mapa')!);
-    constructor(container: HTMLElement) {
+    constructor(container: HTMLElement, onMarkerClick?: (threadId: number) => void) {
+        this.onMarkerClick = onMarkerClick;
         this.map = L.map(container, {
             zoomControl: true,
             scrollWheelZoom: true
@@ -94,6 +102,26 @@ export default class Map {
         };
     }
 
+    private buildPopupContent(thread: Thread): string {
+        const tagList = (thread.tags ?? [])
+            .map(tag => `<span class="leaflet-popup-tag">${tag.name}</span>`)
+            .join('');
+        const authorName = thread.author?.username ?? 'Autor desconhecido';
+        const authorPhoto = thread.author?.photo || defaultUserPicture;
+        const avatarMarkup = `<img class="leaflet-popup-avatar" src="${authorPhoto}" alt="${authorName}" />`;
+
+        return `
+            <article class="leaflet-popup-card">
+                <h3>${thread.title}</h3>
+                <div class="leaflet-popup-tags">${tagList}</div>
+                <div class="leaflet-popup-author">
+                    ${avatarMarkup}
+                    <span>${authorName}</span>
+                </div>
+            </article>
+        `;
+    }
+
     // Cria um marcador visual para uma thread, usando lat/long como coordenadas.
     private createMarker(thread: Thread, filterTag?: string): L.CircleMarker {
         const marker = L.circleMarker(
@@ -101,7 +129,31 @@ export default class Map {
             this.getMarkerStyle(thread, filterTag)
         );
 
-        marker.bindTooltip(`Thread #${thread.id}`);
+        marker.bindPopup(this.buildPopupContent(thread), {
+            maxWidth: 220,
+            autoClose: false,
+            closeButton: false
+        });
+
+        const openPopup = () => marker.openPopup();
+        const closePopup = () => marker.closePopup();
+
+        marker.on('mouseover', openPopup);
+        marker.on('mouseout', event => {
+            const relatedTarget = event.originalEvent?.relatedTarget as Node | null;
+            const popupContainer = marker.getPopup()?.getElement();
+
+            if (popupContainer && relatedTarget && popupContainer.contains(relatedTarget)) {
+                return;
+            }
+
+            closePopup();
+        });
+
+        marker.on('click', () => {
+            this.onMarkerClick?.(thread.id);
+        });
+
         return marker;
     }
 
