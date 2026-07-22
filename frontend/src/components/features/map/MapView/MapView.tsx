@@ -1,48 +1,20 @@
 import { useEffect, useRef, useState } from 'react';
+import { GeoJsonObject } from 'geojson';
 import 'leaflet/dist/leaflet.css';
 import { useNavigate } from 'react-router-dom';
 import useThreads from '../../../../hooks/useThreads';
-import Map from '../../../../map/Map';
+import Map from '../../../../utils/Map';
 import styles from './MapView.module.scss';
 import { ThreadDTO } from '../../../../services/threads.service';
 
-type GeoJSONLike = Record<string, unknown> | null;
-
-interface MapViewProps {
-    geojson?: GeoJSONLike;
+interface IProps {
+    geojson?: GeoJsonObject | null;
     height?: string | number;
     className?: string;
     tag?: string;
 }
 
-const DEFAULT_RS_GEOJSON: GeoJSONLike = {
-    type: 'FeatureCollection',
-    features: [
-        {
-            type: 'Feature',
-            properties: {},
-            geometry: {
-                type: 'Polygon',
-                coordinates: [
-                    [
-                        [-33.75, -57.7],
-                        [-29.2, -57.7],
-                        [-29.2, -49.6],
-                        [-33.75, -49.6],
-                        [-33.75, -57.7]
-                    ]
-                ]
-            }
-        }
-    ]
-};
-
-export default function MapView({
-    geojson = DEFAULT_RS_GEOJSON,
-    height = '480px',
-    className,
-    tag
-}: MapViewProps) {
+export default function MapView({ geojson, className, tag }: IProps) {
     const containerRef = useRef<HTMLDivElement | null>(null);
     const mapRef = useRef<Map | null>(null);
     const navigate = useNavigate();
@@ -53,13 +25,12 @@ export default function MapView({
         let isMounted = true;
 
         const loadThreads = async () => {
-            const response = await getThreads({ limit: 50, tag: tag?.trim() || undefined });
+            const response = await getThreads({ tag: tag?.trim() || undefined });
             if (!isMounted) return;
             setThreads(response.data);
         };
 
         void loadThreads();
-
         return () => {
             isMounted = false;
         };
@@ -78,6 +49,7 @@ export default function MapView({
 
     useEffect(() => {
         if (!mapRef.current) return;
+        if (!geojson) return;
 
         mapRef.current.renderGeoJSON(geojson, {
             fitBounds: true,
@@ -103,7 +75,6 @@ export default function MapView({
         <div
             ref={containerRef}
             className={[styles.container, className].filter(Boolean).join(' ')}
-            style={{ width: '100%', height, minHeight: height }}
         />
     );
 }

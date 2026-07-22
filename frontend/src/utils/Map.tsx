@@ -1,9 +1,11 @@
 import L from 'leaflet';
+import { GeoJsonObject } from 'geojson';
+import { renderToStaticMarkup } from 'react-dom/server';
 import defaultUserPicture from '../assets/default-picture.png';
 import { ThreadDTO } from '../services/threads.service';
+import { JSX } from 'react/jsx-runtime';
 
-type GeoJSONLike = Record<string, unknown> | null;
-
+// Classe responsável pela criação e manipulação do mapa Leaflet, incluindo a renderização de marcadores e camadas GeoJSON.
 export default class Map {
     private readonly map: L.Map;
     private readonly markerLayer: L.LayerGroup;
@@ -48,6 +50,7 @@ export default class Map {
         this.map.fitBounds(rsBounds);
     }
 
+    // Determina o estilo visual de um marcador com base na thread e no filtro de tag.
     private getMarkerStyle(thread: ThreadDTO, filterTag?: string): L.CircleMarkerOptions {
         const normalizedFilter = filterTag?.trim().toUpperCase();
         const tagNames = (thread.tags ?? []).map(tag => tag.toUpperCase());
@@ -91,24 +94,29 @@ export default class Map {
         };
     }
 
-    private buildPopupContent(thread: ThreadDTO): string {
-        const tagList = (thread.tags ?? [])
-            .map(tag => `<span class="leaflet-popup-tag">${tag}</span>`)
-            .join('');
+    // Cria o conteúdo HTML do popup para uma thread específica, incluindo título, tags e informações do autor.
+    private buildPopupContent(thread: ThreadDTO): JSX.Element {
         const authorName = thread.author?.username ?? 'Autor desconhecido';
         const authorPhoto = thread.author?.photo || defaultUserPicture;
-        const avatarMarkup = `<img class="leaflet-popup-avatar" src="${authorPhoto}" alt="${authorName}" />`;
 
-        return `
-            <article class="leaflet-popup-card">
-                <h3>${thread.title}</h3>
-                <div class="leaflet-popup-tags">${tagList}</div>
-                <div class="leaflet-popup-author">
-                    ${avatarMarkup}
-                    <span>${authorName}</span>
+        const tags = (thread.tags ?? []).map(tag => (
+            <span key={tag} className="leaflet-popup-tag">
+                {tag}
+            </span>
+        ));
+
+        return (
+            <article className="leaflet-popup-card">
+                <h3>{thread.title}</h3>
+
+                <div className="leaflet-popup-tags">{tags}</div>
+
+                <div className="leaflet-popup-author">
+                    <img className="leaflet-popup-avatar" src={authorPhoto} alt={authorName} />
+                    <span>{authorName}</span>
                 </div>
             </article>
-        `;
+        );
     }
 
     // Cria um marcador visual para uma thread, usando lat/long como coordenadas.
@@ -118,7 +126,9 @@ export default class Map {
             this.getMarkerStyle(thread, filterTag)
         );
 
-        marker.bindPopup(this.buildPopupContent(thread), {
+        const popupContent = renderToStaticMarkup(this.buildPopupContent(thread));
+
+        marker.bindPopup(popupContent, {
             maxWidth: 220,
             autoClose: false,
             closeButton: false
@@ -181,15 +191,15 @@ export default class Map {
         }
     }
 
+    // Renderiza uma camada GeoJSON no mapa, com estilo e ajuste de zoom opcionais.
     public renderGeoJSON(
-        geojson: GeoJSONLike,
+        geojson: GeoJsonObject | null,
         options?: {
             fitBounds?: boolean;
             style?: L.PathOptions;
         }
     ): void {
-        this.geoJsonLayer.clearLayers();
-
+        this.clearGeoJSON();
         if (!geojson) return;
 
         const layer = L.geoJSON(geojson as unknown as GeoJSON.GeoJsonObject, {
@@ -213,6 +223,7 @@ export default class Map {
         }
     }
 
+    // Remove a camada do GeoJSON
     public clearGeoJSON(): void {
         this.geoJsonLayer.clearLayers();
     }

@@ -4,6 +4,7 @@
     width: 100%;
     max-width: 100%;
     min-width: 0;
+    height: 450px;
     overflow: hidden;
     border-radius: $radius-lg;
     box-shadow: $shadow-md;
@@ -20,9 +21,7 @@
     }
 
     :global(.leaflet-popup-card) {
-        display: flex;
-        flex-direction: column;
-        gap: $pad-xxs;
+        @include flex-column(start, stretch, $pad-xxs);
         min-width: 180px;
         padding: 0.2rem;
     }
@@ -34,9 +33,7 @@
     }
 
     :global(.leaflet-popup-tags) {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.3rem;
+        @include flex-row(start, center, 0.3rem, wrap);
     }
 
     :global(.leaflet-popup-tag) {

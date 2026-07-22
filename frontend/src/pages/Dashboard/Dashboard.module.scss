@@ -12,25 +12,20 @@
         box-sizing: border-box;
 
         .filters {
-            display: flex;
-            flex-wrap: wrap;
-            gap: $pad-xs;
-            align-items: center;
+            @include flex-row(start, center, $pad-xs, wrap);
         }
 
         .filterButton {
             border: none;
-            border-radius: $radius-md;
-            padding: $pad-xxs $pad-xs;
+            @include retangular-btn-shape(
+                $pad: $pad-xxs $pad-xs,
+                $radius: $radius-md,
+                $transition: 0.2s
+            );
             font-size: $font-xs;
             font-weight: 600;
             color: rgba($primary-color, 0.8);
-            cursor: pointer;
             box-shadow: $shadow-sm;
-            transition:
-                transform 0.2s ease,
-                box-shadow 0.2s ease,
-                opacity 0.2s ease;
 
             &:hover {
                 transform: translateY(-1px);
