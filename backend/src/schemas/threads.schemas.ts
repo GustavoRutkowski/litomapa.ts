@@ -1,42 +1,46 @@
 import { extendZodWithOpenApi } from '@asteasolutions/zod-to-openapi';
 import { z } from 'zod';
-import { ResponseSchema } from './global.schemas.js';
+import { SuccessResponseSchema } from './global.schemas.js';
 
 extendZodWithOpenApi(z);
 
-const ThreadTagSchema = z
+const ThreadCoordsSchema = z
     .object({
-        id: z.number().int().positive().openapi({ example: 1 }),
-        name: z.string().openapi({ example: 'Sighting' })
+        latitude: z.number().min(-90).max(90).openapi({ example: -15.7801 }),
+        longitude: z.number().min(-180).max(180).openapi({ example: -47.9292 })
     })
-    .openapi('ThreadTag');
+    .openapi('ThreadCoords');
+
+const ThreadTagSchema = z.string().openapi({ example: 'Sighting' });
 
 const ThreadAuthorSchema = z
     .object({
         id: z.number().int().positive().openapi({ example: 10 }),
-        name: z.string().openapi({ example: 'demo_user_one' }),
+        username: z.string().openapi({ example: 'demo_user_one' }),
         photo: z.string().nullable().openapi({ example: null })
     })
     .openapi('ThreadAuthor');
 
-const ThreadSpecieSchema = z
+const ThreadSpeciesSchema = z
     .object({
         id: z.number().int().positive().openapi({ example: 2 }),
         name: z.string().openapi({ example: 'Sea turtle' })
     })
-    .openapi('ThreadSpecie');
+    .openapi('ThreadSpecies');
 
-export const ThreadListItemSchema = z
+export const ThreadSchema = z
     .object({
         id: z.number().int().positive().openapi({ example: 12 }),
         title: z.string().openapi({ example: 'Sea turtle spotted near mangrove' }),
-        latitude: z.number().min(-90).max(90).openapi({ example: -15.7801 }),
-        longitude: z.number().min(-180).max(180).openapi({ example: -47.9292 }),
-        tags: z.array(ThreadTagSchema).openapi({ example: [{ id: 1, name: 'Sighting' }] }),
+        createdAt: z.string().openapi({ example: 'Wed, 22 Jul 2026 12:34:56 GMT' }),
+        coords: ThreadCoordsSchema,
         author: ThreadAuthorSchema,
-        specie: ThreadSpecieSchema
+        species: z.array(ThreadSpeciesSchema).openapi({ example: [{ id: 2, name: 'Sea turtle' }] }),
+        tags: z.array(ThreadTagSchema).openapi({ example: ['Sighting'] })
     })
-    .openapi('ThreadListItem');
+    .openapi('Thread');
+
+export const ThreadListItemSchema = ThreadSchema.openapi('ThreadListItem');
 
 export const ThreadIdSchema = z.coerce.number().int().positive().openapi({
     description: 'Thread ID',
@@ -53,7 +57,11 @@ export const ThreadsQuerySchema = z
     })
     .openapi('ThreadsQuery');
 
-export const ThreadsResponseSchema = ResponseSchema.extend({
+export const ThreadResponseSchema = SuccessResponseSchema.extend({
+    data: ThreadSchema.openapi({ description: 'Returns the requested thread', example: undefined })
+}).openapi('ThreadResponse');
+
+export const ThreadsResponseSchema = SuccessResponseSchema.extend({
     total: z.number().int().min(0).openapi({ example: 6 }),
     page: z.number().int().min(1).openapi({ example: 1 }),
     data: z.array(ThreadListItemSchema)

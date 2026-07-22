@@ -14,6 +14,12 @@ import {
     UpdateUserInfosResponseSchema,
     UpdateUserPasswordResponseSchema
 } from './schemas/users.schemas.js';
+import {
+    ThreadSchema,
+    ThreadResponseSchema,
+    ThreadsQuerySchema,
+    ThreadsResponseSchema
+} from './schemas/threads.schemas.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -29,6 +35,10 @@ registry.register('CreateUserResponse', CreateUserResponseSchema);
 registry.register('LoginResponse', LoginResponseSchema);
 registry.register('UpdateUserInfosResponse', UpdateUserInfosResponseSchema);
 registry.register('UpdateUserPasswordResponse', UpdateUserPasswordResponseSchema);
+registry.register('Thread', ThreadSchema);
+registry.register('ThreadResponse', ThreadResponseSchema);
+registry.register('ThreadsQuery', ThreadsQuerySchema);
+registry.register('ThreadsResponse', ThreadsResponseSchema);
 registry.register('ErrorResponse', ErrorResponseSchema);
 
 const generator = new OpenApiGeneratorV3(registry.definitions);
@@ -47,7 +57,10 @@ const options: swaggerJsDoc.Options = {
 
         servers: [{ url: '/' }],
 
-        tags: [{ name: 'Users', description: 'Operações com Usuários' }],
+        tags: [
+            { name: 'Users', description: 'Operações com Usuários' },
+            { name: 'Threads', description: 'Operações com Threads' }
+        ],
 
         components: {
             schemas: { ...zodComponents.components?.schemas },

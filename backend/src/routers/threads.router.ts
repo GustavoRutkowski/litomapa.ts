@@ -7,18 +7,47 @@ const threadsRouter = Router();
  * @swagger
  * /threads:
  *   get:
- *     summary: Get all threads
+ *     summary: List threads
  *     tags:
  *       - Threads
+ *     parameters:
+ *       - in: query
+ *         name: offset
+ *         schema:
+ *           type: integer
+ *           minimum: 0
+ *         description: Number of items to skip
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *           minimum: 1
+ *           maximum: 50
+ *         description: Number of items to return
+ *       - in: query
+ *         name: tag
+ *         schema:
+ *           type: string
+ *         description: Filter by tag name
+ *       - in: query
+ *         name: author
+ *         schema:
+ *           type: string
+ *         description: Filter by author username
+ *       - in: query
+ *         name: title
+ *         schema:
+ *           type: string
+ *         description: Filter by thread title
  *     responses:
  *       200:
  *         description: Threads found successfully
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/ThreadResponse'
+ *               $ref: '#/components/schemas/ThreadsResponse'
  *       400:
- *         description: Generic example of a possible error
+ *         description: Invalid query parameters
  *         content:
  *           application/json:
  *             schema:
@@ -48,7 +77,7 @@ threadsRouter.get('/', ThreadsController.getAll);
  *             schema:
  *               $ref: '#/components/schemas/ThreadResponse'
  *       400:
- *         description: Generic example of a possible error
+ *         description: Invalid thread ID
  *         content:
  *           application/json:
  *             schema:

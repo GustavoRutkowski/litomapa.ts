@@ -1,17 +1,19 @@
 import User from './users.model.js';
 import Specie from './species.model.js';
-import Tag from './tags.model.js';
 
 type ThreadAuthor = Pick<User, 'id' | 'username' | 'photo'>;
 
 type Thread = {
     id: number;
     title: string;
-    latitude: number;
-    longitude: number;
+    createdAt: string; // Assuming it's stored as a string in UTC format
+    coords: {
+        latitude: number;
+        longitude: number;
+    };
     author: ThreadAuthor;
-    specie: Specie;
-    tags: Tag[];
+    species: Specie[];
+    tags: string[];
 };
 
 export default Thread;

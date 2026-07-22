@@ -9,11 +9,34 @@ type FindAllQueryParams = {
     title?: string;
 };
 
+interface UnformattedThread {
+    id: number;
+    title: string;
+    createdAt: Date;
+    latitude: number;
+    longitude: number;
+    author: {
+        id: number;
+        username: string;
+        photo: string | null;
+    };
+    threadSpecies: {
+        species: {
+            id: number;
+            name: string;
+        };
+    }[];
+    threadTags: {
+        tag: { id: number; name: string };
+    }[];
+}
+
 const SELECT_STATEMENT = {
     id: true,
     title: true,
     latitude: true,
     longitude: true,
+    createdAt: true,
     author: {
         select: {
             id: true,
@@ -43,10 +66,27 @@ const SELECT_STATEMENT = {
     }
 };
 
+const formatThread = (thread: UnformattedThread) => ({
+    id: thread.id,
+    title: thread.title,
+    createdAt: thread.createdAt.toUTCString(),
+    coords: {
+        latitude: thread.latitude,
+        longitude: thread.longitude
+    },
+    author: {
+        id: thread.author.id,
+        username: thread.author.username,
+        photo: thread.author.photo
+    },
+    species: thread.threadSpecies.map(item => item.species),
+    tags: thread.threadTags.map(item => item.tag.name)
+});
+
 export default class ThreadRepository {
     static async findAll({
-        offset = 0,
-        limit = 10,
+        offset,
+        limit,
         tag,
         author,
         title
@@ -65,7 +105,6 @@ export default class ThreadRepository {
                       }
                   }
                 : {}),
-
             ...(AUTHOR_NAME
                 ? {
                       author: {
@@ -73,7 +112,6 @@ export default class ThreadRepository {
                       }
                   }
                 : {}),
-
             ...(THREAD_TITLE ? { title: { contains: THREAD_TITLE } } : {})
         };
 
@@ -87,27 +125,7 @@ export default class ThreadRepository {
             select: SELECT_STATEMENT
         });
 
-        const formatted = threads.map(thread => ({
-            id: thread.id,
-            title: thread.title,
-            latitude: thread.latitude,
-            longitude: thread.longitude,
-            author: {
-                id: thread.author.id,
-                username: thread.author.username,
-                photo: thread.author.photo
-            },
-            specie: {
-                id: thread.threadSpecies[0]?.species.id,
-                name: thread.threadSpecies[0]?.species.name
-            },
-            tags: thread.threadTags.map(item => ({
-                id: item.tag.id,
-                name: item.tag.name
-            }))
-        }));
-
-        return [total, formatted];
+        return [total, threads.map(formatThread)];
     }
 
     static async findById(id: number): Promise<Thread | null> {
@@ -117,26 +135,7 @@ export default class ThreadRepository {
         });
 
         if (!thread) return null;
-
-        return {
-            id: thread.id,
-            title: thread.title,
-            latitude: thread.latitude,
-            longitude: thread.longitude,
-            author: {
-                id: thread.author.id,
-                username: thread.author.username,
-                photo: thread.author.photo
-            },
-            specie: {
-                id: thread.threadSpecies[0]?.species.id,
-                name: thread.threadSpecies[0]?.species.name
-            },
-            tags: thread.threadTags.map(item => ({
-                id: item.tag.id,
-                name: item.tag.name
-            }))
-        };
+        return formatThread(thread);
     }
 }
 
