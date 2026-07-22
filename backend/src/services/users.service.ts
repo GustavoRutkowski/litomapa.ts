@@ -1,6 +1,6 @@
 import { compare, hash } from 'bcrypt';
 import User from '../models/users.model.js';
-import UserRepository from '../repositories/user.repository.js';
+import UserRepository from '../repositories/users.repository.js';
 import ApiError from '../utils/ApiError.js';
 import Token from '../utils/Token.js';
 import FileUploader from '../utils/FileUploader.js';

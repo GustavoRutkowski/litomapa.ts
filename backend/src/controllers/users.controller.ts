@@ -6,7 +6,7 @@ import {
     LoginSchema,
     UpdateUserInfosSchema,
     UpdateUserPasswordSchema
-} from '../schemas/user.schemas.js';
+} from '../schemas/users.schemas.js';
 import { IdSchema } from '../schemas/global.schemas.js';
 import U from '../utils/UnknownError.js';
 import { formatErrors } from '../utils/formatErrors.js';

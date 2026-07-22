@@ -13,7 +13,7 @@ import {
     LoginResponseSchema,
     UpdateUserInfosResponseSchema,
     UpdateUserPasswordResponseSchema
-} from './schemas/user.schemas.js';
+} from './schemas/users.schemas.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
