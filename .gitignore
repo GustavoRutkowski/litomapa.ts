@@ -7,3 +7,5 @@ package-lock.json
 /backend/src/lib/generated/prisma
 /backend/src/uploads
 /frontend/dist
+*.md
+!README.md
