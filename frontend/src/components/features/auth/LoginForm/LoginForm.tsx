@@ -7,6 +7,29 @@ import PasswordInput from '../../../ui/PasswordInput/PasswordInput';
 
 import styles from './LoginForm.module.scss';
 
+type ValidationErrors = {
+    global?: string[];
+    [field: string]: string[] | undefined;
+};
+
+type ApiErrorWithBody = {
+    body?: {
+        errors?: ValidationErrors;
+    };
+};
+
+function getValidationErrors(error: unknown): ValidationErrors | undefined {
+    if (typeof error !== 'object' || error === null) return undefined;
+
+    const body = (error as ApiErrorWithBody).body;
+    if (typeof body !== 'object' || body === null) return undefined;
+
+    const errors = body.errors;
+    if (typeof errors !== 'object' || errors === null) return undefined;
+
+    return errors;
+}
+
 export default function LoginForm() {
     const emailInputId = useId();
     const passwordInputId = useId();
@@ -20,10 +43,20 @@ export default function LoginForm() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState<string | null>(null);
+    const [fieldErrors, setFieldErrors] = useState<Record<string, string | null>>({});
 
     const isValidEmail = (email: string): boolean => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailRegex.test(email);
+    };
+
+    const validatePassword = (pwd: string): string | null => {
+        if (pwd.length < 8) return 'Senha deve ter ao menos 8 caracteres.';
+        if (!/[a-z]/.test(pwd)) return 'Senha deve conter ao menos uma letra minúscula.';
+        if (!/[A-Z]/.test(pwd)) return 'Senha deve conter ao menos uma letra maiúscula.';
+        if (!/[0-9]/.test(pwd)) return 'Senha deve conter ao menos um número.';
+        if (!/[^a-zA-Z0-9]/.test(pwd)) return 'Senha deve conter ao menos um caractere especial.';
+        return null;
     };
 
     const cleanForms = () => {
@@ -35,27 +68,51 @@ export default function LoginForm() {
     useEffect(() => {
         const isValid = isValidEmail(email);
         if (email && !isValid) {
-            setError('Formato de e-mail inválido!');
+            setFieldErrors(prev => ({ ...prev, email: 'Formato de e-mail inválido!' }));
             return;
         }
-        if (email && isValid && error) setError(null);
+        if (email && isValid) setFieldErrors(prev => ({ ...prev, email: null }));
     }, [email]);
 
     const handleSubmit = async (e: React.SubmitEvent) => {
         e.preventDefault();
+        // client-side validation aligned with backend
+        const newFieldErrors: Record<string, string | null> = {};
 
-        if (!email || !password) {
-            setError('Todos os campos são obrigatórios.');
+        if (!isValidEmail(email)) newFieldErrors.email = 'Formato de e-mail inválido!';
+
+        const pw = validatePassword(password);
+        if (pw) newFieldErrors.password = pw;
+
+        if (Object.keys(newFieldErrors).length > 0) {
+            setFieldErrors(newFieldErrors);
             return;
         }
-        if (error) return;
+
+        setFieldErrors({});
 
         try {
             await login({ email: email as TEmail, password });
             cleanForms();
             navigate('/dashboard');
-        } catch {
-            setError('Erro no login. Tente novamente.');
+        } catch (error) {
+            const serverErrors = getValidationErrors(error);
+            if (serverErrors) {
+                const mapped: Record<string, string | null> = {};
+                if (Array.isArray(serverErrors.global) && serverErrors.global.length > 0) {
+                    setError(serverErrors.global[0]);
+                }
+                for (const key of Object.keys(serverErrors)) {
+                    if (key === 'global') continue;
+                    const arr = serverErrors[key];
+                    if (Array.isArray(arr) && arr.length > 0 && typeof arr[0] === 'string') {
+                        mapped[key] = arr[0];
+                    }
+                }
+                setFieldErrors(mapped);
+            } else {
+                setError('Erro no login. Tente novamente.');
+            }
         }
     };
 
@@ -73,6 +130,9 @@ export default function LoginForm() {
                         required
                         onChange={e => setEmail(e.target.value)}
                     />
+                    {fieldErrors.email ? (
+                        <p className={styles['error-msg']}>{fieldErrors.email}</p>
+                    ) : null}
                 </fieldset>
 
                 <fieldset>
@@ -81,13 +141,16 @@ export default function LoginForm() {
                         id={passwordInputId}
                         onChange={e => setPassword(e.target.value)}
                     />
+                    {fieldErrors.password ? (
+                        <p className={styles['error-msg']}>{fieldErrors.password}</p>
+                    ) : null}
                 </fieldset>
 
                 <button type="submit">Sign-in</button>
                 <p>
                     Don't have an account? <Link to="/register">Sign up</Link>.
                 </p>
-                <p className={styles['error-msg']}>{error}</p>
+                {error ? <p className={styles['error-msg']}>{error}</p> : null}
             </form>
         </section>
     );
