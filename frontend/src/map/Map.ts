@@ -1,17 +1,6 @@
 import L from 'leaflet';
 import defaultUserPicture from '../assets/default-picture.png';
-
-type Thread = {
-    id: number;
-    title: string;
-    longitude: number;
-    latitude: number;
-    tags?: Array<{ name: string }>;
-    author?: {
-        username: string;
-        photo?: string | null;
-    };
-};
+import { ThreadDTO } from '../services/threads.service';
 
 type GeoJSONLike = Record<string, unknown> | null;
 
@@ -59,9 +48,9 @@ export default class Map {
         this.map.fitBounds(rsBounds);
     }
 
-    private getMarkerStyle(thread: Thread, filterTag?: string): L.CircleMarkerOptions {
+    private getMarkerStyle(thread: ThreadDTO, filterTag?: string): L.CircleMarkerOptions {
         const normalizedFilter = filterTag?.trim().toUpperCase();
-        const tagNames = (thread.tags ?? []).map(tag => tag.name.toUpperCase());
+        const tagNames = (thread.tags ?? []).map(tag => tag.toUpperCase());
 
         if (normalizedFilter === 'MIGRATION' || tagNames.includes('MIGRATION')) {
             return {
@@ -102,9 +91,9 @@ export default class Map {
         };
     }
 
-    private buildPopupContent(thread: Thread): string {
+    private buildPopupContent(thread: ThreadDTO): string {
         const tagList = (thread.tags ?? [])
-            .map(tag => `<span class="leaflet-popup-tag">${tag.name}</span>`)
+            .map(tag => `<span class="leaflet-popup-tag">${tag}</span>`)
             .join('');
         const authorName = thread.author?.username ?? 'Autor desconhecido';
         const authorPhoto = thread.author?.photo || defaultUserPicture;
@@ -123,9 +112,9 @@ export default class Map {
     }
 
     // Cria um marcador visual para uma thread, usando lat/long como coordenadas.
-    private createMarker(thread: Thread, filterTag?: string): L.CircleMarker {
+    private createMarker(thread: ThreadDTO, filterTag?: string): L.CircleMarker {
         const marker = L.circleMarker(
-            [thread.latitude, thread.longitude],
+            [thread.coords.latitude, thread.coords.longitude],
             this.getMarkerStyle(thread, filterTag)
         );
 
@@ -160,7 +149,7 @@ export default class Map {
     // Renderiza uma lista de threads no mapa.
     // Passe as threads com latitude/longitude e, opcionalmente, desative o ajuste automático de zoom com { fitBounds: false }.
     public renderThreads(
-        threads: Thread[],
+        threads: ThreadDTO[],
         options?: {
             fitBounds?: boolean;
             filterTag?: string;
@@ -169,13 +158,16 @@ export default class Map {
         this.clear();
 
         const points = threads.filter(
-            thread => Number.isFinite(thread.latitude) && Number.isFinite(thread.longitude)
+            thread =>
+                Number.isFinite(thread.coords.latitude) && Number.isFinite(thread.coords.longitude)
         );
 
         if (points.length === 0) return;
 
         const bounds = L.latLngBounds(
-            points.map(thread => [thread.latitude, thread.longitude] as L.LatLngExpression)
+            points.map(
+                thread => [thread.coords.latitude, thread.coords.longitude] as L.LatLngExpression
+            )
         );
 
         for (const thread of points) {

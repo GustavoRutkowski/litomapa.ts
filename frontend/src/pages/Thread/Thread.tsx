@@ -2,14 +2,14 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Header from '../../components/common/Header/Header';
 import useThreads from '../../hooks/useThreads';
-import type { IThread } from '../../services/threads.service';
+import type { ThreadDTO } from '../../services/threads.service';
 import defaultUserPicture from '../../assets/default-picture.png';
 import styles from './Thread.module.scss';
 
 export default function Thread() {
     const { id } = useParams();
     const { getThread } = useThreads();
-    const [thread, setThread] = useState<IThread | null>(null);
+    const [thread, setThread] = useState<ThreadDTO | null>(null);
     const [isLoading, setIsLoading] = useState(true);
 
     const parsedId = Number(id);
@@ -79,14 +79,14 @@ export default function Thread() {
                             <div className={styles.grid}>
                                 <div className={styles.infoBlock}>
                                     <span className={styles.label}>Espécie</span>
-                                    <strong>{thread.specie.name}</strong>
+                                    <strong>{thread.species[0].name}</strong>
                                 </div>
                                 <div className={styles.infoBlock}>
                                     <span className={styles.label}>Tags</span>
                                     <div className={styles.tags}>
                                         {(thread.tags ?? []).map(tag => (
-                                            <span key={tag.id} className={styles.tag}>
-                                                {tag.name}
+                                            <span key={crypto.randomUUID()} className={styles.tag}>
+                                                {tag}
                                             </span>
                                         ))}
                                     </div>
@@ -94,7 +94,8 @@ export default function Thread() {
                                 <div className={styles.infoBlock}>
                                     <span className={styles.label}>Localização</span>
                                     <strong>
-                                        {thread.latitude.toFixed(4)}, {thread.longitude.toFixed(4)}
+                                        {thread.coords.latitude.toFixed(4)},{' '}
+                                        {thread.coords.longitude.toFixed(4)}
                                     </strong>
                                 </div>
                             </div>

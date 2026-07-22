@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import {
-    IThread,
+    ThreadDTO,
     IThreadsQueryParams,
     getThread as getById,
     getThreads as getAll
@@ -11,7 +11,7 @@ export default function useThreads() {
         async (params: IThreadsQueryParams = {}) => await getAll(params),
         []
     );
-    const getThread = useCallback(async (id: number): Promise<IThread> => await getById(id), []);
+    const getThread = useCallback(async (id: number): Promise<ThreadDTO> => await getById(id), []);
 
     return { getThreads, getThread };
 }

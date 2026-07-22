@@ -6,24 +6,22 @@ export interface IThreadAuthor {
     photo: string | null;
 }
 
-export interface IThreadTag {
-    id: number;
-    name: string;
-}
-
 export interface IThreadSpecie {
     id: number;
     name: string;
 }
 
-export interface IThread {
+export interface ThreadDTO {
     id: number;
     title: string;
-    latitude: number;
-    longitude: number;
+    createdAt: string;
+    coords: {
+        latitude: number;
+        longitude: number;
+    };
     author: IThreadAuthor;
-    specie: IThreadSpecie;
-    tags: IThreadTag[];
+    species: IThreadSpecie[];
+    tags: string[];
 }
 
 export interface IThreadsQueryParams {
@@ -37,11 +35,11 @@ export interface IThreadsQueryParams {
 interface IThreadsResponse {
     total: number;
     page: number;
-    data: IThread[];
+    data: ThreadDTO[];
 }
 
 interface IThreadResponse {
-    data: IThread;
+    data: ThreadDTO;
 }
 
 const api = new Api('/api/threads');
@@ -58,7 +56,7 @@ export async function getThreads(params: IThreadsQueryParams = {}): Promise<IThr
     return await api.get<IThreadsResponse>('/', Object.keys(query).length > 0 ? { query } : null);
 }
 
-export async function getThread(id: number): Promise<IThread> {
+export async function getThread(id: number): Promise<ThreadDTO> {
     const response = await api.get<IThreadResponse>(`/${String(id)}`);
     return response.data;
 }

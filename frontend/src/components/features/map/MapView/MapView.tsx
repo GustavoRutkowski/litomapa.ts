@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import useThreads from '../../../../hooks/useThreads';
 import Map from '../../../../map/Map';
 import styles from './MapView.module.scss';
+import { ThreadDTO } from '../../../../services/threads.service';
 
 type GeoJSONLike = Record<string, unknown> | null;
 
@@ -46,19 +47,7 @@ export default function MapView({
     const mapRef = useRef<Map | null>(null);
     const navigate = useNavigate();
     const { getThreads } = useThreads();
-    const [threads, setThreads] = useState<
-        Array<{
-            id: number;
-            title: string;
-            latitude: number;
-            longitude: number;
-            tags?: Array<{ name: string }>;
-            author?: {
-                username: string;
-                photo?: string | null;
-            };
-        }>
-    >([]);
+    const [threads, setThreads] = useState<Array<ThreadDTO>>([]);
 
     useEffect(() => {
         let isMounted = true;

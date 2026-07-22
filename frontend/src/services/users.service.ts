@@ -29,10 +29,12 @@ export async function loginUser({ email, password }: IUserDTO): Promise<ILoginRe
     });
 }
 
-export async function getUser(token: string): Promise<IUserDTO> {
-    return await api.get<IUserDTO>('/', {
+export async function getUser(token: string): Promise<IUserDTO | null> {
+    const res = await api.get<{ data?: IUserDTO }>('/', {
         headers: new Headers({ authorization: `Bearer ${token}` })
     });
+
+    return res?.data || null;
 }
 
 export function changeUsername() {}
