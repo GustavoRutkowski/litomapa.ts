@@ -1,15 +1,10 @@
-import { ReactNode, useEffect, useRef, createContext, useContext } from 'react';
+import { ReactNode, useEffect, useRef, useContext } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import IModal from '../../../types/IModal';
+import ModalContext from '../../../contexts/ModalContext';
 
 import styles from './Modal.module.scss';
-
-interface IModalContextType {
-    onClose: () => void;
-}
-
-const ModalContext = createContext<IModalContextType | null>(null);
 
 function Modal({ open, onClose, children }: IModal) {
     const dialogRef = useRef<HTMLDialogElement | null>(null);
