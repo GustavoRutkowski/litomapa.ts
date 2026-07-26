@@ -37,6 +37,13 @@ export async function getUser(token: string): Promise<IUserDTO | null> {
     return res?.data || null;
 }
 
+export async function changeUserInfos(token: string, body: Partial<IUserDTO>): Promise<void> {
+    await api.patch<{ success: boolean }>('/', {
+        headers: new Headers({ authorization: `Bearer ${token}` }),
+        body
+    });
+}
+
 export function changeUsername() {}
 export function changePassword() {}
 export function changePhoto() {}
