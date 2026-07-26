@@ -102,9 +102,9 @@ export default async function seed() {
 
         for (const userData of PLACEHOLDER_USERS) {
             const user = await prisma.user.upsert({
-                where: { username: userData.username },
+                where: { email: userData.email },
                 update: {
-                    email: userData.email,
+                    username: userData.username,
                     password: DEFAULT_PASSWORD,
                     roleId: FIXED_USER_ROLE.id
                 },
