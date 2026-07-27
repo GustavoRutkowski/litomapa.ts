@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import HeaderModal from '../../../ui/HeaderModal/HeaderModal';
 import ProfileSidebar from '../ProfileSidebar/ProfileSidebar';
 import ProfileScreen from '../ProfileScreen/ProfileScreen';
@@ -7,12 +6,6 @@ import { ProfileProvider } from '../../../../contexts/ProfileContext';
 import useProfile from '../../../../hooks/useProfile';
 
 import styles from './ProfileModal.module.scss';
-
-type PopupConfig = {
-    type: 'success' | 'error';
-    message: string;
-    timeout: number;
-};
 
 interface IProps {
     open: boolean;
