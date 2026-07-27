@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Header from '../../components/common/Header/Header';
 import useThreads from '../../hooks/useThreads';
-import useUserInfos from '../../hooks/useUserInfos';
 import type { ThreadDTO } from '../../services/threads.service';
 import defaultUserPicture from '../../assets/default-picture.png';
 import styles from './Thread.module.scss';
@@ -10,7 +9,6 @@ import styles from './Thread.module.scss';
 export default function Thread() {
     const { id } = useParams();
     const { getThread } = useThreads();
-    const { user } = useUserInfos();
     const [thread, setThread] = useState<ThreadDTO | null>(null);
     const [isLoading, setIsLoading] = useState(true);
 
