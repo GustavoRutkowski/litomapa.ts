@@ -29,6 +29,26 @@ function getValidationErrors(error: unknown): ValidationErrors | undefined {
     return errors;
 }
 
+const isValidEmailFormat = (email: string): boolean => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+};
+
+const validatePassword = (password: string): string | null => {
+    if (password.length < 8) return 'Senha deve ter ao menos 8 caracteres.';
+    if (!/[a-z]/.test(password)) return 'Senha deve conter ao menos uma letra minúscula.';
+    if (!/[A-Z]/.test(password)) return 'Senha deve conter ao menos uma letra maiúscula.';
+    if (!/[0-9]/.test(password)) return 'Senha deve conter ao menos um número.';
+    if (!/[^a-zA-Z0-9]/.test(password)) return 'Senha deve conter ao menos um caractere especial.';
+    return null;
+};
+
+const validateUsername = (name: string): string | null => {
+    if (name.trim().length < 3) return 'Nome de usuário muito curto (mínimo 3 caracteres).';
+    if (name.trim().length > 20) return 'Nome de usuário muito longo (máximo 20 caracteres).';
+    return null;
+};
+
 export default function RegisterForm() {
     const usernameInputId = useId();
     const emailInputId = useId();
@@ -43,26 +63,6 @@ export default function RegisterForm() {
     const [error, setError] = useState<string | null>(null);
     const [fieldErrors, setFieldErrors] = useState<Record<string, string | null>>({});
 
-    const isValidEmail = (email: string): boolean => {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return emailRegex.test(email);
-    };
-
-    const validatePassword = (pwd: string): string | null => {
-        if (pwd.length < 8) return 'Senha deve ter ao menos 8 caracteres.';
-        if (!/[a-z]/.test(pwd)) return 'Senha deve conter ao menos uma letra minúscula.';
-        if (!/[A-Z]/.test(pwd)) return 'Senha deve conter ao menos uma letra maiúscula.';
-        if (!/[0-9]/.test(pwd)) return 'Senha deve conter ao menos um número.';
-        if (!/[^a-zA-Z0-9]/.test(pwd)) return 'Senha deve conter ao menos um caractere especial.';
-        return null;
-    };
-
-    const validateUsername = (name: string): string | null => {
-        if (name.trim().length < 3) return 'Nome de usuário muito curto (mínimo 3 caracteres).';
-        if (name.trim().length > 20) return 'Nome de usuário muito longo (máximo 20 caracteres).';
-        return null;
-    };
-
     const cleanForms = () => {
         setUsername('');
         setEmail('');
@@ -71,7 +71,7 @@ export default function RegisterForm() {
     };
 
     useEffect(() => {
-        const isValid = isValidEmail(email);
+        const isValid = isValidEmailFormat(email);
         if (email && !isValid) {
             setFieldErrors(prev => ({ ...prev, email: 'Formato de e-mail inválido!' }));
             return;
@@ -87,7 +87,7 @@ export default function RegisterForm() {
         const un = validateUsername(username);
         if (un) newFieldErrors.username = un;
 
-        if (!isValidEmail(email)) newFieldErrors.email = 'Formato de e-mail inválido!';
+        if (!isValidEmailFormat(email)) newFieldErrors.email = 'Formato de e-mail inválido!';
 
         const pw = validatePassword(password);
         if (pw) newFieldErrors.password = pw;
@@ -105,22 +105,24 @@ export default function RegisterForm() {
             navigate('/login');
         } catch (error) {
             const serverErrors = getValidationErrors(error);
-            if (serverErrors) {
-                const mapped: Record<string, string | null> = {};
-                if (Array.isArray(serverErrors.global) && serverErrors.global.length > 0) {
-                    setError(serverErrors.global[0]);
-                }
-                for (const key of Object.keys(serverErrors)) {
-                    if (key === 'global') continue;
-                    const arr = serverErrors[key];
-                    if (Array.isArray(arr) && arr.length > 0 && typeof arr[0] === 'string') {
-                        mapped[key] = arr[0];
-                    }
-                }
-                setFieldErrors(mapped);
-            } else {
+
+            if (!serverErrors) {
                 setError('Erro ao registrar. Tente novamente.');
+                return;
             }
+
+            const mapped: Record<string, string | null> = {};
+            if (Array.isArray(serverErrors.global) && serverErrors.global.length > 0) {
+                setError(serverErrors.global[0]);
+            }
+            for (const key of Object.keys(serverErrors)) {
+                if (key === 'global') continue;
+                const arr = serverErrors[key];
+                if (Array.isArray(arr) && arr.length > 0 && typeof arr[0] === 'string') {
+                    mapped[key] = arr[0];
+                }
+            }
+            setFieldErrors(mapped);
         }
     };
 

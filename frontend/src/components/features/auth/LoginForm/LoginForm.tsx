@@ -30,6 +30,20 @@ function getValidationErrors(error: unknown): ValidationErrors | undefined {
     return errors;
 }
 
+const isValidEmailFormat = (email: string): boolean => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+};
+
+const validatePassword = (password: string): string | null => {
+    if (password.length < 8) return 'Senha deve ter ao menos 8 caracteres.';
+    if (!/[a-z]/.test(password)) return 'Senha deve conter ao menos uma letra minúscula.';
+    if (!/[A-Z]/.test(password)) return 'Senha deve conter ao menos uma letra maiúscula.';
+    if (!/[0-9]/.test(password)) return 'Senha deve conter ao menos um número.';
+    if (!/[^a-zA-Z0-9]/.test(password)) return 'Senha deve conter ao menos um caractere especial.';
+    return null;
+};
+
 export default function LoginForm() {
     const emailInputId = useId();
     const passwordInputId = useId();
@@ -45,20 +59,6 @@ export default function LoginForm() {
     const [error, setError] = useState<string | null>(null);
     const [fieldErrors, setFieldErrors] = useState<Record<string, string | null>>({});
 
-    const isValidEmail = (email: string): boolean => {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return emailRegex.test(email);
-    };
-
-    const validatePassword = (pwd: string): string | null => {
-        if (pwd.length < 8) return 'Senha deve ter ao menos 8 caracteres.';
-        if (!/[a-z]/.test(pwd)) return 'Senha deve conter ao menos uma letra minúscula.';
-        if (!/[A-Z]/.test(pwd)) return 'Senha deve conter ao menos uma letra maiúscula.';
-        if (!/[0-9]/.test(pwd)) return 'Senha deve conter ao menos um número.';
-        if (!/[^a-zA-Z0-9]/.test(pwd)) return 'Senha deve conter ao menos um caractere especial.';
-        return null;
-    };
-
     const cleanForms = () => {
         setEmail('');
         setPassword('');
@@ -66,20 +66,30 @@ export default function LoginForm() {
     };
 
     useEffect(() => {
-        const isValid = isValidEmail(email);
-        if (email && !isValid) {
+        if (!email) return;
+        if (!isValidEmailFormat(email)) {
             setFieldErrors(prev => ({ ...prev, email: 'Formato de e-mail inválido!' }));
             return;
         }
-        if (email && isValid) setFieldErrors(prev => ({ ...prev, email: null }));
+        setFieldErrors(prev => ({ ...prev, email: null }));
     }, [email]);
+
+    useEffect(() => {
+        if (!password) return;
+        const error = validatePassword(password);
+        if (!error) {
+            setFieldErrors(prev => ({ ...prev, password: null }));
+            return;
+        }
+        setFieldErrors(prev => ({ ...prev, password: error }));
+    }, [password]);
 
     const handleSubmit = async (e: React.SubmitEvent) => {
         e.preventDefault();
         // client-side validation aligned with backend
         const newFieldErrors: Record<string, string | null> = {};
 
-        if (!isValidEmail(email)) newFieldErrors.email = 'Formato de e-mail inválido!';
+        if (!isValidEmailFormat(email)) newFieldErrors.email = 'Formato de e-mail inválido!';
 
         const pw = validatePassword(password);
         if (pw) newFieldErrors.password = pw;
@@ -95,24 +105,28 @@ export default function LoginForm() {
             await login({ email: email as TEmail, password });
             cleanForms();
             navigate('/dashboard');
-        } catch (error) {
-            const serverErrors = getValidationErrors(error);
-            if (serverErrors) {
-                const mapped: Record<string, string | null> = {};
-                if (Array.isArray(serverErrors.global) && serverErrors.global.length > 0) {
-                    setError(serverErrors.global[0]);
-                }
-                for (const key of Object.keys(serverErrors)) {
-                    if (key === 'global') continue;
-                    const arr = serverErrors[key];
-                    if (Array.isArray(arr) && arr.length > 0 && typeof arr[0] === 'string') {
-                        mapped[key] = arr[0];
-                    }
-                }
-                setFieldErrors(mapped);
-            } else {
+        } catch (e) {
+            const serverErrors = getValidationErrors(e);
+
+            if (!serverErrors) {
                 setError('Erro no login. Tente novamente.');
+                return;
             }
+
+            const mapped: Record<string, string | null> = {};
+
+            if (Array.isArray(serverErrors.global) && serverErrors.global.length > 0) {
+                setError(serverErrors.global[0]);
+            }
+
+            for (const key of Object.keys(serverErrors)) {
+                if (key === 'global') continue;
+                const arr = serverErrors[key];
+                if (Array.isArray(arr) && arr.length > 0 && typeof arr[0] === 'string')
+                    mapped[key] = arr[0];
+            }
+
+            setFieldErrors(mapped);
         }
     };
 
