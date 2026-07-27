@@ -13,14 +13,14 @@ const __dirname = dirname(__filename);
 
 const app = express();
 
-app.use(json());
+app.use(json({ limit: '10mb' }));
 app.use(cors({ methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'] }));
 
 app.get('/', (_, res) => res.redirect('/docs'));
 
 // Routers:
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-app.use('/uploads', express.static(join(__dirname, 'uploads')));
+app.use('/uploads', express.static(join(__dirname, '../uploads')));
 app.use('/users', usersRouter);
 app.use('/threads', threadsRouter);
 

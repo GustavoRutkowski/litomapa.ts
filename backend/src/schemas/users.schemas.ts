@@ -43,9 +43,15 @@ export const CreateUserSchema = UserSchema.pick({
     password: true
 }).openapi('CreateUser');
 export const LoginSchema = UserSchema.pick({ email: true, password: true }).openapi('Login');
-export const UpdateUserInfosSchema = UserSchema.pick({ username: true })
-    .extend({
-        photo: z.base64().openapi({ description: 'Base64 representing the path of the photo' })
+export const UpdateUserInfosSchema = z
+    .object({
+        username: z.string().min(3, 'Username too short').max(20, 'Username too long').optional(),
+        photo: z
+            .string()
+            .refine(value => value.startsWith('data:image/'), {
+                message: 'Photo must be a valid image data URL'
+            })
+            .optional()
     })
     .partial()
     .openapi('UpdateUserInfos');
