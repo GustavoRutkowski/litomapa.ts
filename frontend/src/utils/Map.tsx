@@ -97,7 +97,11 @@ export default class Map {
     // Cria o conteúdo HTML do popup para uma thread específica, incluindo título, tags e informações do autor.
     private buildPopupContent(thread: ThreadDTO): JSX.Element {
         const authorName = thread.author?.username ?? 'Autor desconhecido';
-        const authorPhoto = thread.author?.photo || defaultUserPicture;
+
+        const formatPhoto = (photo: string | null | undefined) => {
+            if (!photo) return null;
+            return `/api/uploads/${photo}`;
+        };
 
         const tags = (thread.tags ?? []).map(tag => (
             <span key={tag} className="leaflet-popup-tag">
@@ -112,7 +116,11 @@ export default class Map {
                 <div className="leaflet-popup-tags">{tags}</div>
 
                 <div className="leaflet-popup-author">
-                    <img className="leaflet-popup-avatar" src={authorPhoto} alt={authorName} />
+                    <img
+                        className="leaflet-popup-avatar"
+                        src={formatPhoto(thread.author?.photo) || defaultUserPicture}
+                        alt={authorName}
+                    />
                     <span>{authorName}</span>
                 </div>
             </article>

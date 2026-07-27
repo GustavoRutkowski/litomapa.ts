@@ -23,6 +23,8 @@
             img {
                 width: 2rem;
                 aspect-ratio: 1;
+                border-radius: $radius-full;
+                object-fit: cover;
             }
 
             span {

@@ -3,6 +3,7 @@ import { GeoJsonObject } from 'geojson';
 import 'leaflet/dist/leaflet.css';
 import { useNavigate } from 'react-router-dom';
 import useThreads from '../../../../hooks/useThreads';
+import useUserInfos from '../../../../hooks/useUserInfos';
 import Map from '../../../../utils/Map';
 import styles from './MapView.module.scss';
 import { ThreadDTO } from '../../../../services/threads.service';
@@ -19,6 +20,7 @@ export default function MapView({ geojson, className, tag }: IProps) {
     const mapRef = useRef<Map | null>(null);
     const navigate = useNavigate();
     const { getThreads } = useThreads();
+    const { user } = useUserInfos();
     const [threads, setThreads] = useState<Array<ThreadDTO>>([]);
 
     useEffect(() => {
@@ -69,7 +71,7 @@ export default function MapView({ geojson, className, tag }: IProps) {
             fitBounds: threads.length > 0,
             filterTag: tag
         });
-    }, [tag, threads]);
+    }, [tag, threads, user?.photo, user?.username]);
 
     return (
         <div

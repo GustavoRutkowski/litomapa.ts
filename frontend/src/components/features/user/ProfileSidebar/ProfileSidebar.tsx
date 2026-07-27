@@ -9,10 +9,15 @@ export default function ProfileSidebar() {
     const setProfile = () => setScreen('profile');
     const setPassword = () => setScreen('password');
 
+    const formatPhoto = (photo: string | null | undefined) => {
+        if (!photo) return null;
+        return `/api/uploads/${photo}`;
+    };
+
     return (
         <aside className={styles.container}>
             <div>
-                <img src={currPhoto || defaultPictureUrl} alt="" />
+                <img src={formatPhoto(currPhoto) || defaultPictureUrl} alt="" />
                 <span>{currUsername}</span>
             </div>
 

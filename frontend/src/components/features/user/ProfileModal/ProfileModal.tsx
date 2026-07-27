@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import HeaderModal from '../../../ui/HeaderModal/HeaderModal';
 import ProfileSidebar from '../ProfileSidebar/ProfileSidebar';
 import ProfileScreen from '../ProfileScreen/ProfileScreen';
@@ -7,6 +8,12 @@ import useProfile from '../../../../hooks/useProfile';
 
 import styles from './ProfileModal.module.scss';
 
+type PopupConfig = {
+    type: 'success' | 'error';
+    message: string;
+    timeout: number;
+};
+
 interface IProps {
     open: boolean;
     onClose: () => void;
@@ -14,23 +21,30 @@ interface IProps {
 
 function ProfileModal({ open, onClose }: IProps) {
     return (
-        <HeaderModal title="Configurações de perfil" open={open} onClose={onClose}>
-            <ProfileProvider>
-                <div className={styles.container}>
-                    <ProfileModal.Sidebar />
-                    <ProfileModal.Screen />
-                </div>
-            </ProfileProvider>
-        </HeaderModal>
+        <>
+            <HeaderModal title="Configurações de perfil" open={open} onClose={onClose}>
+                <ProfileProvider>
+                    <div className={styles.container}>
+                        <ProfileModal.Sidebar />
+                        <ProfileModal.Screen onClose={onClose} />
+                    </div>
+                </ProfileProvider>
+            </HeaderModal>
+        </>
     );
 }
 
 ProfileModal.Sidebar = ProfileSidebar;
-ProfileModal.Screen = () => {
+
+interface IScreenProps {
+    onClose: () => void;
+}
+
+ProfileModal.Screen = ({ onClose }: IScreenProps) => {
     const { screen } = useProfile();
     return (
         <section className={styles.screen}>
-            {screen === 'profile' ? <ProfileScreen /> : <PasswordScreen />}
+            {screen === 'profile' ? <ProfileScreen onClose={onClose} /> : <PasswordScreen />}
         </section>
     );
 };

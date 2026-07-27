@@ -37,7 +37,8 @@
         padding-right: $pad-md;
     }
 
-    & > button {
+    & > button,
+    form > button {
         margin: auto 0 0 auto;
         background-color: $tertiary-color;
         color: white;
