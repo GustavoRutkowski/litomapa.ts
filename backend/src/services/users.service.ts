@@ -17,7 +17,7 @@ const USER_NOT_FOUND_ERR = new ApiError('User not found', 404);
 
 export default class UserService {
     private static uploader = new FileUploader({
-        path: 'backend/src/uploads',
+        path: 'backend/uploads',
         minsize: 0,
         maxsize: 5 * 1024 * 1024, // 5MB
         allowedTypes: ['image/png', 'image/jpeg', 'image/jpg', 'image/webp']
