@@ -74,16 +74,6 @@ export default function LoginForm() {
         setFieldErrors(prev => ({ ...prev, email: null }));
     }, [email]);
 
-    useEffect(() => {
-        if (!password) return;
-        const error = validatePassword(password);
-        if (!error) {
-            setFieldErrors(prev => ({ ...prev, password: null }));
-            return;
-        }
-        setFieldErrors(prev => ({ ...prev, password: error }));
-    }, [password]);
-
     const handleSubmit = async (e: React.SubmitEvent) => {
         e.preventDefault();
         // client-side validation aligned with backend
