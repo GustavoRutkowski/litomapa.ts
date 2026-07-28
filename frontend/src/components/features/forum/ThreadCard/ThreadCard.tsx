@@ -1,18 +1,16 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronUp, faChevronDown, faLocationDot } from '@fortawesome/free-solid-svg-icons';
+import { faLocationDot } from '@fortawesome/free-solid-svg-icons';
 
 import styles from './ThreadCard.module.scss';
+import ThreadVote from '../ThreadVote/ThreadVote';
 
 interface IProps {
     author: string;
     authorPicture: string;
-
     title: string;
     description: string;
-
     createdAt: string;
     location: string;
-
     upvotes: number;
 }
 
@@ -27,23 +25,12 @@ export default function ThreadCard({
 }: IProps) {
     return (
         <article className={styles.container}>
-            <aside className={styles.votes}>
-                <button type="button" aria-label="Upvote">
-                    <FontAwesomeIcon icon={faChevronUp} />
-                </button>
-
-                <span>{upvotes}</span>
-
-                <button type="button" aria-label="Downvote">
-                    <FontAwesomeIcon icon={faChevronDown} />
-                </button>
-            </aside>
+            <ThreadVote upvotes={upvotes} />
 
             <section className={styles.content}>
                 <header className={styles.header}>
                     <div className={styles.author}>
                         <img src={authorPicture} alt={`Foto de ${author}`} />
-
                         <span>{author}</span>
                     </div>
 
@@ -52,12 +39,10 @@ export default function ThreadCard({
 
                 <div className={styles.location}>
                     <FontAwesomeIcon icon={faLocationDot} />
-
                     <span>{location}</span>
                 </div>
 
                 <h2>{title}</h2>
-
                 <p>{description}</p>
             </section>
         </article>

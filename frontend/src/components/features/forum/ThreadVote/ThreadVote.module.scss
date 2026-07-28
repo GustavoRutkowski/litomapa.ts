@@ -1,0 +1,31 @@
+.container {
+    @include flex-column(center, center, $pad-xs);
+
+    button {
+        @include flex-center;
+
+        width: 32px;
+        height: 32px;
+
+        border: none;
+        border-radius: $radius-full;
+
+        background: transparent;
+
+        color: rgba($label-color, 0.75);
+
+        transition: 0.2s;
+        cursor: pointer;
+
+        &:hover {
+            background-color: rgba($secundary-color, 0.08);
+            color: $secundary-color;
+        }
+    }
+
+    span {
+        font-size: $font-sm;
+        font-weight: 700;
+        color: $tertiary-color;
+    }
+}
