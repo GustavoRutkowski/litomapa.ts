@@ -17,7 +17,7 @@ const nominatim = new Api('https://nominatim.openstreetmap.org');
 export default class Formatter {
     static formatPicture(picture: string | null | undefined): string {
         if (!picture) return defaultPictureUrl;
-        return `/apí/uploads/${picture}`;
+        return `/api/uploads/${picture}`;
     }
 
     static relativeDateFrom(date: Date): string {
@@ -30,33 +30,33 @@ export default class Formatter {
         const minutes = Math.floor(diff / MINUTE);
 
         if (minutes <= 0) return 'Agora mesmo';
-        if (minutes === 1) return 'Há 1 minuto';
-        if (minutes < 60) return `Há ${minutes} minutos`;
+        if (minutes === 1) return 'há 1 minuto';
+        if (minutes < 60) return `há ${minutes} minutos`;
 
         const hours = Math.floor(minutes / 60);
 
-        if (hours === 1) return 'Há 1 hora';
-        if (hours < 24) return `Há ${hours} horas`;
+        if (hours === 1) return 'há 1 hora';
+        if (hours < 24) return `há ${hours} horas`;
 
         const days = Math.floor(hours / 24);
 
-        if (days === 1) return 'Há 1 dia';
-        if (days < 7) return `Há ${days} dias`;
+        if (days === 1) return 'há 1 dia';
+        if (days < 7) return `há ${days} dias`;
 
         const weeks = Math.floor(days / 7);
 
-        if (weeks === 1) return 'Há 1 semana';
-        if (weeks < 5) return `Há ${weeks} semanas`;
+        if (weeks === 1) return 'há 1 semana';
+        if (weeks < 5) return `há ${weeks} semanas`;
 
         const months = Math.floor(days / 30);
 
-        if (months === 1) return 'Há 1 mês';
-        if (months < 12) return `Há ${months} meses`;
+        if (months === 1) return 'há 1 mês';
+        if (months < 12) return `há ${months} meses`;
 
         const years = Math.floor(days / 365);
 
-        if (years === 1) return 'Há 1 ano';
-        return `Há ${years} anos`;
+        if (years === 1) return 'há 1 ano';
+        return `há ${years} anos`;
     }
 
     static async addressFrom(lat: number, lon: number): Promise<string> {

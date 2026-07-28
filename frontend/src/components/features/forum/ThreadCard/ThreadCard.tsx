@@ -3,73 +3,57 @@ import { faLocationDot } from '@fortawesome/free-solid-svg-icons';
 
 import styles from './ThreadCard.module.scss';
 import ThreadVote from '../ThreadVote/ThreadVote';
-
-interface IThreadTag {
-    label: string;
-    color?: string;
-}
+import { ThreadDTO } from '../../../../services/threads.service';
+import Formatter from '../../../../utils/Formatter';
+import { useEffect, useState } from 'react';
 
 interface IProps {
-    author: string;
-    authorPicture: string;
-    title: string;
-    description: string;
-    tags: IThreadTag[];
-    createdAt: string;
-    location: string;
-    upvotes: number;
+    thread: ThreadDTO;
 }
 
-export default function ThreadCard({
-    author,
-    authorPicture,
-    title,
-    description,
-    tags,
-    createdAt,
-    location,
-    upvotes
-}: IProps) {
+export default function ThreadCard({ thread }: IProps) {
+    const relativeDate = Formatter.relativeDateFrom(new Date(thread.createdAt));
+    const [address, setAddress] = useState<string | undefined>();
+
+    useEffect(() => {
+        Formatter.addressFrom(thread.coords.latitude, thread.coords.longitude).then(setAddress);
+    }, []);
+
     return (
         <article className={styles.container}>
-            <ThreadVote upvotes={upvotes} />
+            <ThreadVote upvotes={0} />
 
             <section className={styles.content}>
                 <header className={styles.header}>
                     <div className={styles.author}>
-                        <img src={authorPicture} alt={`Foto de ${author}`} />
-                        <span>{author}</span>
+                        <img
+                            src={Formatter.formatPicture(thread.author.photo)}
+                            alt={`Foto de ${thread.author.username}`}
+                        />
+                        <span>{thread.author.username}</span>
                     </div>
 
-                    <span className={styles.date}>{createdAt}</span>
+                    <span className={styles.date}>{relativeDate}</span>
                 </header>
 
                 <div className={styles.location}>
                     <FontAwesomeIcon icon={faLocationDot} />
-                    <span>{location}</span>
+                    <span>{address}</span>
                 </div>
 
                 <div className={styles.tags}>
-                    {tags.map(tag => (
-                        <span
-                            key={tag.label}
-                            className={styles.tag}
-                            style={
-                                tag.color
-                                    ? {
-                                          backgroundColor: `${tag.color}20`,
-                                          color: tag.color
-                                      }
-                                    : undefined
-                            }
-                        >
-                            {tag.label}
+                    {thread.tags.map(tag => (
+                        <span key={tag} className={styles.tag}>
+                            {tag}
                         </span>
                     ))}
                 </div>
 
-                <h2>{title}</h2>
-                <p>{description}</p>
+                <h2>{thread.title}</h2>
+                <p>
+                    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Non dicta molestias
+                    illo iusto eveniet! Explicabo.
+                </p>
             </section>
         </article>
     );

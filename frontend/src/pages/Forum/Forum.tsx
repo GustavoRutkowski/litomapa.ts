@@ -1,16 +1,16 @@
-import { useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 import Header from '../../components/common/Header/Header';
 import SearchBar from '../../components/ui/SearchBar/SearchBar';
 import ThreadCard from '../../components/features/forum/ThreadCard/ThreadCard';
 
-import defaultPictureUrl from '@/assets/default-picture.png';
-
 import styles from './Forum.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import useThreads from '../../hooks/useThreads';
+import { ThreadDTO } from '../../services/threads.service';
 
-type ForumFilter = 'all' | 'migration' | 'invasive' | 'crime';
+type ForumFilter = 'all' | 'migration' | 'invasive' | 'report';
 
 interface IFilter {
     value: ForumFilter;
@@ -22,7 +22,7 @@ const FILTERS: IFilter[] = [
     { value: 'all', label: 'Todos', className: styles.filterButtonAll },
     { value: 'migration', label: 'Migrações', className: styles.filterButtonMigrations },
     { value: 'invasive', label: 'Espécies Invasoras', className: styles.filterButtonInvasives },
-    { value: 'crime', label: 'Crimes Ambientais', className: styles.filterButtonCrimes }
+    { value: 'report', label: 'Crimes Ambientais', className: styles.filterButtonCrimes }
 ];
 
 interface IFilterButtonProps {
@@ -48,8 +48,80 @@ function FilterButton({ filter, active, onClick }: IFilterButtonProps) {
 }
 
 export default function Forum() {
+    const PAGE_SIZE = 10;
+
+    const [threads, setThreads] = useState<ThreadDTO[]>([]);
+    const [offset, setOffset] = useState(0);
+    const [total, setTotal] = useState(0);
+
+    const [loading, setLoading] = useState(false);
+
     const [selectedFilter, setSelectedFilter] = useState<ForumFilter>('all');
     const [search, setSearch] = useState('');
+
+    const { getThreads } = useThreads();
+    const loadMoreRef = useRef<HTMLDivElement>(null);
+
+    const loadThreads = useCallback(
+        async (reset = false) => {
+            if (loading) return;
+
+            setLoading(true);
+
+            const currentOffset = reset ? 0 : offset;
+
+            const response = await getThreads({
+                limit: PAGE_SIZE,
+                offset: currentOffset,
+                title: search || undefined,
+                tag: selectedFilter === 'all' ? undefined : selectedFilter
+            });
+
+            setTotal(response.total);
+
+            if (reset) {
+                setThreads(response.data);
+                setOffset(response.data.length);
+            } else {
+                setThreads(previous => [...previous, ...response.data]);
+                setOffset(previous => previous + response.data.length);
+            }
+
+            setLoading(false);
+        },
+        [loading, offset, search, selectedFilter, getThreads]
+    );
+
+    useEffect(() => {
+        void loadThreads(true);
+    }, [search, selectedFilter]);
+
+    useEffect(() => {
+        const element = loadMoreRef.current;
+
+        if (!element) return;
+
+        const observer = new IntersectionObserver(
+            entries => {
+                const entry = entries[0];
+
+                if (!entry.isIntersecting) return;
+
+                if (loading) return;
+
+                if (threads.length >= total) return;
+
+                void loadThreads();
+            },
+            {
+                threshold: 0.2
+            }
+        );
+
+        observer.observe(element);
+
+        return () => observer.disconnect();
+    }, [threads.length, total, loading, loadThreads]);
 
     return (
         <div className={styles.container}>
@@ -74,77 +146,10 @@ export default function Forum() {
                 </div>
 
                 <section className={styles.threads}>
-                    <ThreadCard
-                        author="João da Silva"
-                        authorPicture={defaultPictureUrl}
-                        title="Avistamento de javalis próximo à BR-386"
-                        description="Durante uma caminhada encontrei um grupo de javalis próximo à rodovia. Eles aparentavam estar procurando alimento próximos à vegetação e representavam risco aos veículos."
-                        createdAt="há 3 dias"
-                        location="BR-386 • Soledade - RS"
-                        upvotes={23}
-                        tags={[
-                            {
-                                label: 'Migração',
-                                color: '#9e2f79'
-                            },
-                            {
-                                label: 'Mamíferos',
-                                color: '#4b78f0'
-                            },
-                            {
-                                label: 'Javali',
-                                color: '#6b7280'
-                            }
-                        ]}
-                    />
-
-                    <ThreadCard
-                        author="Maria Oliveira"
-                        authorPicture={defaultPictureUrl}
-                        title="Grande concentração de capivaras em área urbana"
-                        description="Nos últimos dias percebi diversas capivaras próximas ao parque municipal. A quantidade aumentou bastante em comparação aos meses anteriores."
-                        createdAt="há 1 semana"
-                        location="Parque Municipal • Passo Fundo - RS"
-                        upvotes={58}
-                        tags={[
-                            {
-                                label: 'Mamíferos',
-                                color: '#4b78f0'
-                            },
-                            {
-                                label: 'Capivara',
-                                color: '#6b7280'
-                            },
-                            {
-                                label: 'Área Urbana',
-                                color: '#0f766e'
-                            }
-                        ]}
-                    />
-
-                    <ThreadCard
-                        author="Carlos Souza"
-                        authorPicture={defaultPictureUrl}
-                        title="Possível descarte irregular próximo ao rio"
-                        description="Observei diversos resíduos descartados às margens do rio. O material parece ser proveniente de construção civil e pode representar risco ao ecossistema local."
-                        createdAt="há 2 semanas"
-                        location="Rio Taquari • Lajeado - RS"
-                        upvotes={12}
-                        tags={[
-                            {
-                                label: 'Crime Ambiental',
-                                color: '#d9480f'
-                            },
-                            {
-                                label: 'Poluição',
-                                color: '#dc2626'
-                            },
-                            {
-                                label: 'Rio',
-                                color: '#2563eb'
-                            }
-                        ]}
-                    />
+                    {threads.map(thread => (
+                        <ThreadCard thread={thread} />
+                    ))}
+                    <div ref={loadMoreRef} />
                 </section>
             </main>
 
