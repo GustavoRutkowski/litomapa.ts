@@ -14,6 +14,7 @@ export interface IThreadSpecie {
 export interface ThreadDTO {
     id: number;
     title: string;
+    description: string;
     createdAt: string;
     coords: {
         latitude: number;

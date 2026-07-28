@@ -50,10 +50,7 @@ export default function ThreadCard({ thread }: IProps) {
                 </div>
 
                 <h2>{thread.title}</h2>
-                <p>
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Non dicta molestias
-                    illo iusto eveniet! Explicabo.
-                </p>
+                <p>{thread.description}</p>
             </section>
         </article>
     );
