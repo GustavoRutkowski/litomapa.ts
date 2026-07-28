@@ -1,0 +1,13 @@
+.container {
+    border-radius: 50%;
+    position: relative;
+    width: 2.5rem;
+    aspect-ratio: 1;
+    font-size: 1.2rem;
+    color: $tertiary-color;
+    @include flex-center;
+
+    &:hover {
+        background-color: #0000001a;
+    }
+}

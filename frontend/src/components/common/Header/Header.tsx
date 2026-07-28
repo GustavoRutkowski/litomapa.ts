@@ -3,6 +3,8 @@ import NotificationsButton from '../NotificationsButton/NotificationsButton';
 import logoUrl from '@/assets/logo.png';
 
 import styles from './Header.module.scss';
+import DashboardButton from '../DashboardButton/DashboardButton';
+import ForumButton from '../ForumButton/ForumButton';
 
 export default function Header() {
     return (
@@ -14,6 +16,8 @@ export default function Header() {
 
             <div className={styles.container__options}>
                 <UserDropdownButton />
+                <DashboardButton />
+                <ForumButton />
                 <NotificationsButton />
             </div>
         </header>

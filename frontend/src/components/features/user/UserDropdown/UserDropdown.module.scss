@@ -1,6 +1,7 @@
 .container {
     margin-top: $pad-xs;
     position: absolute;
+    z-index: 500;
     width: 100%;
 }
 
