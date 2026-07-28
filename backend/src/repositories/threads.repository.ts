@@ -29,7 +29,12 @@ interface UnformattedThread {
     threadTags: {
         tag: { id: number; name: string };
     }[];
+    messages: {
+        content: string;
+    }[];
 }
+
+type OrderBy = 'asc' | 'desc';
 
 const SELECT_STATEMENT = {
     id: true,
@@ -63,12 +68,22 @@ const SELECT_STATEMENT = {
                 }
             }
         }
+    },
+    messages: {
+        take: 1,
+        orderBy: {
+            createdAt: 'asc' as OrderBy
+        },
+        select: {
+            content: true
+        }
     }
 };
 
 const formatThread = (thread: UnformattedThread) => ({
     id: thread.id,
     title: thread.title,
+    description: thread.messages[0]?.content ?? null,
     createdAt: thread.createdAt.toUTCString(),
     coords: {
         latitude: thread.latitude,

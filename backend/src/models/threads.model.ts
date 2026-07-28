@@ -6,6 +6,7 @@ type ThreadAuthor = Pick<User, 'id' | 'username' | 'photo'>;
 type Thread = {
     id: number;
     title: string;
+    description: string;
     createdAt: string; // Assuming it's stored as a string in UTC format
     coords: {
         latitude: number;
