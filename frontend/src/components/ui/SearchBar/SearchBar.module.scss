@@ -1,0 +1,45 @@
+.container {
+    @include flex-row(start, center, $pad-xs);
+
+    width: 100%;
+    box-sizing: border-box;
+
+    padding: $pad-xs $pad-sm;
+
+    background-color: $primary-color;
+
+    border-radius: $radius-md;
+    box-shadow: $shadow-sm;
+
+    transition: all 0.2s;
+
+    &:focus-within {
+        box-shadow: $shadow-md;
+        outline: 2px solid rgba($secundary-color, 0.35);
+        outline-offset: 2px;
+    }
+
+    .icon {
+        flex-shrink: 0;
+
+        color: rgba($label-color, 0.8);
+
+        font-size: 1rem;
+    }
+
+    input {
+        flex: 1;
+
+        border: none;
+        outline: none;
+
+        background: transparent;
+
+        font-size: $font-sm;
+        color: $tertiary-color;
+
+        &::placeholder {
+            color: rgba($label-color, 0.65);
+        }
+    }
+}
