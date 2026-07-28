@@ -1,0 +1,120 @@
+.container {
+    display: grid;
+    grid-template-columns: 64px 1fr;
+
+    gap: $pad-sm;
+
+    width: 100%;
+    box-sizing: border-box;
+
+    @include box($pad-md);
+
+    transition: 0.2s;
+
+    &:hover {
+        transform: translateY(-2px);
+        box-shadow: $shadow-md;
+    }
+}
+
+.votes {
+    @include flex-column(center, center, $pad-xs);
+
+    button {
+        @include flex-center;
+
+        width: 32px;
+        height: 32px;
+
+        border: none;
+        border-radius: $radius-full;
+
+        background: transparent;
+
+        color: rgba($label-color, 0.75);
+
+        transition: 0.2s;
+        cursor: pointer;
+
+        &:hover {
+            background-color: rgba($secundary-color, 0.08);
+            color: $secundary-color;
+        }
+    }
+
+    span {
+        font-size: $font-sm;
+        font-weight: 700;
+        color: $tertiary-color;
+    }
+}
+
+.content {
+    @include flex-column(start, stretch, $pad-xs);
+
+    min-width: 0;
+
+    h2 {
+        margin: 0;
+
+        color: $tertiary-color;
+
+        font-size: 1.15rem;
+        font-weight: 700;
+        line-height: 1.35;
+    }
+
+    p {
+        margin: 0;
+
+        color: $label-color;
+
+        line-height: 1.6;
+        word-break: break-word;
+    }
+}
+
+.header {
+    @include flex-row(space-between, center);
+
+    gap: $pad-sm;
+}
+
+.author {
+    @include flex-row(start, center, $pad-xs);
+
+    img {
+        width: 40px;
+        height: 40px;
+
+        object-fit: cover;
+
+        border-radius: $radius-full;
+
+        box-shadow: $shadow-sm;
+    }
+
+    span {
+        font-weight: 600;
+        color: $tertiary-color;
+    }
+}
+
+.date {
+    font-size: $font-xs;
+    color: rgba($label-color, 0.85);
+
+    white-space: nowrap;
+}
+
+.location {
+    @include flex-row(start, center, $pad-xxs);
+
+    color: rgba($label-color, 0.9);
+
+    font-size: $font-xs;
+
+    svg {
+        color: $secundary-color;
+    }
+}
