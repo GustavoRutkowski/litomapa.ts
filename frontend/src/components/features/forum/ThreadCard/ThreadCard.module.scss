@@ -86,3 +86,21 @@
         color: $secundary-color;
     }
 }
+
+.tags {
+    @include flex-row(start, center, $pad-xxs, wrap);
+}
+
+.tag {
+    padding: 0.35rem 0.65rem;
+
+    border-radius: $radius-md;
+
+    font-size: $font-xs;
+    font-weight: 600;
+
+    background-color: rgba($secundary-color, 0.12);
+    color: $secundary-color;
+
+    user-select: none;
+}
