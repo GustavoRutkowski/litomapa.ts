@@ -1,5 +1,6 @@
 import prisma from '../lib/prisma.js';
 import type Thread from '../models/threads.model.js';
+import type { SpecieGroup } from '../models/species.model.js';
 
 type FindAllQueryParams = {
     offset?: number;
@@ -24,6 +25,8 @@ interface UnformattedThread {
         species: {
             id: number;
             name: string;
+            scientificName: string;
+            group: SpecieGroup;
         };
     }[];
     threadTags: {
@@ -54,7 +57,9 @@ const SELECT_STATEMENT = {
             species: {
                 select: {
                     id: true,
-                    name: true
+                    name: true,
+                    scientificName: true,
+                    group: true
                 }
             }
         }
@@ -94,7 +99,12 @@ const formatThread = (thread: UnformattedThread) => ({
         username: thread.author.username,
         photo: thread.author.photo
     },
-    species: thread.threadSpecies.map(item => item.species),
+    species: thread.threadSpecies.map(item => ({
+        id: item.species.id,
+        name: item.species.name,
+        scientific_name: item.species.scientificName,
+        group: item.species.group
+    })),
     tags: thread.threadTags.map(item => item.tag.name)
 });
 

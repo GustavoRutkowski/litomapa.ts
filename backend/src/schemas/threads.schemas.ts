@@ -21,10 +21,27 @@ const ThreadAuthorSchema = z
     })
     .openapi('ThreadAuthor');
 
+const ThreadSpeciesGroupSchema = z
+    .enum([
+        'dolphin',
+        'turtle',
+        'fish',
+        'shark',
+        'jellyfish',
+        'ray',
+        'whale',
+        'seal',
+        'crustacean',
+        'mollusk'
+    ])
+    .openapi({ example: 'turtle' });
+
 const ThreadSpeciesSchema = z
     .object({
         id: z.number().int().positive().openapi({ example: 2 }),
-        name: z.string().openapi({ example: 'Sea turtle' })
+        name: z.string().openapi({ example: 'Tartaruga-marinha' }),
+        scientific_name: z.string().openapi({ example: 'Chelonia mydas' }),
+        group: ThreadSpeciesGroupSchema
     })
     .openapi('ThreadSpecies');
 
@@ -35,7 +52,16 @@ export const ThreadSchema = z
         createdAt: z.string().openapi({ example: 'Wed, 22 Jul 2026 12:34:56 GMT' }),
         coords: ThreadCoordsSchema,
         author: ThreadAuthorSchema,
-        species: z.array(ThreadSpeciesSchema).openapi({ example: [{ id: 2, name: 'Sea turtle' }] }),
+        species: z.array(ThreadSpeciesSchema).openapi({
+            example: [
+                {
+                    id: 2,
+                    name: 'Tartaruga-marinha',
+                    scientific_name: 'Chelonia mydas',
+                    group: 'turtle'
+                }
+            ]
+        }),
         tags: z.array(ThreadTagSchema).openapi({ example: ['Sighting'] })
     })
     .openapi('Thread');

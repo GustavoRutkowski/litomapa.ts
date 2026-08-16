@@ -75,9 +75,24 @@ model ThreadTag {
   @@map("threads_tags")
 }
 
+enum SpeciesGroup {
+  dolphin
+  turtle
+  fish
+  shark
+  jellyfish
+  ray
+  whale
+  seal
+  crustacean
+  mollusk
+}
+
 model Species {
-  id   Int    @id @default(autoincrement())
-  name String @unique
+  id             Int          @id @default(autoincrement())
+  name           String       @unique
+  scientificName String       @unique @map("scientific_name")
+  group          SpeciesGroup
 
   threadSpecies ThreadSpecies[]
 

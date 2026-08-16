@@ -46,6 +46,28 @@ const threadsRouter = Router();
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/ThreadsResponse'
+ *             example:
+ *               success: true
+ *               total: 1
+ *               page: 1
+ *               data:
+ *                 - id: 12
+ *                   title: Sea turtle spotted near mangrove
+ *                   createdAt: Wed, 22 Jul 2026 12:34:56 GMT
+ *                   coords:
+ *                     latitude: -30.0346
+ *                     longitude: -51.2177
+ *                   author:
+ *                     id: 1
+ *                     username: demo_user_one
+ *                     photo: null
+ *                   species:
+ *                     - id: 2
+ *                       name: Tartaruga-marinha
+ *                       scientific_name: Chelonia mydas
+ *                       group: turtle
+ *                   tags:
+ *                     - SIGHTING
  *       400:
  *         description: Invalid query parameters
  *         content:
@@ -76,6 +98,26 @@ threadsRouter.get('/', ThreadsController.getAll);
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/ThreadResponse'
+ *             example:
+ *               success: true
+ *               data:
+ *                 id: 12
+ *                 title: Sea turtle spotted near mangrove
+ *                 createdAt: Wed, 22 Jul 2026 12:34:56 GMT
+ *                 coords:
+ *                   latitude: -30.0346
+ *                   longitude: -51.2177
+ *                 author:
+ *                   id: 1
+ *                   username: demo_user_one
+ *                   photo: null
+ *                 species:
+ *                   - id: 2
+ *                     name: Tartaruga-marinha
+ *                     scientific_name: Chelonia mydas
+ *                     group: turtle
+ *                 tags:
+ *                   - SIGHTING
  *       400:
  *         description: Invalid thread ID
  *         content:
