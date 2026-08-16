@@ -60,7 +60,8 @@ const options: swaggerJsDoc.Options = {
         tags: [
             { name: 'Users', description: 'Operações com Usuários' },
             { name: 'Threads', description: 'Operações com Threads' },
-            { name: 'Tags', description: 'Operações com Tags' }
+            { name: 'Tags', description: 'Operações com Tags' },
+            { name: 'Species', description: 'Operações com Espécies' }
         ],
 
         components: {
