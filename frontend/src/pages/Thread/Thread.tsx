@@ -1,117 +1,144 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+
 import Header from '../../components/common/Header/Header';
+
+import ThreadHeaderCard from '../../components/features/thread/ThreadHeaderCard/ThreadHeaderCard';
+import ThreadMessageList, {
+    IMessage
+} from '../../components/features/thread/ThreadMessageList/ThreadMessageList';
+import ThreadMessageInput from '../../components/features/thread/ThreadMessageInput/ThreadMessageInput';
+
 import useThreads from '../../hooks/useThreads';
 import type { ThreadDTO } from '../../services/threads.service';
-import defaultUserPicture from '../../assets/default-picture.png';
+
+import defaultPictureUrl from '@/assets/default-picture.png';
+
 import styles from './Thread.module.scss';
+
+const MOCK_MESSAGES: IMessage[] = [
+    {
+        id: 1,
+        author: 'João da Silva',
+        authorPicture: defaultPictureUrl,
+        createdAt: '28/07/2026 21:15',
+        message:
+            'Encontrei esse grupo de javalis atravessando a estrada durante a manhã. Achei importante registrar porque estavam muito próximos da pista.',
+        mine: false
+    },
+    {
+        id: 2,
+        author: 'Maria Oliveira',
+        authorPicture: defaultPictureUrl,
+        createdAt: '28/07/2026 21:18',
+        message:
+            'Também vi alguns deles ontem. Aparentemente estão utilizando aquela área como rota.',
+        mine: false
+    },
+    {
+        id: 3,
+        author: 'Você',
+        authorPicture: defaultPictureUrl,
+        createdAt: '28/07/2026 21:22',
+        message:
+            'Obrigado pelo registro! Vou acompanhar para verificar se aparecem novos relatos na região.',
+        mine: true
+    },
+    {
+        id: 4,
+        author: 'Carlos Souza',
+        authorPicture: defaultPictureUrl,
+        createdAt: '28/07/2026 21:29',
+        message: 'Talvez seja interessante sinalizar esse trecho para evitar acidentes.',
+        mine: false
+    }
+];
 
 export default function Thread() {
     const { id } = useParams();
-    const { getThread } = useThreads();
-    const [thread, setThread] = useState<ThreadDTO | null>(null);
-    const [isLoading, setIsLoading] = useState(true);
 
     const parsedId = Number(id);
 
-    useEffect(() => {
-        let isMounted = true;
+    const { getThread } = useThreads();
 
-        const loadThread = async () => {
+    const [thread, setThread] = useState<ThreadDTO | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        let mounted = true;
+
+        async function loadThread() {
             if (!Number.isFinite(parsedId)) {
-                if (isMounted) {
-                    setThread(null);
-                    setIsLoading(false);
-                }
+                setThread(null);
+                setIsLoading(false);
                 return;
             }
 
             try {
                 const response = await getThread(parsedId);
-                if (!isMounted) return;
+                if (!mounted) return;
                 setThread(response);
             } catch {
-                if (isMounted) {
-                    setThread(null);
-                }
+                if (mounted) setThread(null);
             } finally {
-                if (isMounted) {
-                    setIsLoading(false);
-                }
+                if (mounted) setIsLoading(false);
             }
-        };
+        }
 
         void loadThread();
-
         return () => {
-            isMounted = false;
+            mounted = false;
         };
     }, [getThread, parsedId]);
 
-    const formatPhoto = (photo: string | null | undefined) => {
-        if (!photo) return null;
-        return `/api/uploads/${photo}`;
-    };
+    if (isLoading) {
+        return (
+            <div className={styles.page}>
+                <Header />
+
+                <main className={styles.main}>
+                    <p>Carregando thread...</p>
+                </main>
+            </div>
+        );
+    }
+
+    if (!thread) {
+        return (
+            <div className={styles.page}>
+                <Header />
+
+                <main className={styles.main}>
+                    <p>Thread não encontrada.</p>
+                </main>
+            </div>
+        );
+    }
 
     return (
         <div className={styles.page}>
             <Header />
+
             <main className={styles.main}>
-                <section className={styles.card}>
-                    {isLoading ? (
-                        <p className={styles.status}>Carregando thread...</p>
-                    ) : !thread ? (
-                        <p className={styles.status}>Thread não encontrada.</p>
-                    ) : (
-                        <>
-                            <div className={styles.headerRow}>
-                                <div>
-                                    <p className={styles.eyebrow}>Registro selecionado</p>
-                                    <h1 className={styles.title}>{thread.title}</h1>
-                                </div>
-                                <div className={styles.authorBox}>
-                                    <img
-                                        className={styles.avatar}
-                                        src={formatPhoto(thread.author.photo) || defaultUserPicture}
-                                        alt={thread.author.username}
-                                    />
-                                    <span className={styles.authorName}>
-                                        {thread.author.username}
-                                    </span>
-                                </div>
+                <div className={styles.layout}>
+                    <ThreadHeaderCard thread={thread} />
+
+                    <section className={styles.chatPanel} aria-label="Chat da thread">
+                        <header className={styles.chatHeader}>
+                            <div className={styles.chatTitle}>
+                                <strong>Bate-papo da thread</strong>
+                                <span>Discussão em tempo real</span>
                             </div>
 
-                            <div className={styles.grid}>
-                                <div className={styles.infoBlock}>
-                                    <span className={styles.label}>Espécie</span>
-                                    <strong>{thread.species[0].name}</strong>
-                                </div>
-                                <div className={styles.infoBlock}>
-                                    <span className={styles.label}>Tags</span>
-                                    <div className={styles.tags}>
-                                        {(thread.tags ?? []).map(tag => (
-                                            <span key={crypto.randomUUID()} className={styles.tag}>
-                                                {tag}
-                                            </span>
-                                        ))}
-                                    </div>
-                                </div>
-                                <div className={styles.infoBlock}>
-                                    <span className={styles.label}>Localização</span>
-                                    <strong>
-                                        {thread.coords.latitude.toFixed(4)},{' '}
-                                        {thread.coords.longitude.toFixed(4)}
-                                    </strong>
-                                </div>
-                            </div>
+                            <span className={styles.chatMeta}>
+                                {MOCK_MESSAGES.length} mensagens
+                            </span>
+                        </header>
 
-                            <p className={styles.helper}>
-                                Esta página é uma visualização provisória da thread escolhida no
-                                mapa.
-                            </p>
-                        </>
-                    )}
-                </section>
+                        <ThreadMessageList messages={MOCK_MESSAGES} />
+                        <ThreadMessageInput />
+                    </section>
+                </div>
             </main>
         </div>
     );

@@ -1,5 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLocationDot } from '@fortawesome/free-solid-svg-icons';
+import { useNavigate } from 'react-router-dom';
 
 import styles from './ThreadCard.module.scss';
 import ThreadVote from '../ThreadVote/ThreadVote';
@@ -15,12 +16,15 @@ export default function ThreadCard({ thread }: IProps) {
     const relativeDate = Formatter.relativeDateFrom(new Date(thread.createdAt));
     const [address, setAddress] = useState<string | undefined>();
 
+    const navigate = useNavigate();
+    const handleClick = () => navigate(`/thread/${thread.id}`);
+
     useEffect(() => {
         Formatter.addressFrom(thread.coords.latitude, thread.coords.longitude).then(setAddress);
     }, []);
 
     return (
-        <article className={styles.container}>
+        <article onClick={handleClick} className={styles.container}>
             <ThreadVote upvotes={0} />
 
             <section className={styles.content}>

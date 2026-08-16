@@ -1,0 +1,81 @@
+.container {
+    @include flex-row(start, flex-end, $pad-sm);
+    width: fit-content;
+    max-width: 100%;
+}
+
+.mine {
+    margin-left: auto;
+    width: auto;
+    max-width: 100%;
+    align-self: flex-end;
+    display: flex;
+    justify-content: flex-end;
+
+    .content {
+        align-items: flex-end;
+        width: auto;
+        max-width: min(72%, 640px);
+    }
+
+    .header {
+        justify-content: flex-end;
+        width: 100%;
+    }
+
+    .bubble {
+        margin-left: auto;
+        display: inline-block;
+        max-width: 100%;
+        background: rgba($secundary-color, 0.18);
+        border-radius: $radius-xl $radius-xl $radius-xs $radius-xl;
+        box-shadow: 0 6px 18px rgba($secundary-color, 0.12);
+    }
+}
+
+.avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: $radius-full;
+    object-fit: cover;
+    flex-shrink: 0;
+    box-shadow: $shadow-sm;
+    border: 2px solid rgba($primary-color, 0.8);
+}
+
+.content {
+    @include flex-column(start, flex-start, $pad-xxs);
+    width: auto;
+    max-width: min(72%, 640px);
+    min-width: 0;
+}
+
+.header {
+    @include flex-row(start, center, $pad-xs);
+    width: 100%;
+}
+
+.author {
+    font-size: $font-sm;
+    font-weight: 700;
+    color: $tertiary-color;
+}
+
+.date {
+    font-size: $font-xs;
+    color: rgba($label-color, 0.85);
+}
+
+.bubble {
+    display: inline-block;
+    width: auto;
+    max-width: 100%;
+    padding: $pad-xs $pad-sm;
+    border-radius: $radius-xl $radius-xl $radius-xl $radius-xs;
+    background: rgba($backdrop-color, 0.9);
+    color: $label-color;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    word-break: break-word;
+    box-shadow: $shadow-sm;
+}

@@ -1,119 +1,67 @@
-@use '../../styles/setup/variables' as *;
-
 .page {
     min-height: 100vh;
-    background: linear-gradient(180deg, rgba($secundary-color, 0.06), transparent 45%);
+    background: linear-gradient(180deg, rgba($backdrop-color, 0.32), rgba($primary-color, 0.85));
+    @include flex-column;
 }
 
 .main {
-    display: flex;
-    justify-content: center;
-    padding: $pad-lg $pad-md;
+    flex: 1;
+    overflow-y: scroll;
+    max-height: 100dvh;
+    padding: $pad-lg clamp($pad-md, 4vw, $pad-xl);
+    box-sizing: border-box;
+    @include flex-column(start, stretch, $pad-md);
 }
 
-.card {
-    width: min(760px, 100%);
-    background: $primary-color;
-    border-radius: $radius-lg;
-    box-shadow: $shadow-md;
-    border: 1px solid rgba($secundary-color, 0.18);
-    padding: $pad-lg;
-}
-
-.headerRow {
-    display: flex;
-    justify-content: space-between;
-    gap: $pad-md;
-    align-items: flex-start;
-}
-
-.eyebrow {
-    margin: 0 0 $pad-xxs;
-    text-transform: uppercase;
-    font-size: $font-xxs;
-    letter-spacing: 0.12em;
-    color: $tertiary-color;
-    font-weight: 700;
-}
-
-.title {
-    margin: 0;
-    font-size: $font-lg;
-    color: $tertiary-color;
-}
-
-.authorBox {
-    display: flex;
-    align-items: center;
-    gap: $pad-xxs;
-    min-width: 0;
-}
-
-.avatar,
-.avatarFallback {
-    width: 42px;
-    height: 42px;
-    border-radius: $radius-full;
-    object-fit: cover;
-}
-
-.avatarFallback {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: $secundary-color;
-    color: $primary-color;
-    font-weight: 700;
-}
-
-.authorName {
-    color: $label-color;
-    font-weight: 600;
-}
-
-.grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: $pad-sm;
-    margin-top: $pad-md;
-}
-
-.infoBlock {
-    background: rgba($backdrop-color, 0.45);
-    border-radius: $radius-md;
-    padding: $pad-sm;
+.layout {
+    width: min(1180px, 100%);
+    margin: 0 auto;
     display: flex;
     flex-direction: column;
-    gap: $pad-xxs;
+    gap: $pad-md;
 }
 
-.label {
-    font-size: $font-xxs;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    color: $label-color;
+.chatPanel {
+    @include flex-column(start, stretch, $pad-md);
+    min-height: 760px;
+    background: rgba($primary-color, 0.92);
+    border: 1px solid rgba($tertiary-color, 0.08);
+    border-radius: $radius-xl;
+    box-shadow: $shadow-md;
+    overflow: hidden;
 }
 
-.tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: $pad-xxs;
+:global(.threadHeaderCard) {
+    width: 100%;
 }
 
-.tag {
-    background: rgba($secundary-color, 0.14);
-    color: $tertiary-color;
-    padding: 0.3rem 0.6rem;
-    border-radius: $radius-md;
+.chatHeader {
+    @include flex-row(space-between, center);
+    padding: $pad-md $pad-lg;
+    border-bottom: 1px solid rgba($tertiary-color, 0.08);
+    background: linear-gradient(180deg, rgba($secundary-color, 0.08), rgba($primary-color, 0.2));
+}
+
+.chatTitle {
+    @include flex-column(start, flex-start, 2px);
+
+    strong {
+        color: $tertiary-color;
+        font-size: $font-md;
+        line-height: 1.2;
+    }
+
+    span {
+        color: rgba($label-color, 0.75);
+        font-size: $font-xs;
+    }
+}
+
+.chatMeta {
+    padding: $pad-xxs $pad-sm;
+    border-radius: $radius-lg;
+    background: rgba($secundary-color, 0.12);
+    color: $secundary-color;
     font-size: $font-xs;
-}
-
-.helper {
-    margin-top: $pad-md;
-    color: $label-color;
-}
-
-.status {
-    margin: 0;
-    color: $label-color;
+    font-weight: 700;
 }

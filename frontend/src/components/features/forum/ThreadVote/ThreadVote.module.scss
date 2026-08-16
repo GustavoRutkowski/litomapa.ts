@@ -1,11 +1,11 @@
 .container {
-    @include flex-column(center, center, $pad-xs);
+    @include flex-column(center, center, 4px);
 
     button {
         @include flex-center;
 
-        width: 32px;
-        height: 32px;
+        width: 26px;
+        height: 26px;
 
         border: none;
         border-radius: $radius-full;
@@ -24,7 +24,7 @@
     }
 
     span {
-        font-size: $font-sm;
+        font-size: 0.8rem;
         font-weight: 700;
         color: $tertiary-color;
     }

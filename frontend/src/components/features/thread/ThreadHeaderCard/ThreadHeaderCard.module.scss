@@ -1,0 +1,83 @@
+.container {
+    display: grid;
+    grid-template-columns: 52px 1fr;
+    gap: $pad-sm;
+    box-sizing: border-box;
+    @include box($pad-md);
+    width: 100%;
+    transition: 0.2s;
+}
+
+.content {
+    @include flex-column(start, stretch, $pad-xs);
+    min-width: 0;
+
+    h1 {
+        margin: 0;
+        color: $tertiary-color;
+        font-size: clamp(1.3rem, 2vw, 1.8rem);
+        line-height: 1.25;
+    }
+
+    > p {
+        margin: 0;
+        color: $label-color;
+        line-height: 1.6;
+        font-size: 0.96rem;
+    }
+}
+
+.header {
+    @include flex-row(space-between, center);
+}
+
+.author {
+    @include flex-row(start, center, $pad-xs);
+
+    img {
+        width: 44px;
+        height: 44px;
+        border-radius: $radius-full;
+        object-fit: cover;
+        box-shadow: $shadow-sm;
+    }
+
+    div {
+        @include flex-column(center, flex-start, 2px);
+    }
+
+    span {
+        font-weight: 700;
+        color: $tertiary-color;
+        font-size: 0.95rem;
+    }
+
+    small {
+        color: $label-color;
+        font-size: $font-xxs;
+    }
+}
+
+.tags {
+    @include flex-row(start, center, 4px, wrap);
+}
+
+.tag {
+    padding: 0.28rem 0.55rem;
+    border-radius: $radius-md;
+    background: rgba($secundary-color, 0.12);
+    color: $secundary-color;
+    font-size: 0.7rem;
+    font-weight: 600;
+}
+
+.infoGrid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $pad-xs;
+    margin-top: $pad-xxs;
+
+    @media (max-width: 1180px) {
+        grid-template-columns: 1fr;
+    }
+}

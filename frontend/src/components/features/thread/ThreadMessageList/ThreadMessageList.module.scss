@@ -1,0 +1,32 @@
+.container {
+    flex: 1;
+    min-height: 0;
+    max-height: 620px;
+    overflow-y: auto;
+    padding: $pad-md $pad-lg;
+    background: linear-gradient(180deg, rgba($primary-color, 0.8), rgba($backdrop-color, 0.12));
+    @include flex-column(start, stretch, $pad-md);
+
+    &::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        border-radius: $radius-sm;
+        background: rgba($tertiary-color, 0.2);
+    }
+}
+
+.loading {
+    align-self: center;
+    padding: $pad-xs $pad-sm;
+    border-radius: $radius-full;
+    background: rgba($secundary-color, 0.08);
+    color: rgba($label-color, 0.85);
+    font-size: $font-xs;
+    font-weight: 600;
+}

@@ -1,6 +1,7 @@
 .container {
     display: grid;
     grid-template-columns: 64px 1fr;
+    cursor: pointer;
 
     gap: $pad-sm;
 

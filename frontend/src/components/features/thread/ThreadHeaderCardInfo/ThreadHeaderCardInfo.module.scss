@@ -1,0 +1,32 @@
+.container {
+    @include flex-row(start, flex-start, $pad-xs);
+    padding: $pad-xs;
+    border-radius: $radius-md;
+    background: rgba($backdrop-color, 0.5);
+    min-width: 150px;
+    width: fit-content;
+    // flex-grow: 1;
+
+    svg {
+        margin-top: 2px;
+        color: $secundary-color;
+        font-size: 0.85rem;
+    }
+
+    div {
+        @include flex-column(start, stretch, 2px);
+        min-width: 0;
+    }
+
+    strong {
+        color: $tertiary-color;
+        font-size: 0.7rem;
+    }
+
+    span {
+        color: $label-color;
+        word-break: break-word;
+        font-size: 0.78rem;
+        line-height: 1.4;
+    }
+}
