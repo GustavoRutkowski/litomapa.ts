@@ -2,6 +2,7 @@ import express, { json } from 'express';
 import cors from 'cors';
 import usersRouter from './routers/users.router.js';
 import threadsRouter from './routers/threads.router.js';
+import tagsRouter from './routers/tags.router.js';
 import swaggerUi from 'swagger-ui-express';
 import { swaggerSpec } from './swagger.js';
 import { dirname, join } from 'path';
@@ -23,6 +24,7 @@ app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use('/uploads', express.static(join(__dirname, '../uploads')));
 app.use('/users', usersRouter);
 app.use('/threads', threadsRouter);
+app.use('/tags', tagsRouter);
 
 // Server:
 const API_PORT: number = Number(process.env.API_PORT) || 4444;
