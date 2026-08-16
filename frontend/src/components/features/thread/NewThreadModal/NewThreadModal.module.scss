@@ -1,0 +1,194 @@
+@use '../../../../styles/setup/imports' as *;
+
+.form {
+    width: min(760px, 92vw);
+    max-height: 82vh;
+    overflow-y: auto;
+    padding: $pad-md;
+    box-sizing: border-box;
+    @include flex-column(start, stretch, $pad-md);
+}
+
+.fieldset {
+    width: 100%;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    @include flex-column(start, stretch, $pad-xs);
+
+    label {
+        font-weight: 600;
+        color: $tertiary-color;
+    }
+
+    input,
+    textarea {
+        width: 100%;
+        box-sizing: border-box;
+        border: 1px solid rgba($tertiary-color, 0.2);
+        border-radius: $radius-md;
+        background: rgba($input-color, 0.5);
+        color: $tertiary-color;
+        padding: $pad-xs $pad-sm;
+        font: inherit;
+    }
+
+    textarea {
+        min-height: 120px;
+        resize: vertical;
+    }
+
+    small {
+        color: $label-color;
+        font-size: $font-xs;
+    }
+}
+
+.selectWrap {
+    @include flex-column(start, stretch, $pad-xs);
+}
+
+.tagSelect,
+.searchableSelectWrap input {
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid rgba($tertiary-color, 0.2);
+    border-radius: $radius-md;
+    background: rgba($input-color, 0.5);
+    color: $tertiary-color;
+    padding: $pad-xs $pad-sm;
+    font: inherit;
+}
+
+.tagSelect {
+    appearance: none;
+    background-image:
+        linear-gradient(45deg, transparent 50%, $tertiary-color 50%),
+        linear-gradient(135deg, $tertiary-color 50%, transparent 50%);
+    background-position:
+        calc(100% - 18px) calc(50% - 3px),
+        calc(100% - 12px) calc(50% - 3px);
+    background-size:
+        6px 6px,
+        6px 6px;
+    background-repeat: no-repeat;
+}
+
+.searchableSelectWrap {
+    @include flex-column(start, stretch, $pad-xs);
+}
+
+.searchableDropdown {
+    display: grid;
+    gap: $pad-xs;
+    max-height: 180px;
+    overflow-y: auto;
+    padding: $pad-xs;
+    border: 1px solid rgba($tertiary-color, 0.2);
+    border-radius: $radius-md;
+    background: rgba($primary-color, 0.7);
+}
+
+.optionButton {
+    @include flex-row(start, center, $pad-xxs);
+    justify-self: stretch;
+    border: 1px solid rgba($secundary-color, 0.2);
+    background: rgba($secundary-color, 0.06);
+    color: $tertiary-color;
+    border-radius: $radius-sm;
+    padding: $pad-xxs $pad-xs;
+    cursor: pointer;
+}
+
+.emptyOption,
+.emptySelection {
+    color: $label-color;
+    font-size: $font-xs;
+}
+
+.selectedChips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $pad-xxs;
+    min-height: 40px;
+    padding-top: $pad-xxs;
+}
+
+.chip {
+    @include flex-row(center, center, $pad-xxs);
+    background: rgba($secundary-color, 0.14);
+    border: 1px solid rgba($secundary-color, 0.28);
+    color: $tertiary-color;
+    border-radius: $radius-md;
+    padding: $pad-xxs $pad-sm;
+    font-size: $font-xs;
+    cursor: pointer;
+
+    svg {
+        font-size: 0.7rem;
+    }
+}
+
+.mapActions {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.locationButton {
+    @include flex-row(center, center, $pad-xs);
+    border: none;
+    border-radius: $radius-md;
+    background: $secundary-color;
+    color: white;
+    padding: $pad-xs $pad-sm;
+    cursor: pointer;
+}
+
+.mapPreview {
+    position: relative;
+    width: 100%;
+    height: 220px;
+    border-radius: $radius-lg;
+    border: 1px solid rgba($tertiary-color, 0.2);
+    background:
+        linear-gradient(rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2)),
+        linear-gradient(90deg, rgba($secundary-color, 0.06) 50%, rgba($secundary-color, 0.01) 50%);
+    background-size:
+        auto,
+        30px 30px;
+    overflow: hidden;
+}
+
+.mapDot {
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: $negative-color;
+    box-shadow: 0 0 0 5px rgba($negative-color, 0.2);
+    transform: translate(-50%, -50%);
+}
+
+.status {
+    margin: 0;
+    color: $tertiary-color;
+    font-size: $font-xs;
+    font-weight: 600;
+}
+
+.submitButton {
+    width: 100%;
+    border: none;
+    border-radius: $radius-md;
+    background: $tertiary-color;
+    color: white;
+    padding: $pad-sm;
+    font-size: $font-sm;
+    font-weight: 600;
+    cursor: pointer;
+
+    &:disabled {
+        opacity: 0.7;
+        cursor: wait;
+    }
+}

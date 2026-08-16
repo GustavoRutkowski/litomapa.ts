@@ -3,6 +3,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import Header from '../../components/common/Header/Header';
 import SearchBar from '../../components/ui/SearchBar/SearchBar';
 import ThreadCard from '../../components/features/forum/ThreadCard/ThreadCard';
+import NewThreadModal from '../../components/features/thread/NewThreadModal/NewThreadModal';
 
 import styles from './Forum.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -58,6 +59,7 @@ export default function Forum() {
 
     const [selectedFilter, setSelectedFilter] = useState<ForumFilter>('all');
     const [search, setSearch] = useState('');
+    const [isNewThreadModalOpen, setIsNewThreadModalOpen] = useState(false);
 
     const { getThreads } = useThreads();
     const loadMoreRef = useRef<HTMLDivElement>(null);
@@ -158,10 +160,16 @@ export default function Forum() {
                 className={styles.newThreadButton}
                 aria-label="Criar nova discussão"
                 title="Criar uma nova discussão"
+                onClick={() => setIsNewThreadModalOpen(true)}
             >
                 <FontAwesomeIcon icon={faPlus} />
                 <span>Nova discussão</span>
             </button>
+
+            <NewThreadModal
+                open={isNewThreadModalOpen}
+                onClose={() => setIsNewThreadModalOpen(false)}
+            />
         </div>
     );
 }
