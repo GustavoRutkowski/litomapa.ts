@@ -8,7 +8,29 @@ type FindAllResponse = {
     data: Thread[];
 };
 
+type CreateThreadData = {
+    title: string;
+    description: string;
+    latitude: number;
+    longitude: number;
+    species: number[];
+    tags: number[];
+    authorId: number;
+};
+
 export default class ThreadService {
+    static async create(data: CreateThreadData): Promise<number> {
+        return await ThreadRepository.insert({
+            title: data.title,
+            description: data.description,
+            latitude: data.latitude,
+            longitude: data.longitude,
+            authorId: data.authorId,
+            speciesIds: data.species,
+            tagIds: data.tags
+        });
+    }
+
     static async findById(id: number): Promise<Thread> {
         const thread = await ThreadRepository.findById(id);
         if (!thread) throw new ApiError('Thread not found', 404);

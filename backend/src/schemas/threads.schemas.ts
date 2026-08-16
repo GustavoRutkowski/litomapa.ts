@@ -73,6 +73,45 @@ export const ThreadIdSchema = z.coerce.number().int().positive().openapi({
     example: 12
 });
 
+export const CreateThreadSchema = z
+    .object({
+        title: z
+            .string()
+            .trim()
+            .min(1)
+            .max(200)
+            .openapi({ example: 'Sea turtle spotted near mangrove' }),
+        description: z
+            .string()
+            .trim()
+            .min(1)
+            .max(10000)
+            .openapi({ example: 'I saw a sea turtle near the mangrove this morning.' }),
+        species: z
+            .array(z.number().int().positive())
+            .min(1)
+            .openapi({ example: [2, 5] }),
+        tags: z
+            .array(z.number().int().positive())
+            .min(1)
+            .openapi({ example: [1, 3] }),
+        coords: z
+            .object({
+                longitude: z.number().min(-180).max(180).openapi({ example: -47.9292 }),
+                latitude: z.number().min(-90).max(90).openapi({ example: -15.7801 })
+            })
+            .openapi({ example: { longitude: -47.9292, latitude: -15.7801 } })
+    })
+    .transform(data => ({
+        title: data.title,
+        description: data.description,
+        species: data.species,
+        tags: data.tags,
+        latitude: data.coords.latitude,
+        longitude: data.coords.longitude
+    }))
+    .openapi('CreateThread');
+
 export const ThreadsQuerySchema = z
     .object({
         offset: z.coerce.number().int().min(0).optional().default(0),
@@ -92,3 +131,7 @@ export const ThreadsResponseSchema = SuccessResponseSchema.extend({
     page: z.number().int().min(1).openapi({ example: 1 }),
     data: z.array(ThreadListItemSchema)
 }).openapi('ThreadsResponse');
+
+export const CreateThreadResponseSchema = SuccessResponseSchema.extend({
+    insertId: z.number().int().positive().openapi({ example: 12 })
+}).openapi('CreateThreadResponse');

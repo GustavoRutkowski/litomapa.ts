@@ -1,7 +1,57 @@
 import { Router } from 'express';
 import ThreadsController from '../controllers/threads.controller.js';
+import isLogged from '../middlewares/isLogged.js';
 
 const threadsRouter = Router();
+
+/**
+ * @swagger
+ * /threads:
+ *   post:
+ *     summary: Create a new thread
+ *     security:
+ *       - bearerAuth: []
+ *     tags:
+ *       - Threads
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/CreateThread'
+ *           example:
+ *             title: Sea turtle spotted near mangrove
+ *             description: I saw a sea turtle near the mangrove this morning.
+ *             species:
+ *               - 2
+ *               - 5
+ *             tags:
+ *               - 1
+ *               - 3
+ *             coords:
+ *               longitude: -47.9292
+ *               latitude: -15.7801
+ *     responses:
+ *       201:
+ *         description: Thread created successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/CreateThreadResponse'
+ *       400:
+ *         description: Invalid request payload
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ *       401:
+ *         description: Unauthorized
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ */
+threadsRouter.post('/', isLogged, ThreadsController.create);
 
 /**
  * @swagger

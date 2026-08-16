@@ -10,6 +10,16 @@ type FindAllQueryParams = {
     title?: string;
 };
 
+type InsertThreadData = {
+    title: string;
+    description: string;
+    latitude: number;
+    longitude: number;
+    authorId: number;
+    speciesIds: number[];
+    tagIds: number[];
+};
+
 interface UnformattedThread {
     id: number;
     title: string;
@@ -109,6 +119,61 @@ const formatThread = (thread: UnformattedThread) => ({
 });
 
 export default class ThreadRepository {
+    static async insert({
+        title,
+        description,
+        latitude,
+        longitude,
+        authorId,
+        speciesIds,
+        tagIds
+    }: InsertThreadData): Promise<number> {
+        const result = await prisma.$transaction(async tx => {
+            const thread = await tx.thread.create({
+                data: {
+                    title,
+                    latitude,
+                    longitude,
+                    authorId,
+                    ...(speciesIds.length > 0
+                        ? {
+                              threadSpecies: {
+                                  create: speciesIds.map(specieId => ({
+                                      species: {
+                                          connect: { id: specieId }
+                                      }
+                                  }))
+                              }
+                          }
+                        : {}),
+                    ...(tagIds.length > 0
+                        ? {
+                              threadTags: {
+                                  create: tagIds.map(tagId => ({
+                                      tag: {
+                                          connect: { id: tagId }
+                                      }
+                                  }))
+                              }
+                          }
+                        : {})
+                }
+            });
+
+            await tx.message.create({
+                data: {
+                    content: description,
+                    authorId,
+                    threadId: thread.id
+                }
+            });
+
+            return thread.id;
+        });
+
+        return result;
+    }
+
     static async findAll({
         offset,
         limit,
