@@ -21,6 +21,15 @@
             background-color: rgba($secundary-color, 0.08);
             color: $secundary-color;
         }
+
+        &:disabled {
+            cursor: wait;
+        }
+
+        &.selected {
+            background-color: rgba($secundary-color, 0.2);
+            color: $secundary-color;
+        }
     }
 
     span {

@@ -23,7 +23,7 @@ export default function ThreadHeaderCard({ thread }: IProps) {
 
     return (
         <article className={styles.container}>
-            <ThreadVote upvotes={0} />
+            <ThreadVote threadId={thread.id} upvotes={thread.upvotes} myVote={thread.my_vote} />
 
             <section className={styles.content}>
                 <header className={styles.header}>
