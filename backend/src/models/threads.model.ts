@@ -17,6 +17,8 @@ type Thread = {
     author: ThreadAuthor;
     species: Specie[];
     tags: string[];
+    upvotes: number;
+    my_vote: ThreadVoteType | null;
 };
 
 export default Thread;

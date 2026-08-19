@@ -68,7 +68,9 @@ export const ThreadSchema = z
                 }
             ]
         }),
-        tags: z.array(ThreadTagSchema).openapi({ example: ['Sighting'] })
+        tags: z.array(ThreadTagSchema).openapi({ example: ['Sighting'] }),
+        upvotes: z.number().int().openapi({ example: 5 }),
+        my_vote: z.enum(['upvote', 'downvote']).nullable().openapi({ example: 'upvote' })
     })
     .openapi('Thread');
 

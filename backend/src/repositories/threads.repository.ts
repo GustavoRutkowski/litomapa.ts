@@ -52,7 +52,21 @@ interface UnformattedThread {
     messages: {
         content: string;
     }[];
+    _count: {
+        messages: number;
+    };
+    votes: {
+        userId: number;
+        type: ThreadVoteType;
+    }[];
 }
+
+export type ThreadRepositoryResult = Thread & {
+    relevance: {
+        createdAt: Date;
+        messages: number;
+    };
+};
 
 type OrderBy = 'asc' | 'desc';
 
@@ -99,31 +113,56 @@ const SELECT_STATEMENT = {
         select: {
             content: true
         }
+    },
+    _count: {
+        select: {
+            messages: true
+        }
+    },
+    votes: {
+        select: {
+            userId: true,
+            type: true
+        }
     }
 };
 
-const formatThread = (thread: UnformattedThread) => ({
-    id: thread.id,
-    title: thread.title,
-    description: thread.messages[0]?.content ?? null,
-    createdAt: thread.createdAt.toUTCString(),
-    coords: {
-        latitude: thread.latitude,
-        longitude: thread.longitude
-    },
-    author: {
-        id: thread.author.id,
-        username: thread.author.username,
-        photo: thread.author.photo
-    },
-    species: thread.threadSpecies.map(item => ({
-        id: item.species.id,
-        name: item.species.name,
-        scientific_name: item.species.scientificName,
-        group: item.species.group
-    })),
-    tags: thread.threadTags.map(item => item.tag.name)
-});
+const formatThread = (thread: UnformattedThread, userId?: number): ThreadRepositoryResult => {
+    const upvotes = thread.votes.reduce(
+        (score, vote) => score + (vote.type === 'upvote' ? 1 : -1),
+        0
+    );
+    const userVote = thread.votes.find(vote => vote.userId === userId)?.type ?? null;
+
+    return {
+        id: thread.id,
+        title: thread.title,
+        description: thread.messages[0]?.content ?? null,
+        createdAt: thread.createdAt.toUTCString(),
+        coords: {
+            latitude: thread.latitude,
+            longitude: thread.longitude
+        },
+        author: {
+            id: thread.author.id,
+            username: thread.author.username,
+            photo: thread.author.photo
+        },
+        species: thread.threadSpecies.map(item => ({
+            id: item.species.id,
+            name: item.species.name,
+            scientific_name: item.species.scientificName,
+            group: item.species.group
+        })),
+        tags: thread.threadTags.map(item => item.tag.name),
+        upvotes,
+        my_vote: userVote,
+        relevance: {
+            createdAt: thread.createdAt,
+            messages: thread._count.messages
+        }
+    };
+};
 
 export default class ThreadRepository {
     static async exists(id: number): Promise<boolean> {
@@ -206,13 +245,10 @@ export default class ThreadRepository {
         return result;
     }
 
-    static async findAll({
-        offset,
-        limit,
-        tag,
-        author,
-        title
-    }: FindAllQueryParams): Promise<[number, Thread[]]> {
+    static async findAll(
+        { tag, author, title }: FindAllQueryParams,
+        userId?: number
+    ): Promise<[number, ThreadRepositoryResult[]]> {
         const TAG = tag?.trim();
         const AUTHOR_NAME = author?.trim();
         const THREAD_TITLE = title?.trim();
@@ -241,23 +277,20 @@ export default class ThreadRepository {
 
         const threads = await prisma.thread.findMany({
             where,
-            orderBy: { createdAt: 'desc' },
-            skip: offset,
-            take: limit,
             select: SELECT_STATEMENT
         });
 
-        return [total, threads.map(formatThread)];
+        return [total, threads.map(thread => formatThread(thread, userId))];
     }
 
-    static async findById(id: number): Promise<Thread | null> {
+    static async findById(id: number, userId?: number): Promise<ThreadRepositoryResult | null> {
         const thread = await prisma.thread.findUnique({
             where: { id },
             select: SELECT_STATEMENT
         });
 
         if (!thread) return null;
-        return formatThread(thread);
+        return formatThread(thread, userId);
     }
 }
 
