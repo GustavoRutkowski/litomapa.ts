@@ -45,6 +45,12 @@ const ThreadSpeciesSchema = z
     })
     .openapi('ThreadSpecies');
 
+export const ThreadVoteSchema = z
+    .object({
+        type: z.enum(['upvote', 'downvote']).openapi({ example: 'upvote' })
+    })
+    .openapi('ThreadVote');
+
 export const ThreadSchema = z
     .object({
         id: z.number().int().positive().openapi({ example: 12 }),
@@ -135,3 +141,5 @@ export const ThreadsResponseSchema = SuccessResponseSchema.extend({
 export const CreateThreadResponseSchema = SuccessResponseSchema.extend({
     insertId: z.number().int().positive().openapi({ example: 12 })
 }).openapi('CreateThreadResponse');
+
+export const ThreadVoteResponseSchema = SuccessResponseSchema.openapi('ThreadVoteResponse');

@@ -3,6 +3,8 @@ import Specie from './species.model.js';
 
 type ThreadAuthor = Pick<User, 'id' | 'username' | 'photo'>;
 
+export type ThreadVoteType = 'upvote' | 'downvote';
+
 type Thread = {
     id: number;
     title: string;

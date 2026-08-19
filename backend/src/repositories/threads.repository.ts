@@ -1,5 +1,6 @@
 import prisma from '../lib/prisma.js';
 import type Thread from '../models/threads.model.js';
+import type { ThreadVoteType } from '../models/threads.model.js';
 import type { SpecieGroup } from '../models/species.model.js';
 
 type FindAllQueryParams = {
@@ -18,6 +19,12 @@ type InsertThreadData = {
     authorId: number;
     speciesIds: number[];
     tagIds: number[];
+};
+
+type ThreadVoteData = {
+    threadId: number;
+    userId: number;
+    type: ThreadVoteType;
 };
 
 interface UnformattedThread {
@@ -119,6 +126,31 @@ const formatThread = (thread: UnformattedThread) => ({
 });
 
 export default class ThreadRepository {
+    static async exists(id: number): Promise<boolean> {
+        const thread = await prisma.thread.findUnique({
+            where: { id },
+            select: { id: true }
+        });
+
+        return thread !== null;
+    }
+
+    static async upsertVote({ threadId, userId, type }: ThreadVoteData): Promise<void> {
+        await prisma.threadVote.upsert({
+            where: {
+                userId_threadId: { userId, threadId }
+            },
+            create: { userId, threadId, type },
+            update: { type }
+        });
+    }
+
+    static async deleteVote(threadId: number, userId: number): Promise<void> {
+        await prisma.threadVote.deleteMany({
+            where: { threadId, userId }
+        });
+    }
+
     static async insert({
         title,
         description,

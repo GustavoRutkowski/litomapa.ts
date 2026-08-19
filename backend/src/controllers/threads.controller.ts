@@ -4,12 +4,67 @@ import ThreadService from '../services/threads.service.js';
 import {
     ThreadsQuerySchema,
     ThreadIdSchema,
-    CreateThreadSchema
+    CreateThreadSchema,
+    ThreadVoteSchema
 } from '../schemas/threads.schemas.js';
 import U from '../utils/UnknownError.js';
 import { formatErrors } from '../utils/formatErrors.js';
 
 export default class ThreadController {
+    static async vote(req: AuthRequest, res: Response) {
+        const threadResult = ThreadIdSchema.safeParse(req.params.id);
+        const voteResult = ThreadVoteSchema.safeParse(req.body);
+
+        if (!threadResult.success || !voteResult.success) {
+            const errors = {
+                ...(threadResult.success ? {} : formatErrors(threadResult.error)),
+                ...(voteResult.success ? {} : formatErrors(voteResult.error))
+            };
+            return res.status(400).json({ success: false, errors });
+        }
+
+        if (!req.user_id) {
+            return res.status(401).json({
+                success: false,
+                errors: { global: ['Authentication required'] }
+            });
+        }
+
+        try {
+            await ThreadService.vote(threadResult.data, req.user_id, voteResult.data.type);
+            res.status(200).json({ success: true });
+        } catch (e) {
+            const status = U.getHttpStatus(e);
+            const errors = { global: [U.getMessage(e)] };
+            res.status(status).json({ success: false, errors });
+        }
+    }
+
+    static async removeVote(req: AuthRequest, res: Response) {
+        const result = ThreadIdSchema.safeParse(req.params.id);
+
+        if (!result.success) {
+            const errors = formatErrors(result.error);
+            return res.status(400).json({ success: false, errors });
+        }
+
+        if (!req.user_id) {
+            return res.status(401).json({
+                success: false,
+                errors: { global: ['Authentication required'] }
+            });
+        }
+
+        try {
+            await ThreadService.removeVote(result.data, req.user_id);
+            res.status(200).json({ success: true });
+        } catch (e) {
+            const status = U.getHttpStatus(e);
+            const errors = { global: [U.getMessage(e)] };
+            res.status(status).json({ success: false, errors });
+        }
+    }
+
     static async create(req: AuthRequest, res: Response) {
         const result = CreateThreadSchema.safeParse(req.body);
 

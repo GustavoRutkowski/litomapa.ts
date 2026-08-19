@@ -18,7 +18,9 @@ import {
     ThreadSchema,
     ThreadResponseSchema,
     ThreadsQuerySchema,
-    ThreadsResponseSchema
+    ThreadsResponseSchema,
+    ThreadVoteSchema,
+    ThreadVoteResponseSchema
 } from './schemas/threads.schemas.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -39,6 +41,8 @@ registry.register('Thread', ThreadSchema);
 registry.register('ThreadResponse', ThreadResponseSchema);
 registry.register('ThreadsQuery', ThreadsQuerySchema);
 registry.register('ThreadsResponse', ThreadsResponseSchema);
+registry.register('ThreadVote', ThreadVoteSchema);
+registry.register('ThreadVoteResponse', ThreadVoteResponseSchema);
 registry.register('ErrorResponse', ErrorResponseSchema);
 
 const generator = new OpenApiGeneratorV3(registry.definitions);

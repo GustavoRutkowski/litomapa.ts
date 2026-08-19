@@ -183,4 +183,98 @@ threadsRouter.get('/', ThreadsController.getAll);
  */
 threadsRouter.get('/:id', ThreadsController.getById);
 
+/**
+ * @swagger
+ * /threads/{id}/vote:
+ *   put:
+ *     summary: Create or update the authenticated user's vote
+ *     security:
+ *       - bearerAuth: []
+ *     tags:
+ *       - Threads
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: Thread ID
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/ThreadVote'
+ *     responses:
+ *       200:
+ *         description: Vote saved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ThreadVoteResponse'
+ *       400:
+ *         description: Invalid request
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ *       401:
+ *         description: Unauthorized
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ *       404:
+ *         description: Thread not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ */
+threadsRouter.put('/:id/vote', isLogged, ThreadsController.vote);
+
+/**
+ * @swagger
+ * /threads/{id}/vote:
+ *   delete:
+ *     summary: Remove the authenticated user's vote
+ *     security:
+ *       - bearerAuth: []
+ *     tags:
+ *       - Threads
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: Thread ID
+ *     responses:
+ *       200:
+ *         description: Vote removed successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ThreadVoteResponse'
+ *       400:
+ *         description: Invalid thread ID
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ *       401:
+ *         description: Unauthorized
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ *       404:
+ *         description: Thread not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ */
+threadsRouter.delete('/:id/vote', isLogged, ThreadsController.removeVote);
+
 export default threadsRouter;
