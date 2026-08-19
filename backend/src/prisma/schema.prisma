@@ -27,6 +27,7 @@ model User {
 
   threads  Thread[]
   messages Message[]
+  votes    ThreadVote[]
 
   @@map("users")
 }
@@ -51,6 +52,7 @@ model Thread {
   messages      Message[]
   threadTags    ThreadTag[]
   threadSpecies ThreadSpecies[]
+  votes         ThreadVote[]
 
   @@map("threads")
 }
@@ -73,6 +75,23 @@ model ThreadTag {
 
   @@id([threadId, tagId])
   @@map("threads_tags")
+}
+
+enum VoteType {
+  upvote
+  downvote
+}
+
+model ThreadVote {
+  userId   Int
+  threadId Int
+  type     VoteType
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  thread Thread @relation(fields: [threadId], references: [id], onDelete: Cascade)
+
+  @@id([userId, threadId])
+  @@map("threads_votes")
 }
 
 enum SpeciesGroup {
