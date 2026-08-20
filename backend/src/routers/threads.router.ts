@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import ThreadsController from '../controllers/threads.controller.js';
+import MessagesController from '../controllers/messages.controller.js';
 import isLogged from '../middlewares/isLogged.js';
 
 const threadsRouter = Router();
@@ -126,6 +127,42 @@ threadsRouter.post('/', isLogged, ThreadsController.create);
  *               $ref: '#/components/schemas/ErrorResponse'
  */
 threadsRouter.get('/', ThreadsController.getAll);
+
+/**
+ * @swagger
+ * /threads/{id}/messages:
+ *   get:
+ *     summary: List messages from a thread
+ *     tags:
+ *       - Threads
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: Thread ID
+ *     responses:
+ *       200:
+ *         description: Messages found successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/MessagesResponse'
+ *       400:
+ *         description: Invalid thread ID
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ *       404:
+ *         description: Thread not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ */
+threadsRouter.get('/:id/messages', MessagesController.getAllByThreadId);
 
 /**
  * @swagger
