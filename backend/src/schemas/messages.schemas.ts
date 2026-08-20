@@ -1,6 +1,6 @@
 import { extendZodWithOpenApi } from '@asteasolutions/zod-to-openapi';
 import { z } from 'zod';
-import { SuccessResponseSchema } from './global.schemas.js';
+import { CreatedResponseSchema, SuccessResponseSchema } from './global.schemas.js';
 
 extendZodWithOpenApi(z);
 
@@ -33,3 +33,12 @@ export const MessageSchema = z
 export const MessagesResponseSchema = SuccessResponseSchema.extend({
     data: z.array(MessageSchema)
 }).openapi('MessagesResponse');
+
+export const CreateMessageSchema = z
+    .object({
+        content: z.string().trim().min(1).max(10000).openapi({ example: 'Minha mensagem...' }),
+        replyId: z.number().int().positive().optional().openapi({ example: 2 })
+    })
+    .openapi('CreateMessage');
+
+export const CreateMessageResponseSchema = CreatedResponseSchema.openapi('CreateMessageResponse');

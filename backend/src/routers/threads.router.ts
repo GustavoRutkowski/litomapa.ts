@@ -131,6 +131,56 @@ threadsRouter.get('/', ThreadsController.getAll);
 /**
  * @swagger
  * /threads/{id}/messages:
+ *   post:
+ *     summary: Create a message in a thread
+ *     security:
+ *       - bearerAuth: []
+ *     tags:
+ *       - Threads
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: Thread ID
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/CreateMessage'
+ *     responses:
+ *       201:
+ *         description: Message created successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/CreateMessageResponse'
+ *       400:
+ *         description: Invalid request payload
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ *       401:
+ *         description: Unauthorized
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ *       404:
+ *         description: Thread or replied message not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ */
+threadsRouter.post('/:id/messages', isLogged, MessagesController.create);
+
+/**
+ * @swagger
+ * /threads/{id}/messages:
  *   get:
  *     summary: List messages from a thread
  *     tags:

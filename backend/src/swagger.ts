@@ -22,7 +22,12 @@ import {
     ThreadVoteSchema,
     ThreadVoteResponseSchema
 } from './schemas/threads.schemas.js';
-import { MessageSchema, MessagesResponseSchema } from './schemas/messages.schemas.js';
+import {
+    CreateMessageResponseSchema,
+    CreateMessageSchema,
+    MessageSchema,
+    MessagesResponseSchema
+} from './schemas/messages.schemas.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -46,6 +51,8 @@ registry.register('ThreadVote', ThreadVoteSchema);
 registry.register('ThreadVoteResponse', ThreadVoteResponseSchema);
 registry.register('Message', MessageSchema);
 registry.register('MessagesResponse', MessagesResponseSchema);
+registry.register('CreateMessage', CreateMessageSchema);
+registry.register('CreateMessageResponse', CreateMessageResponseSchema);
 registry.register('ErrorResponse', ErrorResponseSchema);
 
 const generator = new OpenApiGeneratorV3(registry.definitions);

@@ -1,6 +1,13 @@
 import prisma from '../lib/prisma.js';
 import type Message from '../models/messages.model.js';
 
+type InsertMessageData = {
+    threadId: number;
+    authorId: number;
+    content: string;
+    replyId?: number;
+};
+
 type UnformattedMessage = {
     id: number;
     threadId: number;
@@ -30,6 +37,34 @@ const formatMessage = (message: UnformattedMessage): Message => ({
 });
 
 export default class MessageRepository {
+    static async existsInThread(id: number, threadId: number): Promise<boolean> {
+        const message = await prisma.message.findFirst({
+            where: { id, threadId },
+            select: { id: true }
+        });
+
+        return message !== null;
+    }
+
+    static async insert({
+        threadId,
+        authorId,
+        content,
+        replyId
+    }: InsertMessageData): Promise<number> {
+        const message = await prisma.message.create({
+            data: {
+                threadId,
+                authorId,
+                content,
+                ...(replyId === undefined ? {} : { replyingId: replyId })
+            },
+            select: { id: true }
+        });
+
+        return message.id;
+    }
+
     static async findAllByThreadId(threadId: number): Promise<Message[]> {
         const messages = await prisma.message.findMany({
             where: { threadId },
