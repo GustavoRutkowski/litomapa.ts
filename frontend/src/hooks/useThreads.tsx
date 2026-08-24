@@ -8,6 +8,7 @@ import {
     removeThreadVote,
     ThreadVoteType,
     getThreadMessages,
+    createThreadMessage,
     voteThread
 } from '../services/threads.service';
 
@@ -26,6 +27,11 @@ export default function useThreads() {
         async (id: number) => await getThreadMessages(id, token),
         [token]
     );
+    const sendMessage = useCallback(
+        async (id: number, content: string, replyId: number | null) =>
+            await createThreadMessage(id, content, replyId, token),
+        [token]
+    );
     const vote = useCallback(
         async (id: number, type: ThreadVoteType) => await voteThread(id, type, token),
         [token]
@@ -35,5 +41,5 @@ export default function useThreads() {
         [token]
     );
 
-    return { getThreads, getThread, getMessages, vote, removeVote };
+    return { getThreads, getThread, getMessages, sendMessage, vote, removeVote };
 }

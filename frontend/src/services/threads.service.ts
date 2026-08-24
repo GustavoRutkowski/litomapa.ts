@@ -72,6 +72,10 @@ interface IMessagesResponse {
     data: MessageDTO[];
 }
 
+interface ICreateMessageResponse {
+    insertId: number;
+}
+
 const api = new Api('/api/threads');
 
 export async function getThreads(
@@ -107,6 +111,20 @@ export async function getThreadMessages(
         headers: new Headers(token ? { Authorization: `Bearer ${token}` } : undefined)
     });
     return response.data;
+}
+
+export async function createThreadMessage(
+    id: number,
+    content: string,
+    replyId: number | null,
+    token: string | null
+): Promise<number> {
+    const response = await api.post<ICreateMessageResponse>(`/${String(id)}/messages`, {
+        headers: new Headers(token ? { Authorization: `Bearer ${token}` } : undefined),
+        body: { content, ...(replyId === null ? {} : { replyId }) }
+    });
+
+    return response.insertId;
 }
 
 export async function voteThread(

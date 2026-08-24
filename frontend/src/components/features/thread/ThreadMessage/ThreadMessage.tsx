@@ -12,6 +12,7 @@ interface IProps {
     createdAt: string;
     mine?: boolean;
     showAuthor?: boolean;
+    onReply?: () => void;
 }
 
 export default function ThreadMessage({
@@ -21,7 +22,8 @@ export default function ThreadMessage({
     replying,
     createdAt,
     mine = false,
-    showAuthor = true
+    showAuthor = true,
+    onReply
 }: IProps) {
     const className = [styles.container, mine ? styles.mine : ''].filter(Boolean).join(' ');
 
@@ -48,6 +50,11 @@ export default function ThreadMessage({
                     )}
                     <div>{message}</div>
                 </div>
+                {onReply && (
+                    <button type="button" className={styles.replyButton} onClick={onReply}>
+                        Responder
+                    </button>
+                )}
             </div>
 
             {mine && (

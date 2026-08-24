@@ -1,13 +1,14 @@
 .page {
-    min-height: 100vh;
+    height: 100dvh;
+    min-height: 0;
     background: linear-gradient(180deg, rgba($backdrop-color, 0.32), rgba($primary-color, 0.85));
     @include flex-column;
 }
 
 .main {
     flex: 1;
-    overflow-y: scroll;
-    max-height: 100dvh;
+    min-height: 0;
+    overflow-y: auto;
     padding: $pad-lg clamp($pad-md, 4vw, $pad-xl);
     box-sizing: border-box;
     @include flex-column(start, stretch, $pad-md);
@@ -23,7 +24,8 @@
 
 .chatPanel {
     @include flex-column(start, stretch, $pad-md);
-    min-height: 760px;
+    min-height: min(760px, calc(100dvh - 10rem));
+    box-sizing: border-box;
     background: rgba($primary-color, 0.92);
     border: 1px solid rgba($tertiary-color, 0.08);
     border-radius: $radius-xl;
@@ -64,4 +66,33 @@
     color: $secundary-color;
     font-size: $font-xs;
     font-weight: 700;
+}
+
+.replyingBar {
+    @include flex-row(space-between, center, $pad-sm);
+    padding: $pad-xs $pad-lg;
+    border-top: 1px solid rgba($tertiary-color, 0.08);
+    background: rgba($secundary-color, 0.06);
+    color: rgba($label-color, 0.82);
+    font-size: $font-xs;
+
+    span {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    strong {
+        color: $secundary-color;
+    }
+
+    button {
+        flex-shrink: 0;
+        border: 0;
+        background: transparent;
+        color: $secundary-color;
+        cursor: pointer;
+        font: inherit;
+        font-weight: 700;
+    }
 }

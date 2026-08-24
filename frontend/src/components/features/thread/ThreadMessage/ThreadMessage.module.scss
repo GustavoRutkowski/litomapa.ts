@@ -99,3 +99,18 @@
         white-space: nowrap;
     }
 }
+
+.replyButton {
+    align-self: flex-start;
+    border: 0;
+    padding: 0;
+    background: transparent;
+    color: rgba($label-color, 0.65);
+    cursor: pointer;
+    font: inherit;
+    font-size: $font-xs;
+
+    &:hover {
+        color: $secundary-color;
+    }
+}

@@ -24,9 +24,14 @@ export interface IMessage {
 interface IProps {
     messages: IMessage[];
     isLoadingOlderMessages?: boolean;
+    onReply?: (message: IMessage) => void;
 }
 
-export default function ThreadMessageList({ messages, isLoadingOlderMessages = false }: IProps) {
+export default function ThreadMessageList({
+    messages,
+    isLoadingOlderMessages = false,
+    onReply
+}: IProps) {
     return (
         <section className={styles.container}>
             {isLoadingOlderMessages && (
@@ -48,6 +53,7 @@ export default function ThreadMessageList({ messages, isLoadingOlderMessages = f
                         createdAt={message.createdAt}
                         mine={message.mine}
                         showAuthor={showAuthor}
+                        onReply={onReply ? () => onReply(message) : undefined}
                     />
                 );
             })}
