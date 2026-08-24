@@ -4,6 +4,11 @@ interface IProps {
     author: string;
     authorPicture: string;
     message: string;
+    replying?: {
+        id: number;
+        author: string;
+        message: string;
+    } | null;
     createdAt: string;
     mine?: boolean;
     showAuthor?: boolean;
@@ -13,6 +18,7 @@ export default function ThreadMessage({
     author,
     authorPicture,
     message,
+    replying,
     createdAt,
     mine = false,
     showAuthor = true
@@ -29,11 +35,19 @@ export default function ThreadMessage({
                 {showAuthor && (
                     <header className={styles.header}>
                         <span className={styles.author}>{author}</span>
-                        <span className={styles.date}>{createdAt}</span>
+                        {createdAt && <span className={styles.date}>{createdAt}</span>}
                     </header>
                 )}
 
-                <div className={styles.bubble}>{message}</div>
+                <div className={styles.bubble}>
+                    {replying && (
+                        <div className={styles.reply}>
+                            <strong>{replying.author}</strong>
+                            <span>{replying.message}</span>
+                        </div>
+                    )}
+                    <div>{message}</div>
+                </div>
             </div>
 
             {mine && (

@@ -7,9 +7,15 @@ interface IProps {
     value?: string;
     onChange?: (value: string) => void;
     onSend?: () => void;
+    disabled?: boolean;
 }
 
-export default function ThreadMessageInput({ value = '', onChange, onSend }: IProps) {
+export default function ThreadMessageInput({
+    value = '',
+    onChange,
+    onSend,
+    disabled = false
+}: IProps) {
     return (
         <div className={styles.container}>
             <textarea
@@ -17,6 +23,7 @@ export default function ThreadMessageInput({ value = '', onChange, onSend }: IPr
                 value={value}
                 placeholder="Escreva uma mensagem..."
                 onChange={event => onChange?.(event.target.value)}
+                disabled={disabled}
             />
 
             <button
@@ -24,6 +31,7 @@ export default function ThreadMessageInput({ value = '', onChange, onSend }: IPr
                 onClick={onSend}
                 aria-label="Enviar mensagem"
                 title="Enviar mensagem"
+                disabled={disabled}
             >
                 <FontAwesomeIcon icon={faPaperPlane} />
             </button>

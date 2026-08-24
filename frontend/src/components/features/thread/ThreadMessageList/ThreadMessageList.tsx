@@ -10,6 +10,12 @@ export interface IMessage {
 
     message: string;
 
+    replying?: {
+        id: number;
+        author: string;
+        message: string;
+    } | null;
+
     createdAt: string;
 
     mine?: boolean;
@@ -38,6 +44,7 @@ export default function ThreadMessageList({ messages, isLoadingOlderMessages = f
                         author={message.author}
                         authorPicture={message.authorPicture}
                         message={message.message}
+                        replying={message.replying}
                         createdAt={message.createdAt}
                         mine={message.mine}
                         showAuthor={showAuthor}

@@ -12,6 +12,7 @@ type UnformattedMessage = {
     id: number;
     threadId: number;
     content: string;
+    createdAt: Date;
     author: {
         id: number;
         username: string;
@@ -32,6 +33,7 @@ const formatMessage = (message: UnformattedMessage): Message => ({
     id: message.id,
     threadId: message.threadId,
     content: message.content,
+    createdAt: message.createdAt.toISOString(),
     author: message.author,
     replying: message.replyingTo
 });
@@ -73,6 +75,7 @@ export default class MessageRepository {
                 id: true,
                 threadId: true,
                 content: true,
+                createdAt: true,
                 author: {
                     select: {
                         id: true,

@@ -7,59 +7,38 @@ import ThreadHeaderCard from '../../components/features/thread/ThreadHeaderCard/
 import ThreadMessageList, {
     IMessage
 } from '../../components/features/thread/ThreadMessageList/ThreadMessageList';
-import ThreadMessageInput from '../../components/features/thread/ThreadMessageInput/ThreadMessageInput';
 
 import useThreads from '../../hooks/useThreads';
-import type { ThreadDTO } from '../../services/threads.service';
-
-import defaultPictureUrl from '@/assets/default-picture.png';
+import useUserInfos from '../../hooks/useUserInfos';
+import type { MessageDTO, ThreadDTO } from '../../services/threads.service';
+import Formatter from '../../utils/Formatter';
 
 import styles from './Thread.module.scss';
 
-const MOCK_MESSAGES: IMessage[] = [
-    {
-        id: 1,
-        author: 'João da Silva',
-        authorPicture: defaultPictureUrl,
-        createdAt: '28/07/2026 21:15',
-        message:
-            'Encontrei esse grupo de javalis atravessando a estrada durante a manhã. Achei importante registrar porque estavam muito próximos da pista.',
-        mine: false
-    },
-    {
-        id: 2,
-        author: 'Maria Oliveira',
-        authorPicture: defaultPictureUrl,
-        createdAt: '28/07/2026 21:18',
-        message:
-            'Também vi alguns deles ontem. Aparentemente estão utilizando aquela área como rota.',
-        mine: false
-    },
-    {
-        id: 3,
-        author: 'Você',
-        authorPicture: defaultPictureUrl,
-        createdAt: '28/07/2026 21:22',
-        message:
-            'Obrigado pelo registro! Vou acompanhar para verificar se aparecem novos relatos na região.',
-        mine: true
-    },
-    {
-        id: 4,
-        author: 'Carlos Souza',
-        authorPicture: defaultPictureUrl,
-        createdAt: '28/07/2026 21:29',
-        message: 'Talvez seja interessante sinalizar esse trecho para evitar acidentes.',
-        mine: false
-    }
-];
+const toMessageView = (message: MessageDTO, currentUserId?: number): IMessage => ({
+    id: message.id,
+    author: message.author.username,
+    authorPicture: Formatter.formatPicture(message.author.photo),
+    createdAt: message.createdAt ? new Date(message.createdAt).toLocaleString('pt-BR') : '',
+    message: message.content,
+    mine: message.author.id === currentUserId,
+    replying: message.replying
+        ? {
+              id: message.replying.id,
+              author: message.replying.author.username,
+              message: message.replying.content
+          }
+        : null
+});
 
 export default function Thread() {
     const { id } = useParams();
 
     const parsedId = Number(id);
 
-    const { getThread } = useThreads();
+    const { getThread, getMessages } = useThreads();
+    const { user } = useUserInfos();
+    const [messages, setMessages] = useState<IMessage[]>([]);
 
     const [thread, setThread] = useState<ThreadDTO | null>(null);
     const [isLoading, setIsLoading] = useState(true);
@@ -75,9 +54,13 @@ export default function Thread() {
             }
 
             try {
-                const response = await getThread(parsedId);
+                const [threadResponse, messageResponse] = await Promise.all([
+                    getThread(parsedId),
+                    getMessages(parsedId)
+                ]);
                 if (!mounted) return;
-                setThread(response);
+                setThread(threadResponse);
+                setMessages(messageResponse.map(message => toMessageView(message, user?.id)));
             } catch {
                 if (mounted) setThread(null);
             } finally {
@@ -89,7 +72,7 @@ export default function Thread() {
         return () => {
             mounted = false;
         };
-    }, [getThread, parsedId]);
+    }, [getMessages, getThread, parsedId, user?.id]);
 
     if (isLoading) {
         return (
@@ -130,13 +113,10 @@ export default function Thread() {
                                 <span>Discussão em tempo real</span>
                             </div>
 
-                            <span className={styles.chatMeta}>
-                                {MOCK_MESSAGES.length} mensagens
-                            </span>
+                            <span className={styles.chatMeta}>{messages.length} mensagens</span>
                         </header>
 
-                        <ThreadMessageList messages={MOCK_MESSAGES} />
-                        <ThreadMessageInput />
+                        <ThreadMessageList messages={messages} />
                     </section>
                 </div>
             </main>

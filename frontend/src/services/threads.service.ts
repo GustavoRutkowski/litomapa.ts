@@ -27,6 +27,27 @@ export interface ThreadDTO {
     my_vote: ThreadVoteType | null;
 }
 
+export interface IMessageAuthor {
+    id: number;
+    username: string;
+    photo: string | null;
+}
+
+export interface IMessageReply {
+    id: number;
+    content: string;
+    author: IMessageAuthor;
+}
+
+export interface MessageDTO {
+    id: number;
+    threadId: number;
+    content: string;
+    createdAt: string;
+    author: IMessageAuthor;
+    replying: IMessageReply | null;
+}
+
 export type ThreadVoteType = 'upvote' | 'downvote';
 
 export interface IThreadsQueryParams {
@@ -45,6 +66,10 @@ interface IThreadsResponse {
 
 interface IThreadResponse {
     data: ThreadDTO;
+}
+
+interface IMessagesResponse {
+    data: MessageDTO[];
 }
 
 const api = new Api('/api/threads');
@@ -69,6 +94,16 @@ export async function getThreads(
 
 export async function getThread(id: number, token: string | null = null): Promise<ThreadDTO> {
     const response = await api.get<IThreadResponse>(`/${String(id)}`, {
+        headers: new Headers(token ? { Authorization: `Bearer ${token}` } : undefined)
+    });
+    return response.data;
+}
+
+export async function getThreadMessages(
+    id: number,
+    token: string | null = null
+): Promise<MessageDTO[]> {
+    const response = await api.get<IMessagesResponse>(`/${String(id)}/messages`, {
         headers: new Headers(token ? { Authorization: `Bearer ${token}` } : undefined)
     });
     return response.data;

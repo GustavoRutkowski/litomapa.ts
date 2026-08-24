@@ -7,6 +7,7 @@ import {
     getThreads as getAll,
     removeThreadVote,
     ThreadVoteType,
+    getThreadMessages,
     voteThread
 } from '../services/threads.service';
 
@@ -21,6 +22,10 @@ export default function useThreads() {
         async (id: number): Promise<ThreadDTO> => await getById(id, token),
         [token]
     );
+    const getMessages = useCallback(
+        async (id: number) => await getThreadMessages(id, token),
+        [token]
+    );
     const vote = useCallback(
         async (id: number, type: ThreadVoteType) => await voteThread(id, type, token),
         [token]
@@ -30,5 +35,5 @@ export default function useThreads() {
         [token]
     );
 
-    return { getThreads, getThread, vote, removeVote };
+    return { getThreads, getThread, getMessages, vote, removeVote };
 }

@@ -12,6 +12,7 @@ type Message = {
     id: number;
     threadId: number;
     content: string;
+    createdAt: string;
     author: MessageAuthor;
     replying: ReplyingMessage | null;
 };
