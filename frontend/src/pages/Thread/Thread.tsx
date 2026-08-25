@@ -16,7 +16,7 @@ import Formatter from '../../utils/Formatter';
 
 import styles from './Thread.module.scss';
 
-export const MESSAGE_REFRESH_INTERVAL_MS = 5000;
+export const MESSAGE_REFRESH_INTERVAL_MS = 500;
 
 const toMessageView = (message: MessageDTO, currentUserId?: number): IMessage => ({
     id: message.id,

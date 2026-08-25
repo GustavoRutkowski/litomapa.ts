@@ -1,3 +1,5 @@
+import { useEffect, useRef } from 'react';
+
 import ThreadMessage from '../ThreadMessage/ThreadMessage';
 
 import styles from './ThreadMessageList.module.scss';
@@ -32,6 +34,13 @@ export default function ThreadMessageList({
     isLoadingOlderMessages = false,
     onReply
 }: IProps) {
+    const endOfMessagesRef = useRef<HTMLDivElement>(null);
+    const lastMessageId = messages[messages.length - 1]?.id;
+
+    useEffect(() => {
+        endOfMessagesRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }, [lastMessageId]);
+
     return (
         <section className={styles.container}>
             {isLoadingOlderMessages && (
@@ -57,6 +66,7 @@ export default function ThreadMessageList({
                     />
                 );
             })}
+            <div ref={endOfMessagesRef} aria-hidden="true" />
         </section>
     );
 }
