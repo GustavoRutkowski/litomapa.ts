@@ -16,6 +16,7 @@ export default defineConfig(({ mode }) => {
 
         server: {
             host: env.SITE_HOST || 'localhost',
+            allowedHosts: ['.loca.lt'],
             port: Number(env.SITE_PORT) || 3333,
             strictPort: true,
             open: true,
@@ -28,6 +29,10 @@ export default defineConfig(({ mode }) => {
                     rewrite: path => path.replace(/^\/api/, '')
                 }
             }
+        },
+
+        preview: {
+            allowedHosts: ['.loca.lt']
         },
 
         resolve: {
