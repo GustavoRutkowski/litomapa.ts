@@ -8,7 +8,6 @@ import swaggerUi from 'swagger-ui-express';
 import { swaggerSpec } from './swagger.js';
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
-import seed from './prisma/seed.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -32,7 +31,6 @@ app.use('/species', speciesRouter);
 const API_PORT: number = Number(process.env.API_PORT) || 4444;
 const API_HOST: string = process.env.API || 'localhost';
 
-await seed();
 app.listen(API_PORT, API_HOST, () => {
     console.info(`API server running in port ${API_PORT}...`);
 });

@@ -18,6 +18,8 @@ Breve guia para executar a aplicação (API + Web). Explica os scripts disponív
 | `npm run prisma:generate` | gera o prisma client para a execução do banco de dados.                               |
 | `npm run db:create`       | gera o arquivo de banco de dadso.                                                     |
 | `npm run db:init`         | cria/atualiza o esquema do banco de dados.                                            |
+| `npm run db:seed`         | insere os dados fixos do sistema, como roles e tags.                                  |
+| `npm run db:mock`         | insere os dados mockados de espécies.                                                 |
 | `npm run api-build:dev`   | compila o backend em modo watch.                                                      |
 | `npm run api-build:prod`  | compila o backend uma única vez.                                                      |
 | `npm run web:dev`         | executa `web-build:dev` e inicia o servidor de desenvolvimento do frontend.           |

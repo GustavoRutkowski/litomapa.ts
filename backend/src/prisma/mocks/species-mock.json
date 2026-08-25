@@ -1,0 +1,602 @@
+[
+    {
+        "id": 1,
+        "name": "Toninha",
+        "cientific_name": "Pontoporia blainvillei",
+        "group": "dolphin"
+    },
+    {
+        "id": 2,
+        "name": "Golfinho-nariz-de-garrafa",
+        "cientific_name": "Tursiops truncatus",
+        "group": "dolphin"
+    },
+    {
+        "id": 3,
+        "name": "Golfinho-comum-de-bico-curto",
+        "cientific_name": "Delphinus delphis",
+        "group": "dolphin"
+    },
+    {
+        "id": 4,
+        "name": "Golfinho-pintado-do-Atlântico",
+        "cientific_name": "Stenella frontalis",
+        "group": "dolphin"
+    },
+    {
+        "id": 5,
+        "name": "Golfinho-pintado-pantropical",
+        "cientific_name": "Stenella attenuata",
+        "group": "dolphin"
+    },
+    {
+        "id": 6,
+        "name": "Golfinho-listrado",
+        "cientific_name": "Stenella coeruleoalba",
+        "group": "dolphin"
+    },
+    {
+        "id": 7,
+        "name": "Golfinho-de-dentes-rugosos",
+        "cientific_name": "Steno bredanensis",
+        "group": "dolphin"
+    },
+    {
+        "id": 8,
+        "name": "Golfinho-de-Fraser",
+        "cientific_name": "Lagenodelphis hosei",
+        "group": "dolphin"
+    },
+    {
+        "id": 9,
+        "name": "Tartaruga-cabeçuda",
+        "cientific_name": "Caretta caretta",
+        "group": "turtle"
+    },
+    {
+        "id": 10,
+        "name": "Tartaruga-verde",
+        "cientific_name": "Chelonia mydas",
+        "group": "turtle"
+    },
+    {
+        "id": 11,
+        "name": "Tartaruga-de-couro",
+        "cientific_name": "Dermochelys coriacea",
+        "group": "turtle"
+    },
+    {
+        "id": 12,
+        "name": "Corvina",
+        "cientific_name": "Micropogonias furnieri",
+        "group": "fish"
+    },
+    {
+        "id": 13,
+        "name": "Tainha",
+        "cientific_name": "Mugil liza",
+        "group": "fish"
+    },
+    {
+        "id": 14,
+        "name": "Savelha",
+        "cientific_name": "Brevoortia pectinata",
+        "group": "fish"
+    },
+    {
+        "id": 15,
+        "name": "Linguado",
+        "cientific_name": "Paralichthys orbignyanus",
+        "group": "fish"
+    },
+    {
+        "id": 16,
+        "name": "Pescadinha",
+        "cientific_name": "Macrodon atricauda",
+        "group": "fish"
+    },
+    {
+        "id": 17,
+        "name": "Castanha",
+        "cientific_name": "Umbrina canosai",
+        "group": "fish"
+    },
+    {
+        "id": 18,
+        "name": "Pescada-olhuda",
+        "cientific_name": "Cynoscion guatucupa",
+        "group": "fish"
+    },
+    {
+        "id": 19,
+        "name": "Anchova",
+        "cientific_name": "Pomatomus saltatrix",
+        "group": "fish"
+    },
+    {
+        "id": 20,
+        "name": "Anchoíta",
+        "cientific_name": "Engraulis anchoita",
+        "group": "fish"
+    },
+    {
+        "id": 21,
+        "name": "Bagre-branco",
+        "cientific_name": "Genidens barbus",
+        "group": "fish"
+    },
+    {
+        "id": 22,
+        "name": "Bagre-marinho",
+        "cientific_name": "Genidens planifrons",
+        "group": "fish"
+    },
+    {
+        "id": 23,
+        "name": "Bagre-guri",
+        "cientific_name": "Genidens genidens",
+        "group": "fish"
+    },
+    {
+        "id": 24,
+        "name": "Miragaia",
+        "cientific_name": "Pogonias courbina",
+        "group": "fish"
+    },
+    {
+        "id": 25,
+        "name": "Abrótea",
+        "cientific_name": "Urophycis brasiliensis",
+        "group": "fish"
+    },
+    {
+        "id": 26,
+        "name": "Papa-terra",
+        "cientific_name": "Menticirrhus littoralis",
+        "group": "fish"
+    },
+    {
+        "id": 27,
+        "name": "Betara",
+        "cientific_name": "Menticirrhus americanus",
+        "group": "fish"
+    },
+    {
+        "id": 28,
+        "name": "Maria-luiza",
+        "cientific_name": "Paralonchurus brasiliensis",
+        "group": "fish"
+    },
+    {
+        "id": 29,
+        "name": "Peixe-espada",
+        "cientific_name": "Trichiurus lepturus",
+        "group": "fish"
+    },
+    {
+        "id": 30,
+        "name": "Cabrinha",
+        "cientific_name": "Prionotus punctatus",
+        "group": "fish"
+    },
+    {
+        "id": 31,
+        "name": "Peixe-rei-brasileiro",
+        "cientific_name": "Atherinella brasiliensis",
+        "group": "fish"
+    },
+    {
+        "id": 32,
+        "name": "Peixe-rei-argentino",
+        "cientific_name": "Odontesthes argentinensis",
+        "group": "fish"
+    },
+    {
+        "id": 33,
+        "name": "Pampo",
+        "cientific_name": "Trachinotus marginatus",
+        "group": "fish"
+    },
+    {
+        "id": 34,
+        "name": "Xerelete",
+        "cientific_name": "Caranx crysos",
+        "group": "fish"
+    },
+    {
+        "id": 35,
+        "name": "Palombeta",
+        "cientific_name": "Chloroscombrus chrysurus",
+        "group": "fish"
+    },
+    {
+        "id": 36,
+        "name": "Peixe-galo",
+        "cientific_name": "Selene setapinnis",
+        "group": "fish"
+    },
+    {
+        "id": 37,
+        "name": "Sardinha-cascuda",
+        "cientific_name": "Harengula clupeola",
+        "group": "fish"
+    },
+    {
+        "id": 38,
+        "name": "Sardinha-laje",
+        "cientific_name": "Sardinella aurita",
+        "group": "fish"
+    },
+    {
+        "id": 39,
+        "name": "Manjubão",
+        "cientific_name": "Lycengraulis grossidens",
+        "group": "fish"
+    },
+    {
+        "id": 40,
+        "name": "Manjuba",
+        "cientific_name": "Anchoa marinii",
+        "group": "fish"
+    },
+    {
+        "id": 41,
+        "name": "Carapicu",
+        "cientific_name": "Eucinostomus argenteus",
+        "group": "fish"
+    },
+    {
+        "id": 42,
+        "name": "Prejereba",
+        "cientific_name": "Lobotes surinamensis",
+        "group": "fish"
+    },
+    {
+        "id": 43,
+        "name": "Linguado-remo",
+        "cientific_name": "Oncopterus darwinii",
+        "group": "fish"
+    },
+    {
+        "id": 44,
+        "name": "Cangauá",
+        "cientific_name": "Ctenosciaena gracilicirrhus",
+        "group": "fish"
+    },
+    {
+        "id": 45,
+        "name": "Cangoá",
+        "cientific_name": "Stellifer rastrifer",
+        "group": "fish"
+    },
+    {
+        "id": 46,
+        "name": "Mariquita",
+        "cientific_name": "Dules auriga",
+        "group": "fish"
+    },
+    {
+        "id": 47,
+        "name": "Tubarão-martelo-recortado",
+        "cientific_name": "Sphyrna lewini",
+        "group": "shark"
+    },
+    {
+        "id": 48,
+        "name": "Tubarão-martelo-liso",
+        "cientific_name": "Sphyrna zygaena",
+        "group": "shark"
+    },
+    {
+        "id": 49,
+        "name": "Cação-boca-de-velha",
+        "cientific_name": "Mustelus canis",
+        "group": "shark"
+    },
+    {
+        "id": 50,
+        "name": "Cação-listrado",
+        "cientific_name": "Mustelus fasciatus",
+        "group": "shark"
+    },
+    {
+        "id": 51,
+        "name": "Cação-cola-fina",
+        "cientific_name": "Mustelus schmitti",
+        "group": "shark"
+    },
+    {
+        "id": 52,
+        "name": "Mangona",
+        "cientific_name": "Carcharias taurus",
+        "group": "shark"
+    },
+    {
+        "id": 53,
+        "name": "Cação-anjo-espinhudo",
+        "cientific_name": "Squatina guggenheim",
+        "group": "shark"
+    },
+    {
+        "id": 54,
+        "name": "Cação-anjo-liso",
+        "cientific_name": "Squatina occulta",
+        "group": "shark"
+    },
+    {
+        "id": 55,
+        "name": "Tubarão-bico-doce",
+        "cientific_name": "Galeorhinus galeus",
+        "group": "shark"
+    },
+    {
+        "id": 56,
+        "name": "Tubarão-peregrino",
+        "cientific_name": "Cetorhinus maximus",
+        "group": "shark"
+    },
+    {
+        "id": 57,
+        "name": "Água-viva-sambaqui",
+        "cientific_name": "Olindias sambaquiensis",
+        "group": "jellyfish"
+    },
+    {
+        "id": 58,
+        "name": "Água-viva-bola",
+        "cientific_name": "Lychnorhiza lucerna",
+        "group": "jellyfish"
+    },
+    {
+        "id": 59,
+        "name": "Água-viva-láctea",
+        "cientific_name": "Chrysaora lactea",
+        "group": "jellyfish"
+    },
+    {
+        "id": 60,
+        "name": "Água-viva-cristal-do-Atlântico",
+        "cientific_name": "Rhacostoma atlanticum",
+        "group": "jellyfish"
+    },
+    {
+        "id": 61,
+        "name": "Raia-chita",
+        "cientific_name": "Atlantoraja castelnaui",
+        "group": "ray"
+    },
+    {
+        "id": 62,
+        "name": "Raia-santa",
+        "cientific_name": "Rioraja agassizii",
+        "group": "ray"
+    },
+    {
+        "id": 63,
+        "name": "Raia-emplastro",
+        "cientific_name": "Sympterygia acuta",
+        "group": "ray"
+    },
+    {
+        "id": 64,
+        "name": "Emplastro-amarelo",
+        "cientific_name": "Sympterygia bonapartii",
+        "group": "ray"
+    },
+    {
+        "id": 65,
+        "name": "Raia-prego-de-cauda-áspera",
+        "cientific_name": "Bathytoshia centroura",
+        "group": "ray"
+    },
+    {
+        "id": 66,
+        "name": "Raia-manteiga",
+        "cientific_name": "Gymnura altavela",
+        "group": "ray"
+    },
+    {
+        "id": 67,
+        "name": "Raia-sapo",
+        "cientific_name": "Myliobatis goodei",
+        "group": "ray"
+    },
+    {
+        "id": 68,
+        "name": "Raia-beiço-de-boi",
+        "cientific_name": "Rhinoptera brasiliensis",
+        "group": "ray"
+    },
+    {
+        "id": 69,
+        "name": "Raia-viola",
+        "cientific_name": "Pseudobatos horkelii",
+        "group": "ray"
+    },
+    {
+        "id": 70,
+        "name": "Raia-viola-de-focinho-curto",
+        "cientific_name": "Zapteryx brevirostris",
+        "group": "ray"
+    },
+    {
+        "id": 71,
+        "name": "Baleia-minke-anã",
+        "cientific_name": "Balaenoptera acutorostrata",
+        "group": "whale"
+    },
+    {
+        "id": 72,
+        "name": "Baleia-minke-antártica",
+        "cientific_name": "Balaenoptera bonaerensis",
+        "group": "whale"
+    },
+    {
+        "id": 73,
+        "name": "Baleia-sei",
+        "cientific_name": "Balaenoptera borealis",
+        "group": "whale"
+    },
+    {
+        "id": 74,
+        "name": "Baleia-de-Eden",
+        "cientific_name": "Balaenoptera edeni",
+        "group": "whale"
+    },
+    {
+        "id": 75,
+        "name": "Baleia-azul",
+        "cientific_name": "Balaenoptera musculus",
+        "group": "whale"
+    },
+    {
+        "id": 76,
+        "name": "Baleia-franca-austral",
+        "cientific_name": "Eubalaena australis",
+        "group": "whale"
+    },
+    {
+        "id": 77,
+        "name": "Baleia-jubarte",
+        "cientific_name": "Megaptera novaeangliae",
+        "group": "whale"
+    },
+    {
+        "id": 78,
+        "name": "Cachalote",
+        "cientific_name": "Physeter macrocephalus",
+        "group": "whale"
+    },
+    {
+        "id": 79,
+        "name": "Leão-marinho-do-sul",
+        "cientific_name": "Otaria flavescens",
+        "group": "seal"
+    },
+    {
+        "id": 80,
+        "name": "Lobo-marinho-do-sul",
+        "cientific_name": "Arctocephalus australis",
+        "group": "seal"
+    },
+    {
+        "id": 81,
+        "name": "Lobo-marinho-subantártico",
+        "cientific_name": "Arctocephalus tropicalis",
+        "group": "seal"
+    },
+    {
+        "id": 82,
+        "name": "Lobo-marinho-antártico",
+        "cientific_name": "Arctocephalus gazella",
+        "group": "seal"
+    },
+    {
+        "id": 83,
+        "name": "Elefante-marinho-do-sul",
+        "cientific_name": "Mirounga leonina",
+        "group": "seal"
+    },
+    {
+        "id": 84,
+        "name": "Foca-caranguejeira",
+        "cientific_name": "Lobodon carcinophaga",
+        "group": "seal"
+    },
+    {
+        "id": 85,
+        "name": "Foca-leopardo",
+        "cientific_name": "Hydrurga leptonyx",
+        "group": "seal"
+    },
+    {
+        "id": 86,
+        "name": "Camarão-rosa",
+        "cientific_name": "Farfantepenaeus paulensis",
+        "group": "crustacean"
+    },
+    {
+        "id": 87,
+        "name": "Camarão-barba-ruça",
+        "cientific_name": "Artemesia longinaris",
+        "group": "crustacean"
+    },
+    {
+        "id": 88,
+        "name": "Caranguejo-aranha",
+        "cientific_name": "Cyrtograpsus angulatus",
+        "group": "crustacean"
+    },
+    {
+        "id": 89,
+        "name": "Catanhão",
+        "cientific_name": "Neohelice granulata",
+        "group": "crustacean"
+    },
+    {
+        "id": 90,
+        "name": "Siri-tinga",
+        "cientific_name": "Callinectes sapidus",
+        "group": "crustacean"
+    },
+    {
+        "id": 91,
+        "name": "Siri-azul",
+        "cientific_name": "Callinectes danae",
+        "group": "crustacean"
+    },
+    {
+        "id": 92,
+        "name": "Siri-chita",
+        "cientific_name": "Arenaeus cribrarius",
+        "group": "crustacean"
+    },
+    {
+        "id": 93,
+        "name": "Tatuíra",
+        "cientific_name": "Emerita brasiliensis",
+        "group": "crustacean"
+    },
+    {
+        "id": 94,
+        "name": "Marisco-branco",
+        "cientific_name": "Mesodesma mactroides",
+        "group": "mollusk"
+    },
+    {
+        "id": 95,
+        "name": "Moçambique",
+        "cientific_name": "Donax hanleyanus",
+        "group": "mollusk"
+    },
+    {
+        "id": 96,
+        "name": "Caramujo-oliva",
+        "cientific_name": "Olivancillaria auricularia",
+        "group": "mollusk"
+    },
+    {
+        "id": 97,
+        "name": "Búzio-do-sul",
+        "cientific_name": "Buccinanops duartei",
+        "group": "mollusk"
+    },
+    {
+        "id": 98,
+        "name": "Lula-de-São-Paulo",
+        "cientific_name": "Doryteuthis sanpaulensis",
+        "group": "mollusk"
+    },
+    {
+        "id": 99,
+        "name": "Lula-argentina",
+        "cientific_name": "Illex argentinus",
+        "group": "mollusk"
+    },
+    {
+        "id": 100,
+        "name": "Polvo-gaúcho",
+        "cientific_name": "Eledone gaucha",
+        "group": "mollusk"
+    }
+]

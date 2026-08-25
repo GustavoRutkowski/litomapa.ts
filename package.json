@@ -19,6 +19,8 @@
         "prisma:generate": "(cd backend/src && npx prisma generate)",
         "db:create": "(cd backend/src && npx prisma db push)",
         "db:init": "npm run prisma:generate && npm run db:create",
+        "db:seed": "TS_NODE_PROJECT=tsconfig.backend.json node --loader ts-node/esm backend/src/prisma/seeds/main-seed.ts",
+        "db:mock": "TS_NODE_PROJECT=tsconfig.backend.json node --loader ts-node/esm backend/src/prisma/seeds/mock-seed.ts",
         "api-build:dev": "tsc -p tsconfig.backend.json --watch",
         "api-build:prod": "tsc -p tsconfig.backend.json",
         "web:dev": "concurrently \"npm run web-build:dev\" \"vite --config ./frontend/vite.config.ts\"",
