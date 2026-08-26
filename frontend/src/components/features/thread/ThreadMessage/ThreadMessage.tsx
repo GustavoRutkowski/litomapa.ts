@@ -4,6 +4,7 @@ interface IProps {
     author: string;
     authorPicture: string;
     message: string;
+    attachments: string[];
     replying?: {
         id: number;
         author: string;
@@ -19,6 +20,7 @@ export default function ThreadMessage({
     author,
     authorPicture,
     message,
+    attachments,
     replying,
     createdAt,
     mine = false,
@@ -49,6 +51,18 @@ export default function ThreadMessage({
                         </div>
                     )}
                     <div>{message}</div>
+                    {attachments.length > 0 && (
+                        <div className={styles.attachments}>
+                            {attachments.map((attachment, index) => (
+                                <img
+                                    key={`${attachment}-${index}`}
+                                    src={`/api/${attachment}`}
+                                    alt={`Imagem anexada ${index + 1}`}
+                                    loading="lazy"
+                                />
+                            ))}
+                        </div>
+                    )}
                 </div>
                 {onReply && (
                     <button type="button" className={styles.replyButton} onClick={onReply}>

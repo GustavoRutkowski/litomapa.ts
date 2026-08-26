@@ -28,8 +28,8 @@ export default function useThreads() {
         [token]
     );
     const sendMessage = useCallback(
-        async (id: number, content: string, replyId: number | null) =>
-            await createThreadMessage(id, content, replyId, token),
+        async (id: number, content: string, replyId: number | null, attachments: string[] = []) =>
+            await createThreadMessage(id, content, replyId, token, attachments),
         [token]
     );
     const vote = useCallback(

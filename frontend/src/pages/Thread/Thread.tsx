@@ -24,6 +24,7 @@ const toMessageView = (message: MessageDTO, currentUserId?: number): IMessage =>
     authorPicture: Formatter.formatPicture(message.author.photo),
     createdAt: message.createdAt ? new Date(message.createdAt).toLocaleString('pt-BR') : '',
     message: message.content,
+    attachments: message.attachments,
     mine: message.author.id === currentUserId,
     replying: message.replying
         ? {
@@ -43,6 +44,7 @@ export default function Thread() {
     const { user } = useUserInfos();
     const [messages, setMessages] = useState<IMessage[]>([]);
     const [messageContent, setMessageContent] = useState('');
+    const [attachments, setAttachments] = useState<string[]>([]);
     const [replyingTo, setReplyingTo] = useState<IMessage | null>(null);
     const [isSending, setIsSending] = useState(false);
 
@@ -115,6 +117,7 @@ export default function Thread() {
             authorPicture: Formatter.formatPicture(user.photo),
             createdAt: new Date().toLocaleString('pt-BR'),
             message: content,
+            attachments,
             mine: true,
             replying: replyingTo
                 ? {
@@ -132,7 +135,7 @@ export default function Thread() {
         setIsSending(true);
 
         try {
-            const insertId = await sendMessage(parsedId, content, replyId);
+            const insertId = await sendMessage(parsedId, content, replyId, attachments);
             setMessages(current =>
                 current.map(message =>
                     message.id === temporaryId ? { ...message, id: insertId } : message
@@ -142,6 +145,7 @@ export default function Thread() {
             setMessages(current => current.filter(message => message.id !== temporaryId));
             setMessageContent(content);
         } finally {
+            setAttachments([]);
             setIsSending(false);
         }
     };
@@ -203,6 +207,8 @@ export default function Thread() {
                         <ThreadMessageInput
                             value={messageContent}
                             onChange={setMessageContent}
+                            attachments={attachments}
+                            onAttachmentsChange={setAttachments}
                             onSend={() => void handleSendMessage()}
                             disabled={isSending || !user}
                         />

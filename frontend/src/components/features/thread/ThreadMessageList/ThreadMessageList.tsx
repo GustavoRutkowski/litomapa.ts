@@ -11,6 +11,7 @@ export interface IMessage {
     authorPicture: string;
 
     message: string;
+    attachments: string[];
 
     replying?: {
         id: number;
@@ -58,6 +59,7 @@ export default function ThreadMessageList({
                         author={message.author}
                         authorPicture={message.authorPicture}
                         message={message.message}
+                        attachments={message.attachments}
                         replying={message.replying}
                         createdAt={message.createdAt}
                         mine={message.mine}

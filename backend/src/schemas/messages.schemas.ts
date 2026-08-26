@@ -25,6 +25,7 @@ export const MessageSchema = z
         id: z.number().int().positive().openapi({ example: 1 }),
         threadId: z.number().int().positive().openapi({ example: 1 }),
         content: z.string().openapi({ example: 'Minha mensagem...' }),
+        attachments: z.array(z.string()).openapi({ example: ['uploads/attachments/image.jpg'] }),
         author: MessageAuthorSchema,
         replying: ReplyingMessageSchema.nullable().openapi({ example: null })
     })
@@ -37,7 +38,13 @@ export const MessagesResponseSchema = SuccessResponseSchema.extend({
 export const CreateMessageSchema = z
     .object({
         content: z.string().trim().min(1).max(10000).openapi({ example: 'Minha mensagem...' }),
-        replyId: z.number().int().positive().optional().openapi({ example: 2 })
+        replyId: z.number().int().positive().optional().openapi({ example: 2 }),
+        attachments: z
+            .array(z.string())
+            .default([])
+            .openapi({
+                example: ['data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD']
+            })
     })
     .openapi('CreateMessage');
 

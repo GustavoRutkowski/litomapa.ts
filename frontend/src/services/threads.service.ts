@@ -44,6 +44,7 @@ export interface MessageDTO {
     threadId: number;
     content: string;
     createdAt: string;
+    attachments: string[];
     author: IMessageAuthor;
     replying: IMessageReply | null;
 }
@@ -117,11 +118,12 @@ export async function createThreadMessage(
     id: number,
     content: string,
     replyId: number | null,
-    token: string | null
+    token: string | null,
+    attachments: string[] = []
 ): Promise<number> {
     const response = await api.post<ICreateMessageResponse>(`/${String(id)}/messages`, {
         headers: new Headers(token ? { Authorization: `Bearer ${token}` } : undefined),
-        body: { content, ...(replyId === null ? {} : { replyId }) }
+        body: { content, attachments, ...(replyId === null ? {} : { replyId }) }
     });
 
     return response.insertId;

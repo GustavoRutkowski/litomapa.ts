@@ -6,6 +6,7 @@ type InsertMessageData = {
     authorId: number;
     content: string;
     replyId?: number;
+    attachments?: string[];
 };
 
 type UnformattedMessage = {
@@ -13,6 +14,7 @@ type UnformattedMessage = {
     threadId: number;
     content: string;
     createdAt: Date;
+    attachments: { path: string }[];
     author: {
         id: number;
         username: string;
@@ -34,6 +36,7 @@ const formatMessage = (message: UnformattedMessage): Message => ({
     threadId: message.threadId,
     content: message.content,
     createdAt: message.createdAt.toISOString(),
+    attachments: message.attachments.map(({ path }) => `uploads/attachments/${path}`),
     author: message.author,
     replying: message.replyingTo
 });
@@ -52,14 +55,18 @@ export default class MessageRepository {
         threadId,
         authorId,
         content,
-        replyId
+        replyId,
+        attachments = []
     }: InsertMessageData): Promise<number> {
         const message = await prisma.message.create({
             data: {
                 threadId,
                 authorId,
                 content,
-                ...(replyId === undefined ? {} : { replyingId: replyId })
+                ...(replyId === undefined ? {} : { replyingId: replyId }),
+                attachments: {
+                    create: attachments.map(path => ({ path }))
+                }
             },
             select: { id: true }
         });
@@ -76,6 +83,9 @@ export default class MessageRepository {
                 threadId: true,
                 content: true,
                 createdAt: true,
+                attachments: {
+                    select: { path: true }
+                },
                 author: {
                     select: {
                         id: true,

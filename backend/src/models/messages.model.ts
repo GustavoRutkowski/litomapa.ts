@@ -13,6 +13,7 @@ type Message = {
     threadId: number;
     content: string;
     createdAt: string;
+    attachments: string[];
     author: MessageAuthor;
     replying: ReplyingMessage | null;
 };
