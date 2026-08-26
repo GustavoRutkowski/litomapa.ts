@@ -75,6 +75,14 @@
     width: 100%;
 }
 
+.empty {
+    margin: $pad-lg 0;
+
+    color: $label-color;
+
+    text-align: center;
+}
+
 .newThreadButton {
     @include flex-center($gap: $pad-xs);
 

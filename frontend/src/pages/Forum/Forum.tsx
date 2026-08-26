@@ -56,6 +56,7 @@ export default function Forum() {
     const [total, setTotal] = useState(0);
 
     const [loading, setLoading] = useState(false);
+    const [hasLoaded, setHasLoaded] = useState(false);
 
     const [selectedFilter, setSelectedFilter] = useState<ForumFilter>('all');
     const [search, setSearch] = useState('');
@@ -80,6 +81,7 @@ export default function Forum() {
             });
 
             setTotal(response.total);
+            setHasLoaded(true);
 
             if (reset) {
                 setThreads(response.data);
@@ -148,6 +150,9 @@ export default function Forum() {
                 </div>
 
                 <section className={styles.threads}>
+                    {!loading && hasLoaded && threads.length === 0 && (
+                        <p className={styles.empty}>Nenhuma discussão encontrada</p>
+                    )}
                     {threads.map(thread => (
                         <ThreadCard thread={thread} />
                     ))}
