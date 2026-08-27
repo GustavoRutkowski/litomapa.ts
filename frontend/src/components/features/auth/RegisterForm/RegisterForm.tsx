@@ -128,52 +128,55 @@ export default function RegisterForm() {
 
     return (
         <section className={styles.container}>
-            <h2>Register</h2>
+            <h2>Registro</h2>
 
             <form onSubmit={handleSubmit}>
-                <fieldset>
-                    <label htmlFor={usernameInputId}>Username:</label>
-                    <input
-                        id={usernameInputId}
-                        type="text"
-                        required
-                        maxLength={25}
-                        onChange={e => setUsername(e.target.value)}
-                    />
-                    {fieldErrors.username ? (
-                        <p className={styles['error-msg']}>{fieldErrors.username}</p>
-                    ) : null}
-                </fieldset>
+                <div className={styles['mobile-container']}>
+                    <fieldset>
+                        <label htmlFor={usernameInputId}>Nome</label>
+                        <input
+                            id={usernameInputId}
+                            type="text"
+                            placeholder="Nome de usuário"
+                            required
+                            maxLength={25}
+                            onChange={e => setUsername(e.target.value)}
+                        />
+                        {fieldErrors.username ? (
+                            <p className={styles['error-msg']}>{fieldErrors.username}</p>
+                        ) : null}
+                    </fieldset>
 
-                <fieldset>
-                    <label htmlFor={emailInputId}>E-mail:</label>
-                    <input
-                        id={emailInputId}
-                        type="email"
-                        placeholder="example@foo.bar"
-                        required
-                        onChange={e => setEmail(e.target.value)}
-                    />
-                    {fieldErrors.email ? (
-                        <p className={styles['error-msg']}>{fieldErrors.email}</p>
-                    ) : null}
-                </fieldset>
+                    <fieldset>
+                        <label htmlFor={emailInputId}>E-mail</label>
+                        <input
+                            id={emailInputId}
+                            type="email"
+                            placeholder="example@foo.bar"
+                            required
+                            onChange={e => setEmail(e.target.value)}
+                        />
+                        {fieldErrors.email ? (
+                            <p className={styles['error-msg']}>{fieldErrors.email}</p>
+                        ) : null}
+                    </fieldset>
 
-                <fieldset>
-                    <label htmlFor={passwordInputId}>Password:</label>
-                    <PasswordInput
-                        id={passwordInputId}
-                        onChange={e => setPassword(e.target.value)}
-                    />
-                    {fieldErrors.password ? (
-                        <p className={styles['error-msg']}>{fieldErrors.password}</p>
-                    ) : null}
-                </fieldset>
+                    <fieldset>
+                        <label htmlFor={passwordInputId}>Senha</label>
+                        <PasswordInput
+                            id={passwordInputId}
+                            onChange={e => setPassword(e.target.value)}
+                        />
+                        {fieldErrors.password ? (
+                            <p className={styles['error-msg']}>{fieldErrors.password}</p>
+                        ) : null}
+                    </fieldset>
+                </div>
 
-                <div className={styles['mobile-bottom-section-container']}>
-                    <button type="submit">Sign-up</button>
+                <div className={styles['mobile-container']}>
+                    <button type="submit">Registrar</button>
                     <p>
-                        Already have an account? <Link to="/login">Log in</Link>.
+                        Já tem uma conta? <Link to="/login">Faça login</Link>.
                     </p>
                     {error ? <p className={styles['error-msg']}>{error}</p> : null}
                 </div>

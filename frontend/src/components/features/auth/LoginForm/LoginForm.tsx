@@ -125,35 +125,37 @@ export default function LoginForm() {
             <h2>Login</h2>
 
             <form onSubmit={handleSubmit}>
-                <fieldset>
-                    <label htmlFor={emailInputId}>E-mail:</label>
-                    <input
-                        id={emailInputId}
-                        type="email"
-                        placeholder="example@foo.bar"
-                        required
-                        onChange={e => setEmail(e.target.value)}
-                    />
-                    {fieldErrors.email ? (
-                        <p className={styles['error-msg']}>{fieldErrors.email}</p>
-                    ) : null}
-                </fieldset>
+                <div className={styles['mobile-container']}>
+                    <fieldset>
+                        <label htmlFor={emailInputId}>E-mail</label>
+                        <input
+                            id={emailInputId}
+                            type="email"
+                            placeholder="example@foo.bar"
+                            required
+                            onChange={e => setEmail(e.target.value)}
+                        />
+                        {fieldErrors.email ? (
+                            <p className={styles['error-msg']}>{fieldErrors.email}</p>
+                        ) : null}
+                    </fieldset>
 
-                <fieldset>
-                    <label htmlFor={passwordInputId}>Password:</label>
-                    <PasswordInput
-                        id={passwordInputId}
-                        onChange={e => setPassword(e.target.value)}
-                    />
-                    {fieldErrors.password ? (
-                        <p className={styles['error-msg']}>{fieldErrors.password}</p>
-                    ) : null}
-                </fieldset>
+                    <fieldset>
+                        <label htmlFor={passwordInputId}>Senha</label>
+                        <PasswordInput
+                            id={passwordInputId}
+                            onChange={e => setPassword(e.target.value)}
+                        />
+                        {fieldErrors.password ? (
+                            <p className={styles['error-msg']}>{fieldErrors.password}</p>
+                        ) : null}
+                    </fieldset>
+                </div>
 
-                <div className={styles['mobile-bottom-section-container']}>
-                    <button type="submit">Sign-in</button>
+                <div className={styles['mobile-container']}>
+                    <button type="submit">Entrar</button>
                     <p>
-                        Don't have an account? <Link to="/register">Sign up</Link>.
+                        Não tem uma conta? <Link to="/register">Cadastre-se</Link>.
                     </p>
                     {error ? <p className={styles['error-msg']}>{error}</p> : null}
                 </div>
