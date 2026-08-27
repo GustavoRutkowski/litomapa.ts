@@ -150,11 +150,13 @@ export default function LoginForm() {
                     ) : null}
                 </fieldset>
 
-                <button type="submit">Sign-in</button>
-                <p>
-                    Don't have an account? <Link to="/register">Sign up</Link>.
-                </p>
-                {error ? <p className={styles['error-msg']}>{error}</p> : null}
+                <div className={styles['mobile-bottom-section-container']}>
+                    <button type="submit">Sign-in</button>
+                    <p>
+                        Don't have an account? <Link to="/register">Sign up</Link>.
+                    </p>
+                    {error ? <p className={styles['error-msg']}>{error}</p> : null}
+                </div>
             </form>
         </section>
     );

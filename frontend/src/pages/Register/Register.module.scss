@@ -1,5 +1,10 @@
 .container {
-    padding: $pad-sm;
+    padding-top: $pad-sm;
     height: 100%;
     @include flex-column(start, center, $pad-sm);
+
+    @media screen and (max-width: 460px) {
+        padding-top: $pad-xxs;
+        gap: $pad-xxs;
+    }
 }

@@ -1,14 +1,24 @@
 .container {
-    // padding: $pad-md;
     font-size: $font-md;
     @include flex-row(center, center, $pad-sm);
 
     img {
         width: 6rem;
         aspect-ratio: 1;
+
+        @media screen and (max-width: 460px) {
+            width: 2rem;
+        }
     }
 
     h1 {
         font-weight: 500;
+    }
+
+    @media screen and (max-width: 460px) {
+        font-size: $font-xs;
+        img {
+            width: 2rem;
+        }
     }
 }

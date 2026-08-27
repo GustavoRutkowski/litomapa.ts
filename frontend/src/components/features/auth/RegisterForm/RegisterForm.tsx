@@ -170,11 +170,13 @@ export default function RegisterForm() {
                     ) : null}
                 </fieldset>
 
-                <button type="submit">Sign-up</button>
-                <p>
-                    Already have an account? <Link to="/login">Log in</Link>.
-                </p>
-                {error ? <p className={styles['error-msg']}>{error}</p> : null}
+                <div className={styles['mobile-bottom-section-container']}>
+                    <button type="submit">Sign-up</button>
+                    <p>
+                        Already have an account? <Link to="/login">Log in</Link>.
+                    </p>
+                    {error ? <p className={styles['error-msg']}>{error}</p> : null}
+                </div>
             </form>
         </section>
     );

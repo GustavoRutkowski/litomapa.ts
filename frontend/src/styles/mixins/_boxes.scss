@@ -11,12 +11,16 @@
 }
 
 @mixin form-box() {
-    // position: relative;
     @include box($pad-md $pad-lg);
 
     h2 {
         text-align: center;
         color: $tertiary-color;
+
+        @media screen and (max-width: 460px) {
+            font-size: $font-lg;
+            margin: $pad-md 0;
+        }
     }
 
     form {
@@ -29,6 +33,10 @@
                 color: $negative-color;
             }
         }
+
+        @media screen and (max-width: 460px) {
+            height: 100%;
+        }
     }
 
     button {
@@ -39,5 +47,12 @@
         &:hover {
             filter: brightness(0.8);
         }
+    }
+
+    @media screen and (max-width: 460px) {
+        width: 100%;
+        padding: $pad-sm;
+        flex-grow: 1;
+        border-radius: 0;
     }
 }
