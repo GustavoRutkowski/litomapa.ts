@@ -2,18 +2,25 @@
     margin-top: $pad-xs;
     position: absolute;
     z-index: 500;
-    width: 100%;
+    left: 0;
+    width: max-content;
+    min-width: 12rem;
+    max-width: calc(100vw - 1rem);
 }
 
 .dropdown {
     @include box;
-    width: 100%;
+    width: max-content;
+    min-width: 12rem;
+    max-width: calc(100vw - 1rem);
+    overflow: visible;
 
     ul {
         @include flex-column($gap: $pad-xxs);
 
         li button {
             width: 100%;
+            min-width: 10rem;
             font-size: $font-sm;
             font-weight: bold;
             padding: $pad-xs;
@@ -27,5 +34,38 @@
                 text-decoration: underline;
             }
         }
+    }
+
+    @media screen and (max-width: 480px) {
+        min-width: 11rem;
+    }
+
+    @media screen and (max-width: 320px) {
+        min-width: 10rem;
+    }
+}
+
+@media screen and (max-width: 700px) {
+    .container {
+        position: fixed;
+        left: auto;
+        right: $pad-sm;
+        // top: 4.5rem;
+        width: min(14rem, calc(100vw - 1.25rem));
+        min-width: 0;
+    }
+
+    .dropdown {
+        width: 100%;
+        min-width: 0;
+        max-width: calc(100vw - 1.25rem);
+    }
+}
+
+@media screen and (max-width: 320px) {
+    .container {
+        top: 4rem;
+        right: $pad-xs;
+        width: min(12.5rem, calc(100vw - 0.75rem));
     }
 }

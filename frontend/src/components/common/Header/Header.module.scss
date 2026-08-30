@@ -1,25 +1,100 @@
+@use 'sass:color';
+
 .container {
     padding: $pad-xxs $pad-sm;
     width: 100%;
     background-color: $primary-color;
     box-shadow: $shadow-sm;
-    @include flex-row(space-between, center);
+    @include flex-row(space-between, center, $gap: $pad-sm);
+
+    &__topRow,
+    &__bottomRow {
+        @include flex-row($align: center, $gap: $pad-sm);
+        min-width: 0;
+    }
+
+    &__topRow {
+        flex: 1 1 auto;
+        justify-content: space-between;
+    }
+
+    &__bottomRow {
+        flex: 0 0 auto;
+        justify-content: flex-end;
+    }
 
     &__logo {
         @include flex-row($gap: $pad-sm);
+        min-width: 0;
+        flex-shrink: 1;
 
         img {
             width: 3rem;
             aspect-ratio: 1;
+            flex-shrink: 0;
         }
 
         h1 {
             font-weight: lighter;
             color: $tertiary-color;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
     }
 
-    &__options {
-        @include flex-row($align: center, $gap: $pad-sm);
+    @media screen and (max-width: 480px) {
+        padding: 0;
+        flex-direction: column;
+        align-items: stretch;
+        gap: $pad-xs;
+
+        &__topRow {
+            padding: $pad-xs $pad-sm;
+            width: 100%;
+            justify-content: space-between;
+        }
+
+        &__bottomRow {
+            width: 100%;
+            justify-content: space-evenly;
+            background-color: color.scale($primary-color, $lightness: -6%);
+            border-radius: $radius-sm;
+            padding: $pad-xxs $pad-xs;
+        }
+    }
+
+    @media screen and (max-width: 310px) {
+        gap: $pad-xxs;
+
+        &__topRow {
+            padding: $pad-xxs $pad-xs;
+            gap: $pad-xxs;
+            align-items: center;
+        }
+
+        &__logo {
+            min-width: 0;
+            flex: 1;
+            // flex-shrink: 0;
+            gap: $pad-xxs;
+
+            img {
+                flex-shrink: 0;
+                // width: 2.25rem;
+                // aspect-ratio: 1;
+            }
+
+            h1 {
+                // font-size: 1.1rem;
+                flex-shrink: 1;
+                max-width: 100%;
+            }
+        }
+
+        &__bottomRow {
+            padding: $pad-xxs;
+            gap: $pad-xxs;
+        }
     }
 }

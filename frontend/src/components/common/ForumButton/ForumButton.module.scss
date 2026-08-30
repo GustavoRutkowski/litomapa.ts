@@ -1,13 +1,44 @@
 .container {
-    border-radius: 50%;
     position: relative;
-    width: 2.5rem;
-    aspect-ratio: 1;
-    font-size: 1.2rem;
+    min-height: 2.5rem;
+    padding: $pad-xxs;
+    border-radius: $radius-full;
     color: $tertiary-color;
-    @include flex-center;
+    font-size: 1.2rem;
+    text-decoration: none;
+    @include flex-row(center, center, $gap: 0);
 
     &:hover {
         background-color: #0000001a;
+    }
+
+    .label {
+        display: none;
+        font-size: $font-sm;
+        font-weight: bold;
+    }
+
+    @media screen and (max-width: 480px) {
+        padding: $pad-xxs $pad-sm;
+        border-radius: $radius-sm;
+        min-width: 6.5rem;
+        justify-content: center;
+        gap: $pad-xxs;
+
+        .label {
+            display: inline;
+        }
+    }
+
+    @media screen and (max-width: 320px) {
+        min-width: 0;
+        padding: $pad-xxs;
+        width: 2.5rem;
+        aspect-ratio: 1;
+        border-radius: $radius-full;
+
+        .label {
+            display: none;
+        }
     }
 }

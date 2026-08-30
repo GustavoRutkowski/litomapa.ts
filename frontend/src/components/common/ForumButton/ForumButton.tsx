@@ -13,6 +13,7 @@ export default function ForumButton({ unreadNotifications: counter }: IProps = {
         <Link className={styles.container} to="/forum" title="Fórum">
             {counter && counter > 0 ? <span>{counter}</span> : null}
             <FontAwesomeIcon icon={faComments} />
+            <span className={styles.label}>Fórum</span>
         </Link>
     );
 }

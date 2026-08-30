@@ -8,6 +8,7 @@ export default function DashboardButton() {
     return (
         <Link className={styles.container} to="/dashboard" title="Ver o mapa">
             <FontAwesomeIcon icon={faMapLocationDot} />
+            <span className={styles.label}>Mapa</span>
         </Link>
     );
 }
