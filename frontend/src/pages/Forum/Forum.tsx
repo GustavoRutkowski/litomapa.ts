@@ -1,52 +1,31 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
+import {
+    faGlobe,
+    faLeaf,
+    faMapLocationDot,
+    faPlus,
+    faTriangleExclamation
+} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import Header from '../../components/common/Header/Header';
-import SearchBar from '../../components/ui/SearchBar/SearchBar';
 import ThreadCard from '../../components/features/forum/ThreadCard/ThreadCard';
 import NewThreadModal from '../../components/features/thread/NewThreadModal/NewThreadModal';
-
-import styles from './Forum.module.scss';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { FilterButtonList } from '../../components/ui/FilterButton/FilterButton';
+import SearchBar from '../../components/ui/SearchBar/SearchBar';
 import useThreads from '../../hooks/useThreads';
 import { ThreadDTO } from '../../services/threads.service';
 
+import styles from './Forum.module.scss';
+
 type ForumFilter = 'all' | 'migration' | 'invasive' | 'report';
 
-interface IFilter {
-    value: ForumFilter;
-    label: string;
-    className: string;
-}
-
-const FILTERS: IFilter[] = [
-    { value: 'all', label: 'Todos', className: styles.filterButtonAll },
-    { value: 'migration', label: 'Migrações', className: styles.filterButtonMigrations },
-    { value: 'invasive', label: 'Espécies Invasoras', className: styles.filterButtonInvasives },
-    { value: 'report', label: 'Crimes Ambientais', className: styles.filterButtonCrimes }
-];
-
-interface IFilterButtonProps {
-    filter: IFilter;
-    active: boolean;
-    onClick: () => void;
-}
-
-function FilterButton({ filter, active, onClick }: IFilterButtonProps) {
-    const className = [
-        styles.filterButton,
-        filter.className,
-        active ? styles.filterButtonActive : ''
-    ]
-        .filter(Boolean)
-        .join(' ');
-
-    return (
-        <button type="button" className={className} aria-pressed={active} onClick={onClick}>
-            {filter.label}
-        </button>
-    );
-}
+const FILTER_OPTIONS = [
+    { value: 'all', label: 'Todos', icon: faGlobe },
+    { value: 'migration', label: 'Migrações', icon: faMapLocationDot },
+    { value: 'invasive', label: 'Espécies Invasoras', icon: faLeaf },
+    { value: 'report', label: 'Crimes Ambientais', icon: faTriangleExclamation }
+] as const;
 
 export default function Forum() {
     const PAGE_SIZE = 10;
@@ -138,16 +117,12 @@ export default function Forum() {
                     placeholder="Pesquisar discussões..."
                 />
 
-                <div className={styles.filters}>
-                    {FILTERS.map(filter => (
-                        <FilterButton
-                            key={filter.value}
-                            filter={filter}
-                            active={selectedFilter === filter.value}
-                            onClick={() => setSelectedFilter(filter.value)}
-                        />
-                    ))}
-                </div>
+                <FilterButtonList
+                    options={FILTER_OPTIONS}
+                    value={selectedFilter}
+                    onChange={setSelectedFilter}
+                    className={styles.filters}
+                />
 
                 <section className={styles.threads}>
                     {!loading && hasLoaded && threads.length === 0 && (

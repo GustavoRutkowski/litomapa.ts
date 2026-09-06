@@ -1,0 +1,56 @@
+@use 'sass:color';
+@use '../../../styles/setup/imports' as *;
+
+.filterButtonList {
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    min-height: fit-content;
+    @include flex-row(start, center, $pad-xs, nowrap);
+}
+
+.filterButton {
+    @include flex-center($gap: $pad-xxs);
+
+    border: 1px solid rgba($tertiary-color, 0.16);
+    border-radius: $radius-md;
+    text-wrap: nowrap;
+
+    padding: $pad-xxs $pad-sm;
+
+    background: linear-gradient(180deg, rgba($secundary-color, 0.14), rgba($secundary-color, 0.06));
+    color: $tertiary-color;
+
+    font-size: $font-xs;
+    font-weight: 600;
+
+    box-shadow: $shadow-sm;
+
+    transition: 0.2s ease;
+    cursor: pointer;
+
+    &:hover {
+        transform: translateY(-1px);
+        box-shadow: $shadow-md;
+    }
+}
+
+.filterButtonActive {
+    background: linear-gradient(
+        180deg,
+        $secundary-color,
+        color.adjust($secundary-color, $lightness: -8%)
+    );
+    border-color: transparent;
+    color: $primary-color;
+    box-shadow: $shadow-md;
+}
+
+.icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1rem;
+    height: 1rem;
+    font-size: 0.85rem;
+}
