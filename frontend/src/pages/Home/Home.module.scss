@@ -1,5 +1,855 @@
-.container {
+@use 'sass:color';
+
+.page {
+    --ink: #063c51;
+    --deep: #032c3c;
+    --sea: #136c82;
+    --mint: #78d5ba;
+    --sand: #f5f2e9;
     height: 100%;
-    background-color: $backdrop-color;
-    @include flex-column(center, center);
+    min-height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    overscroll-behavior-y: contain;
+    color: var(--ink);
+    background: var(--sand);
+    scroll-behavior: smooth;
+}
+
+.navbar {
+    position: absolute;
+    z-index: 5;
+    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 1.5rem 5vw;
+    color: white;
+    animation: appear 0.8s ease both;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    color: white;
+    text-decoration: none;
+    font-size: 1.35rem;
+    font-weight: 600;
+    letter-spacing: -0.04em;
+}
+.brand img {
+    width: 2.4rem;
+    height: 2.4rem;
+    object-fit: contain;
+}
+.brand span span {
+    color: var(--mint);
+}
+.navLinks {
+    display: flex;
+    gap: 2rem;
+    margin-left: auto;
+    margin-right: 3rem;
+}
+.navLinks a,
+.loginLink {
+    color: rgba(255, 255, 255, 0.75);
+    text-decoration: none;
+    font-size: 0.75rem;
+    transition: color 0.2s;
+}
+.navLinks a:hover,
+.loginLink:hover {
+    color: white;
+}
+.navActions {
+    display: flex;
+    align-items: center;
+    gap: 1.4rem;
+}
+.navCta,
+.primaryButton,
+.lightButton {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    border-radius: 999px;
+    text-decoration: none;
+    font-size: 0.75rem;
+    font-weight: 600;
+    transition:
+        transform 0.25s,
+        box-shadow 0.25s,
+        background 0.25s;
+}
+.navCta {
+    padding: 0.7rem 1.15rem;
+    color: var(--deep);
+    background: var(--mint);
+}
+.navCta:hover,
+.primaryButton:hover,
+.lightButton:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.18);
+}
+
+.hero {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 650px;
+    padding: 8rem 10vw 5rem;
+    overflow: hidden;
+    color: white;
+    background:
+        radial-gradient(circle at 75% 15%, rgba(87, 180, 177, 0.35), transparent 25%),
+        linear-gradient(120deg, #032d3d, #07566a 62%, #0c7480);
+}
+.hero::before {
+    position: absolute;
+    inset: auto -10% -55%;
+    height: 70%;
+    border-radius: 50%;
+    content: '';
+    background: rgba(116, 213, 187, 0.09);
+    transform: rotate(-7deg);
+}
+.heroContent {
+    position: relative;
+    z-index: 1;
+    width: min(570px, 52%);
+    animation: slideUp 0.8s 0.15s ease both;
+}
+.eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    color: var(--mint);
+    font-size: 0.66rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+.eyebrow span {
+    display: inline-block;
+    width: 1.5rem;
+    height: 1px;
+    background: currentColor;
+}
+.hero h1 {
+    margin: 1.5rem 0 1.15rem;
+    font-size: clamp(2.6rem, 5vw, 5.2rem);
+    font-weight: 300;
+    letter-spacing: -0.07em;
+    line-height: 0.98;
+}
+h1 em,
+h2 em {
+    color: var(--mint);
+    font-family: Georgia, serif;
+    font-weight: 400;
+}
+.heroText {
+    max-width: 430px;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.92rem;
+    line-height: 1.8;
+}
+.heroActions {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-top: 2.2rem;
+}
+.primaryButton {
+    padding: 1rem 1.25rem;
+    color: var(--deep);
+    background: var(--mint);
+}
+.textButton,
+.arrowLink {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    color: white;
+    text-decoration: none;
+    font-size: 0.75rem;
+}
+.textButton svg,
+.arrowLink svg {
+    font-size: 0.65rem;
+    transition: transform 0.2s;
+}
+.textButton:hover svg,
+.arrowLink:hover svg {
+    transform: translateX(4px);
+}
+.trustLine {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-top: 4rem;
+    color: rgba(255, 255, 255, 0.55);
+    font-size: 0.68rem;
+}
+.avatarStack {
+    display: flex;
+}
+.avatarStack span {
+    display: grid;
+    width: 1.7rem;
+    height: 1.7rem;
+    margin-right: -0.35rem;
+    place-items: center;
+    border: 2px solid #07566a;
+    border-radius: 50%;
+    color: var(--deep);
+    background: var(--mint);
+}
+.avatarStack span:nth-child(2) {
+    background: #e8c879;
+}
+.avatarStack span:nth-child(3) {
+    background: #e99b79;
+}
+
+.heroVisual {
+    position: relative;
+    width: min(480px, 42%);
+    height: 390px;
+    animation: appear 1s 0.35s ease both;
+}
+.sun {
+    position: absolute;
+    top: 5%;
+    right: 12%;
+    width: 230px;
+    height: 230px;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #d0efca, #71c4b0);
+    opacity: 0.8;
+}
+.orbit {
+    position: absolute;
+    border: 1px solid rgba(168, 237, 204, 0.35);
+    border-radius: 50%;
+    transform: rotate(-25deg);
+}
+.orbitOne {
+    top: -5%;
+    right: -5%;
+    width: 350px;
+    height: 260px;
+}
+.orbitTwo {
+    top: 10%;
+    right: 2%;
+    width: 280px;
+    height: 340px;
+    transform: rotate(40deg);
+}
+.visualCard {
+    position: absolute;
+    top: 18%;
+    left: 13%;
+    width: 245px;
+    padding: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 12px;
+    color: var(--ink);
+    background: rgba(247, 248, 235, 0.92);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.17);
+    transform: rotate(-5deg);
+    animation: float 5s ease-in-out infinite;
+}
+.cardTop,
+.cardMeta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.52rem;
+    letter-spacing: 0.04em;
+}
+.cardTop span {
+    color: var(--sea);
+}
+.cardTop i {
+    display: inline-block;
+    width: 5px;
+    height: 5px;
+    margin-right: 4px;
+    border-radius: 50%;
+    background: #ed8b72;
+}
+.cardTop b {
+    color: #ed8b72;
+    font-size: 0.5rem;
+}
+.whale {
+    display: grid;
+    height: 130px;
+    margin: 0.7rem 0;
+    place-items: center;
+    border-radius: 8px;
+    color: #e7f2e7;
+    background: linear-gradient(145deg, #6bb9b4, #1d677c);
+    font-size: 3rem;
+}
+.whale svg {
+    transform: rotate(-20deg);
+}
+.visualCard strong {
+    display: block;
+    font-family: Georgia, serif;
+    font-size: 1.1rem;
+    font-weight: 400;
+}
+.visualCard > span {
+    display: block;
+    margin-top: 0.2rem;
+    color: #73898d;
+    font-size: 0.62rem;
+}
+.cardMeta {
+    margin-top: 0.85rem;
+    padding-top: 0.7rem;
+    border-top: 1px solid #d5ded7;
+    color: #8a9b96;
+}
+.cardMeta span:last-child {
+    color: #42967e;
+}
+.floatingBadge {
+    position: absolute;
+    right: 0;
+    bottom: 8%;
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 0.8rem 1rem;
+    border-radius: 8px;
+    color: var(--deep);
+    background: var(--mint);
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.15);
+    animation: float 4s 1s ease-in-out infinite;
+}
+.floatingBadge svg {
+    font-size: 1.4rem;
+}
+.floatingBadge span {
+    display: flex;
+    flex-direction: column;
+}
+.floatingBadge b {
+    font-size: 0.8rem;
+}
+.floatingBadge small {
+    font-size: 0.55rem;
+    opacity: 0.7;
+}
+.bubbles i {
+    position: absolute;
+    bottom: 2%;
+    left: 5%;
+    width: 8px;
+    height: 8px;
+    border: 1px solid var(--mint);
+    border-radius: 50%;
+    opacity: 0.6;
+}
+.bubbles i:nth-child(2) {
+    bottom: 12%;
+    left: 10%;
+    width: 15px;
+    height: 15px;
+}
+.bubbles i:nth-child(3) {
+    right: 5%;
+    bottom: 23%;
+    left: auto;
+    width: 5px;
+    height: 5px;
+}
+.bubbles i:nth-child(4) {
+    top: 15%;
+    left: 5%;
+    width: 12px;
+    height: 12px;
+}
+.scrollHint {
+    position: absolute;
+    bottom: 1.8rem;
+    left: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.45rem;
+    color: rgba(255, 255, 255, 0.5);
+    text-decoration: none;
+    font-size: 0.55rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    transform: translateX(-50%);
+}
+.scrollHint svg {
+    color: var(--mint);
+    animation: bounce 1.8s infinite;
+}
+
+.metrics {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    padding: 2.4rem 10vw;
+    color: white;
+    background: var(--deep);
+}
+.metrics div {
+    display: flex;
+    align-items: baseline;
+    gap: 0.65rem;
+}
+.metrics strong {
+    color: var(--mint);
+    font-family: Georgia, serif;
+    font-size: 2.2rem;
+    font-weight: 400;
+}
+.metrics span {
+    color: rgba(255, 255, 255, 0.55);
+    font-size: 0.62rem;
+}
+.section {
+    padding: 7rem 10vw;
+}
+.sectionLabel {
+    display: flex;
+    gap: 0.8rem;
+    color: var(--sea);
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+.sectionLabel span {
+    color: #b0bbb0;
+}
+.about {
+    background: #f5f2e9;
+}
+.aboutGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8vw;
+    margin-top: 3rem;
+}
+.about h2,
+.sectionHeading h2 {
+    font-size: clamp(2rem, 4vw, 4rem);
+    font-weight: 300;
+    letter-spacing: -0.06em;
+    line-height: 1.05;
+}
+.aboutGrid div {
+    max-width: 400px;
+    padding-top: 0.5rem;
+}
+.aboutGrid p {
+    margin-bottom: 1.2rem;
+    color: #6e7c7a;
+    font-size: 0.85rem;
+    line-height: 1.8;
+}
+.arrowLink {
+    margin-top: 1rem;
+    color: var(--sea);
+    font-weight: 600;
+}
+.values {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 5rem;
+    padding-top: 2rem;
+    border-top: 1px solid #d8ded6;
+}
+.values div {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+}
+.values svg {
+    color: var(--sea);
+    font-size: 1.3rem;
+}
+.values span {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+.values b {
+    font-size: 0.75rem;
+}
+.values small {
+    color: #899794;
+    font-size: 0.62rem;
+}
+.audience {
+    color: white;
+    background: #0a5666;
+}
+.audience .sectionLabel {
+    color: var(--mint);
+}
+.sectionHeading {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 2rem;
+    margin: 2.5rem 0 3rem;
+}
+.sectionHeading p {
+    max-width: 220px;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.78rem;
+    line-height: 1.7;
+}
+.audienceGrid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+}
+.audienceGrid article {
+    position: relative;
+    min-height: 240px;
+    padding: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 8px;
+    background: rgba(0, 30, 40, 0.12);
+    transition:
+        transform 0.3s,
+        background 0.3s;
+}
+.audienceGrid article:hover {
+    background: rgba(120, 213, 186, 0.14);
+    transform: translateY(-8px);
+}
+.audienceIcon {
+    display: grid;
+    width: 2.4rem;
+    height: 2.4rem;
+    margin-bottom: 3rem;
+    place-items: center;
+    border-radius: 50%;
+    color: var(--deep);
+    background: var(--mint);
+}
+.audienceGrid h3 {
+    margin-bottom: 0.7rem;
+    font-family: Georgia, serif;
+    font-size: 1.25rem;
+    font-weight: 400;
+}
+.audienceGrid p {
+    color: rgba(255, 255, 255, 0.58);
+    font-size: 0.72rem;
+    line-height: 1.7;
+}
+.smallArrow {
+    position: absolute;
+    right: 1.5rem;
+    bottom: 1.5rem;
+    color: var(--mint);
+    font-size: 0.7rem;
+}
+.howItWorks {
+    background: #f5f2e9;
+}
+.howItWorks .sectionHeading p {
+    color: #758581;
+}
+.steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+}
+.step {
+    position: relative;
+    padding-right: 1rem;
+}
+.step > strong {
+    color: #b7c1b6;
+    font-family: Georgia, serif;
+    font-size: 2rem;
+    font-weight: 400;
+}
+.step > span {
+    display: block;
+    width: 100%;
+    height: 1px;
+    margin: 1rem 0 1.5rem;
+    background: #d3dad2;
+}
+.step h3 {
+    margin-bottom: 0.5rem;
+    font-family: Georgia, serif;
+    font-size: 1.3rem;
+    font-weight: 400;
+}
+.step p {
+    max-width: 250px;
+    color: #758581;
+    font-size: 0.75rem;
+    line-height: 1.7;
+}
+.finalCta {
+    position: relative;
+    padding: 7rem 1rem;
+    overflow: hidden;
+    text-align: center;
+    color: white;
+    background: var(--deep);
+}
+.finalCta h2 {
+    position: relative;
+    margin: 1.3rem auto 2rem;
+    font-size: clamp(2.2rem, 4.5vw, 4.5rem);
+    font-weight: 300;
+    letter-spacing: -0.06em;
+    line-height: 1.05;
+}
+.finalCta .eyebrow {
+    justify-content: center;
+}
+.lightButton {
+    position: relative;
+    padding: 1rem 1.35rem;
+    color: var(--deep);
+    background: var(--mint);
+}
+.ctaGlow {
+    position: absolute;
+    top: -160px;
+    left: 50%;
+    width: 600px;
+    height: 400px;
+    border: 1px solid rgba(120, 213, 186, 0.2);
+    border-radius: 50%;
+    box-shadow:
+        0 0 0 70px rgba(120, 213, 186, 0.04),
+        0 0 0 140px rgba(120, 213, 186, 0.03);
+    transform: translateX(-50%);
+}
+.footer {
+    display: flex;
+    justify-content: space-between;
+    padding: 1.5rem 5vw;
+    color: #8b9b95;
+    background: #022632;
+    font-size: 0.62rem;
+}
+.footer svg {
+    color: var(--mint);
+}
+.footer a {
+    color: var(--mint);
+    text-decoration: none;
+}
+
+@keyframes appear {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(25px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+@keyframes float {
+    0%,
+    100% {
+        transform: translateY(0) rotate(-5deg);
+    }
+    50% {
+        transform: translateY(-10px) rotate(-3deg);
+    }
+}
+@keyframes bounce {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(5px);
+    }
+}
+@media (max-width: 850px) {
+    .navLinks {
+        display: none;
+    }
+    .hero {
+        padding-inline: 8vw;
+    }
+    .heroVisual {
+        width: 42%;
+        transform: scale(0.85);
+    }
+    .metrics {
+        padding-inline: 8vw;
+    }
+    .section {
+        padding-inline: 8vw;
+    }
+    .audienceGrid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+@media (max-width: 600px) {
+    .navbar {
+        padding: 1rem 5vw;
+    }
+    .loginLink {
+        display: none;
+    }
+    .navCta {
+        padding: 0.6rem 0.8rem;
+    }
+    .hero {
+        display: block;
+        min-height: 780px;
+        padding: 8rem 7vw 4rem;
+    }
+    .heroContent {
+        width: 100%;
+    }
+    .hero h1 {
+        font-size: clamp(2.55rem, 13vw, 3.2rem);
+    }
+    .heroActions {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 1rem;
+    }
+    .trustLine {
+        margin-top: 2.5rem;
+    }
+    .heroVisual {
+        width: 100%;
+        height: 300px;
+        margin-top: 1rem;
+        transform: scale(0.78);
+        transform-origin: top center;
+    }
+    .scrollHint {
+        display: none;
+    }
+    .metrics {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem 1rem;
+        padding: 1.8rem 7vw;
+    }
+    .metrics div {
+        flex-direction: column;
+        gap: 0;
+    }
+    .section {
+        padding: 4.5rem 7vw;
+    }
+    .aboutGrid,
+    .values {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    .values {
+        margin-top: 3rem;
+    }
+    .sectionHeading {
+        align-items: start;
+        flex-direction: column;
+        gap: 1rem;
+    }
+    .audienceGrid {
+        grid-template-columns: 1fr;
+    }
+    .audienceGrid article {
+        min-height: 190px;
+    }
+    .audienceIcon {
+        margin-bottom: 2rem;
+    }
+    .steps {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+    }
+    .step > span {
+        width: 50%;
+    }
+    .footer {
+        align-items: center;
+        flex-direction: column;
+        gap: 0.8rem;
+        text-align: center;
+    }
+}
+@media (max-width: 380px) {
+    .brand {
+        font-size: 1.1rem;
+    }
+
+    .brand img {
+        width: 2rem;
+        height: 2rem;
+    }
+
+    .navCta {
+        padding: 0.55rem 0.65rem;
+        font-size: 0.65rem;
+    }
+
+    .hero {
+        min-height: 740px;
+        padding-inline: 6vw;
+    }
+
+    .heroText {
+        font-size: 0.82rem;
+    }
+
+    .heroVisual {
+        height: 270px;
+        transform: scale(0.68);
+        transform-origin: top left;
+    }
+
+    .metrics {
+        padding-inline: 6vw;
+    }
+
+    .section {
+        padding-inline: 6vw;
+    }
+}
+@media (prefers-reduced-motion: reduce) {
+    .page {
+        scroll-behavior: auto;
+    }
+    .page *,
+    .page *::before,
+    .page *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
 }
