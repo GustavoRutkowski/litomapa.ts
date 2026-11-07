@@ -5,10 +5,12 @@
 
     gap: $pad-sm;
 
-    width: 100%;
+    min-width: 0;
     box-sizing: border-box;
 
     @include box($pad-md);
+
+    width: 100%;
 
     transition: 0.2s;
 
@@ -51,8 +53,11 @@
 
 .author {
     @include flex-row(start, center, $pad-xs);
+    min-width: 0;
 
     img {
+        flex-shrink: 0;
+
         width: 40px;
         height: 40px;
 
@@ -64,8 +69,14 @@
     }
 
     span {
+        min-width: 0;
+
         font-weight: 600;
         color: $tertiary-color;
+
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
 }
 
@@ -78,13 +89,22 @@
 
 .location {
     @include flex-row(start, center, $pad-xxs);
+    min-width: 0;
 
     color: rgba($label-color, 0.9);
 
     font-size: $font-xs;
 
     svg {
+        flex-shrink: 0;
+
         color: $secundary-color;
+    }
+
+    span {
+        min-width: 0;
+
+        overflow-wrap: anywhere;
     }
 }
 
@@ -104,4 +124,66 @@
     color: $secundary-color;
 
     user-select: none;
+}
+
+@media screen and (max-width: 760px) {
+    .container {
+        grid-template-columns: 48px minmax(0, 1fr);
+        gap: $pad-xs;
+
+        padding: $pad-sm;
+    }
+
+    .content {
+        gap: $pad-xxs;
+    }
+
+    .author {
+        gap: $pad-xxs;
+
+        img {
+            width: 36px;
+            height: 36px;
+        }
+    }
+
+    .tag {
+        padding: 0.25rem 0.5rem;
+    }
+}
+
+@media screen and (max-width: 340px) {
+    .container {
+        grid-template-columns: 36px minmax(0, 1fr);
+        gap: $pad-xxs;
+
+        padding: $pad-xs;
+    }
+
+    .author {
+        span {
+            font-size: $font-xs;
+        }
+
+        img {
+            width: 32px;
+            height: 32px;
+        }
+    }
+
+    .date,
+    .location,
+    .tag {
+        font-size: $font-xxs;
+    }
+
+    .content {
+        h2 {
+            font-size: $font-sm;
+        }
+
+        p {
+            line-height: 1.4;
+        }
+    }
 }

@@ -8,7 +8,7 @@
 
         width: 100%;
         flex-grow: 1;
-        overflow-x: auto;
+        overflow-x: hidden;
 
         padding: $pad-md 20%;
 
@@ -19,8 +19,11 @@
 }
 
 .filters {
-    @include flex-row(start, center, $pad-xs, wrap);
+    @include flex-row(start, center, $pad-xs, nowrap);
 
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
     margin-top: -$pad-xs;
 }
 
@@ -122,5 +125,43 @@
 
     span {
         font-weight: lighter;
+    }
+}
+
+@media screen and (max-width: 760px) {
+    .container {
+        main {
+            padding: $pad-sm 8%;
+        }
+    }
+
+    .threads {
+        gap: $pad-sm;
+    }
+
+    .newThreadButton {
+        right: $pad-sm;
+        bottom: $pad-sm;
+    }
+}
+
+@media screen and (max-width: 340px) {
+    .container {
+        main {
+            padding: $pad-xs;
+            gap: $pad-sm;
+        }
+    }
+
+    .threads {
+        gap: $pad-xs;
+    }
+
+    .newThreadButton {
+        right: $pad-xs;
+        bottom: $pad-xs;
+        padding: $pad-xxs;
+
+        font-size: $font-sm;
     }
 }
